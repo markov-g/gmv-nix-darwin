@@ -76,7 +76,7 @@
           home-manager.useUserPackages = true;
 
           # pass `user` into Home-Manager modules
-          home-manager.extraSpecialArgs = { inherit user; };
+          home-manager.extraSpecialArgs = { inherit user inputs; };
 
           # per-user HM configuration
           home-manager.users.${user} = import ./modules/home.nix;
