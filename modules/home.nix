@@ -10,11 +10,13 @@
   home.homeDirectory = builtins.toPath "/Users/${user}";
 
   # packages to install
-  home.packages = [
+  home.packages = with pkgs; [
+    # home-manager binary
+    (inputs.home-manager.packages.${pkgs.system}.home-manager)
     # pkgs is the set of all packages in the default home.nix implementation
-    pkgs.direnv
-    pkgs.nix-direnv
-    pkgs.autojump    
+    direnv
+    nix-direnv
+    autojump    
   ];
 
   # Raw configuration files
