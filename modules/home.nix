@@ -7,7 +7,7 @@
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home.username = "mch12700";
-  home.homeDirectory = "/Users/mch12700";
+  home.homeDirectory = /Users/mch12700;
 
   # packages to install
   home.packages = [
