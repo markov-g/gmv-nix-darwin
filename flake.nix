@@ -20,20 +20,20 @@
     homebrew-cask  = { url = "github:homebrew/homebrew-cask";  flake = false; };
 
     # ── NEW: three extra taps your formulas refer to ──────────────
-    kylef-formulae = {
-      url   = "github:kylef/homebrew-formulae";
-      flake = false;
-    };
+    # kylef-formulae = {
+    #   url   = "github:kylef/homebrew-formulae";
+    #   flake = false;
+    # };
 
-    mas-cli-tap = {
-      url   = "github:mas-cli/homebrew-tap";
-      flake = false;
-    };
+    # mas-cli-tap = {
+    #   url   = "github:mas-cli/homebrew-tap";
+    #   flake = false;
+    # };
 
-    swiftbrew-tap = {
-      url   = "github:swiftbrew/homebrew-tap";
-      flake = false;
-    };
+    # swiftbrew-tap = {
+    #   url   = "github:swiftbrew/homebrew-tap";
+    #   flake = false;
+    # };
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, nix-homebrew, homebrew-core, homebrew-cask, ... }@inputs:
@@ -68,14 +68,14 @@
             #       your custom ~/PACKAGEMGMT prefix, so we drop it.
             autoMigrate  = true;
 
-            taps = {
-              "homebrew/homebrew-core" = inputs.homebrew-core;
-              "homebrew/homebrew-cask" = inputs.homebrew-cask;
-              # in the following null → follow upstream HEAD   
-              "kylef/formulae" = inputs.kylef-formulae;
-              "mas-cli/tap"    = inputs.mas-cli-tap;
-              "swiftbrew/tap"  = inputs.swiftbrew-tap;        
-            };
+            # taps = {
+            #   "homebrew/homebrew-core" = inputs.homebrew-core;
+            #   "homebrew/homebrew-cask" = inputs.homebrew-cask;
+            #   # in the following null → follow upstream HEAD   
+            #   "kylef/formulae" = inputs.kylef-formulae;
+            #   "mas-cli/tap"    = inputs.mas-cli-tap;
+            #   "swiftbrew/tap"  = inputs.swiftbrew-tap;        
+            # };
 
             prefixes."/Users/${user}/PACKAGEMGMT/Homebrew" = {
               enable  = true;

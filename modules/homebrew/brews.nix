@@ -21,7 +21,7 @@
   "kotlin"
   "kotlin-language-server"
   "m-cli"
-  "mas"
+  # "mas"
   "minikube"
   "ncdu"
   "node"

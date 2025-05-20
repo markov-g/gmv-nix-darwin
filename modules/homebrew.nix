@@ -9,7 +9,7 @@ in
     enable                  = true;          # tells nix-darwin to run `brew bundle`
     brews                   = brews;
     casks                   = casks;
-    masApps                 = {};            # add MAS apps later if you like
+    # masApps                 = {};            # add MAS apps later if you like
 
     onActivation = {
       autoUpdate = false;   # don’t refresh taps

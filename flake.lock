@@ -69,38 +69,6 @@
         "type": "github"
       }
     },
-    "kylef-formulae": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1531936277,
-        "narHash": "sha256-IQMQPR3oN8urcGNz/Ksn58Bn/wHIudGA9rCSVFZVZxA=",
-        "owner": "kylef",
-        "repo": "homebrew-formulae",
-        "rev": "00757e80d6861651d3dc18bbc978edf9a5d0a8a9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "kylef",
-        "repo": "homebrew-formulae",
-        "type": "github"
-      }
-    },
-    "mas-cli-tap": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1746010092,
-        "narHash": "sha256-GJzXt7QSV454hoeipkkxNIjGN8XEVJc91nxqngkuXMo=",
-        "owner": "mas-cli",
-        "repo": "homebrew-tap",
-        "rev": "e8aca6c76ccf141fb3af21cbb49b20c4159f6a54",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mas-cli",
-        "repo": "homebrew-tap",
-        "type": "github"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -209,28 +177,9 @@
         "home-manager": "home-manager",
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
-        "kylef-formulae": "kylef-formulae",
-        "mas-cli-tap": "mas-cli-tap",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
-        "nixpkgs": "nixpkgs_3",
-        "swiftbrew-tap": "swiftbrew-tap"
-      }
-    },
-    "swiftbrew-tap": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1571488490,
-        "narHash": "sha256-YE8n0/aaputAf5x8dm9QfNh3wW7b5fZiJF0rlIFhg5o=",
-        "owner": "swiftbrew",
-        "repo": "homebrew-tap",
-        "rev": "503653091ee88fec83a0b36726a3a744729e78f0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "swiftbrew",
-        "repo": "homebrew-tap",
-        "type": "github"
+        "nixpkgs": "nixpkgs_3"
       }
     }
   },
