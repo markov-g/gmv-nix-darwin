@@ -12,6 +12,6 @@
   # 4) Hook in per-user config from home.nix #
   #################################################
   home-manager.users.mch12700 = {
-    imports = [ inputs.self + /home.nix ];
+    imports = [ ../home.nix ];
   };
 }

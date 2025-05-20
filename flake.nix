@@ -2,49 +2,37 @@
   description = "GMv's super basic macOS Nix SetUp via nix-darwin + Home-Manager flake";
 
   inputs = {
-    # core packages
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    # nix-darwin itself
-     nix-darwin = {
-      # url = "github:nix-darwin/nix-darwin";
-      url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # Home Manager as a module
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixpkgs      .url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+
+    nix-darwin   .url = "github:LnL7/nix-darwin";
+    nix-darwin   .inputs.nixpkgs.follows = "nixpkgs";
+
+    home-manager .url = "github:nix-community/home-manager";
+    home-manager .inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, nix-darwin, home-manager, ... }:
+  outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs:
   let
-    system = "aarch64-darwin"; 
-    pkgs = import nixpkgs {
-      inherit system;
-      overlays = [ nix-darwin.overlays.default ];
-    };
-    host = builtins.getEnv "HOSTNAME";  # or hard-code
+    system = "aarch64-darwin";
+    pkgs   = nixpkgs.legacyPackages.${system};
+    host   = builtins.getEnv "HOSTNAME";   # or get with: scutil --get LocalHostName
   in {
-    darwinConfigurations = {
-      # use your short hostname here - # must match the name you pass to darwin-rebuild
-      "MACFXHLQH3MTP" = nix-darwin.lib.darwinSystem {        
-      # "${host}" = nix-darwin.lib.darwinSystem {
-        inherit system pkgs;
-        
-        # disable the nixpkgs‐release assertion on master
-        enableNixpkgsReleaseCheck = false;        
+    # darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
+    darwinConfigurations.MACFXHLQH3MTP = nix-darwin.lib.darwinSystem {
+      inherit system pkgs;
 
-        # bring in your nix-darwin modules + HM
-        modules = [          
-          ./modules/system.nix
-          home-manager.darwinModules.home-manager
-          ./modules/home-manager.nix 
-        ];
+      modules = [
+        ./modules/system.nix                       # your system settings
+        home-manager.darwinModules.home-manager
+        {                                   # HM integration glue
+          home-manager.useGlobalPkgs   = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.mch12700   = import ./modules/home.nix;
 
-        # pass inputs into your modules
-        specialArgs = { inherit inputs; };
-      };
+          # optional: expose inputs to home-manager configs
+          home-manager.extraSpecialArgs = { inherit inputs; };
+        }
+      ];
     };
   };
 }

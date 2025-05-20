@@ -5,7 +5,7 @@
 
   # Keep the daemon running so you can use flakes
   services.nix-daemon.enable = true;
-  nix.settings.experimental-features = "nix-command flakes";
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # -------------------------------
   #   ← Add your system packages here
