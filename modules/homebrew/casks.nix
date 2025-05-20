@@ -1,4 +1,24 @@
 # Plain Nix list – GUI apps
 [
-  # …
+  "brave-browser"
+  "dotnet-sdk"
+  "font-cormorant-garamond"
+  "font-eb-garamond"
+  "font-fira-code"
+  "font-fira-code-nerd-font"
+  "font-hack-nerd-font"
+  "font-lato"
+  "font-noto-mono"
+  "font-source-code-pro"
+  "iterm2"
+  "jetbrains-toolbox"
+  "jordanbaird-ice"
+  "miniconda"
+  "multipass"
+  "openvpn-connect"
+  "path-finder"
+  "podman-desktop"
+  "temurin"
+  "vagrant"
+  "xquartz"
 ]

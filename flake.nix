@@ -42,32 +42,36 @@
         ({ ... }: { users.users.${user}.home = "/Users/${user}"; })
 
         # ── Homebrew core (pinned) ───────────────────────────────
-        # nix-homebrew.darwinModules.nix-homebrew
-        # ({ nix-homebrew = {
-        #     enable      = true;
-        #     user        = user;
-        #     mutableTaps = false;
-        #     # NOTE: autoMigrate only copies the *default* prefixes
-        #     #       (/opt/homebrew, /usr/local). It has no effect on
-        #     #       your custom ~/PACKAGEMGMT prefix, so we drop it.
-        #     # autoMigrate  = true;
+        nix-homebrew.darwinModules.nix-homebrew
+        ({ nix-homebrew = {
+            enable      = true;
+            user        = user;
+            mutableTaps = false;
+            # NOTE: autoMigrate only copies the *default* prefixes
+            #       (/opt/homebrew, /usr/local). It has no effect on
+            #       your custom ~/PACKAGEMGMT prefix, so we drop it.
+            # autoMigrate  = true;
 
-        #     taps = {
-        #       "homebrew/homebrew-core" = inputs.homebrew-core;
-        #       "homebrew/homebrew-cask" = inputs.homebrew-cask;
-        #     };
+            taps = {
+              "homebrew/homebrew-core" = inputs.homebrew-core;
+              "homebrew/homebrew-cask" = inputs.homebrew-cask;
+            };
 
-        #     prefixes."/Users/${user}/PACKAGEMGMT/Homebrew" = {
-        #       library = "/Users/${user}/PACKAGEMGMT/Homebrew/Library";
-        #       autoMigrate = true;
-        #       # You could pin extra taps *specific to this prefix*
-        #       # taps = { "my/cask" = inputs.someOtherTap; };
-        #     };
-        #   };
-        # })
+            prefixes."/Users/${user}/PACKAGEMGMT/Homebrew" = {
+              library = "/Users/${user}/PACKAGEMGMT/Homebrew/Library";
+              autoMigrate = true;
+              # You could pin extra taps *specific to this prefix*
+              taps = { 
+                "kylef/formulae"     = null;   # null → follow upstream HEAD
+                "mas-cli/tap"        = null;
+                "swiftbrew/tap"      = null;
+              };
+            };
+          };
+        })
 
-        # # ── Declarative formulas / casks list ───────────────────
-        # ./modules/homebrew.nix
+        # ── Declarative formulas / casks list ───────────────────
+        ./modules/homebrew.nix
 
         # ---------- Home-Manager integration ----------
         home-manager.darwinModules.home-manager
