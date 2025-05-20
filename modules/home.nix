@@ -17,10 +17,6 @@
     pkgs.autojump    
   ];
 
-
-  accounts.calendar = {
-    basePath = ".calendars";   # will live at $HOME/.calendars
-  };
   # Raw configuration files
   home.file.".zshrc".source = ./dotfiles/macos/.zshrc.mch12700;
 
