@@ -16,9 +16,10 @@
     system = "aarch64-darwin";
     pkgs   = nixpkgs.legacyPackages.${system};
     host   = builtins.getEnv "HOSTNAME";   # or get with: scutil --get LocalHostName
+    username = "mch12700";
   in {
     # darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
-    darwinConfigurations.MACFXHLQH3MTP = nix-darwin.lib.darwinSystem {
+    darwinConfigurations.${hostname} = nix-darwin.lib.darwinSystem {
       inherit system pkgs;
 
       modules = [
@@ -27,7 +28,7 @@
         {                                   # HM integration glue
           home-manager.useGlobalPkgs   = true;
           home-manager.useUserPackages = true;
-          home-manager.users.mch12700   = import ./modules/home.nix;
+          home-manager.users.${username}   = import ./modules/home.nix { inherit username; };
 
           # optional: expose inputs to home-manager configs
           home-manager.extraSpecialArgs = { inherit inputs; };
