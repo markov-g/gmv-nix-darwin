@@ -37,6 +37,7 @@
   "zplug"
 
   # tap-qualified formulas
-  "kylef/formulae/swiftenv"
-  "swiftbrew/tap/swiftbrew"
+  # "kylef/formulae/swiftenv"
+  # "swiftbrew/tap/swiftbrew"
+  # "mas-cli/tap/mas"
 ]

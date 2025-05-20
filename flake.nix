@@ -18,6 +18,22 @@
     # Pin the two official taps so your build is reproducible
     homebrew-core  = { url = "github:homebrew/homebrew-core";  flake = false; };
     homebrew-cask  = { url = "github:homebrew/homebrew-cask";  flake = false; };
+
+    # ── NEW: three extra taps your formulas refer to ──────────────
+    kylef-formulae = {
+      url   = "github:kylef/homebrew-formulae";
+      flake = false;
+    };
+
+    mas-cli-tap = {
+      url   = "github:mas-cli/homebrew-tap";
+      flake = false;
+    };
+
+    swiftbrew-tap = {
+      url   = "github:swiftbrew/homebrew-tap";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, nix-homebrew, homebrew-core, homebrew-cask, ... }@inputs:
@@ -50,22 +66,23 @@
             # NOTE: autoMigrate only copies the *default* prefixes
             #       (/opt/homebrew, /usr/local). It has no effect on
             #       your custom ~/PACKAGEMGMT prefix, so we drop it.
-            # autoMigrate  = true;
+            autoMigrate  = true;
 
             taps = {
               "homebrew/homebrew-core" = inputs.homebrew-core;
               "homebrew/homebrew-cask" = inputs.homebrew-cask;
+              # in the following null → follow upstream HEAD   
+              "kylef/formulae" = inputs.kylef-formulae;
+              "mas-cli/tap"    = inputs.mas-cli-tap;
+              "swiftbrew/tap"  = inputs.swiftbrew-tap;        
             };
 
             prefixes."/Users/${user}/PACKAGEMGMT/Homebrew" = {
-              library = "/Users/${user}/PACKAGEMGMT/Homebrew/Library";
-              autoMigrate = true;
+              enable  = true;
+              library = "/Users/${user}/PACKAGEMGMT/Homebrew/Library";              
               # You could pin extra taps *specific to this prefix*
-              taps = { 
-                "kylef/formulae"     = null;   # null → follow upstream HEAD
-                "mas-cli/tap"        = null;
-                "swiftbrew/tap"      = null;
-              };
+              # taps = {                 
+              # };
             };
           };
         })
