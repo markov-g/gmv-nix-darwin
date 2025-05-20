@@ -14,24 +14,24 @@
   outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs:
   let
     system = "aarch64-darwin";
-    pkgs   = nixpkgs.legacyPackages.${system};
-    hostname   = "MACFXHLQH3MTP";   # or builtins.getEnv "HOSTNAME";   # or get with: scutil --get LocalHostName
-    username = "mch12700";
+    # pkgs   = nixpkgs.legacyPackages.${system};
+    host   = "MACFXHLQH3MTP";   # or builtins.getEnv "HOSTNAME";   # or get with: scutil --get LocalHostName
+    user = "mch12700";
   in {
     # darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
-    darwinConfigurations.${hostname} = nix-darwin.lib.darwinSystem {
-      inherit system pkgs;
+    darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
+      inherit system;
 
       modules = [
-        ./modules/system.nix                       # your system settings
+        ./modules/system.nix                       
         home-manager.darwinModules.home-manager
-        {                                   # HM integration glue
+        {                                  
           home-manager.useGlobalPkgs   = true;
           home-manager.useUserPackages = true;
-          home-manager.users.${username}   = import ./modules/home.nix { inherit username; };
+          # expose extra vars inside HM modules
+          home-manager.extraSpecialArgs = { inherit user; };
 
-          # optional: expose inputs to home-manager configs
-          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.users.${user}   = import ./modules/home.nix;
         }
       ];
     };

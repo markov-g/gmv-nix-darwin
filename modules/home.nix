@@ -1,4 +1,4 @@
-{ config, pkgs, username, ... }:
+{ config, pkgs, user, ... }:
 
 {
   # Let Home Manager install and manage itself.
@@ -6,7 +6,7 @@
 
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
-  home.username = username;
+  home.username = user;
   home.homeDirectory = builtins.toPath "/Users/${user}";
 
   # packages to install
@@ -18,7 +18,7 @@
   ];
 
   # Raw configuration files
-  home.file.".zshrc".source = ./dotfiles/macos/.zshrc.${username};
+  home.file.".zshrc".source = ./dotfiles/macos/.zshrc.${user};
 
 
   # This value determines the Home Manager release that your

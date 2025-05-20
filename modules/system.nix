@@ -1,5 +1,5 @@
-{ config, pkgs, lib, inputs, ... }:
-{
+{ pkgs, ... }:
+{  
   # Don’t let Determinate’s top level enable nix; nix-darwin takes over.
   nix.enable = false;  
 
