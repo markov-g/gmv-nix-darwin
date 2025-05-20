@@ -1,25 +1,23 @@
 { config, pkgs, lib, inputs, ... }:
 
 {
-  # turn off the built-in release check
-  nix-darwin.enableNixpkgsReleaseCheck = false;
-  
+
+  ##############################################################################
+  # 1) Import the nix-darwin–wrapped Home-Manager module from your flake inputs #
+  ##############################################################################
+  imports = [ inputs.home-manager.darwinModules.home-manager ];
+
+
+  #################################
+  # 2) System-level nix-darwin bits
+  #################################
+
   # Don’t let Determinate’s top level enable nix; nix-darwin takes over.
   nix.enable = false;  
 
   # Keep the daemon running so you can use flakes
   services.nix-daemon.enable = true;
   nix.settings.experimental-features = "nix-command flakes";
-
-  # Home-Manager as a module
-  programs.home-manager.enable = true;
-
-  # Your user
-  users.users."mch12700" = {
-    isNormalUser = true;
-    home = "/Users/mch12700";
-    shell = pkgs.zsh;
-  };
 
   # -------------------------------
   #   ← Add your system packages here
@@ -30,6 +28,21 @@
     exa                # modern ls replacement    
   ];
 
-  # You can drop your home-manager config inline or import a separate file:
-  home-manager.users.mch12700 = import ./home.nix;
+  # (Optional) macOS services, e.g. 
+  # services.karabiner-elements.enable = true;
+
+
+  #################################
+  # 3) HOME-MANAGER INTEGRATION ###
+  #################################
+  programs.home-manager.enable        = true;
+  home-manager.useGlobalPkgs          = true;
+  home-manager.useUserPackages        = true;
+
+  #################################################
+  # 4) Hook in per-user config from home.nix #
+  #################################################
+  home-manager.users.mch12700 = {
+    imports = [ ./home.nix ];
+  };
 }

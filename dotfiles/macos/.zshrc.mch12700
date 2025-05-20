@@ -609,72 +609,72 @@ if [[ -z "$TMUX" ]] && [[ "$TERM" != "screen" ]]; then
         tmux new-window -t r1pp3r-tmux:7 -n '7: ~'
         tmux send-keys -t r1pp3r-tmux:7 'cd ~; source ~/.zprofile; source ~/.profile.nix; clear' Enter
 
-        tmux new-window -t r1pp3r-tmux:8 -n '8: diss'
-        tmux send-keys -t r1pp3r-tmux:8 'cd /Users/mch12700/git-repos/overleaf.com/diss; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#        tmux new-window -t r1pp3r-tmux:8 -n '8: diss'
+#        tmux send-keys -t r1pp3r-tmux:8 'cd /Users/mch12700/git-repos/overleaf.com/diss; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:9 -n '9: xcode'
+#        tmux send-keys -t r1pp3r-tmux:9 'cd /Users/mch12700/git-repos/github.com/xcode-playground/cs193p/Memorize; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:10 -n '10: xcode_shared'
+#        tmux send-keys -t r1pp3r-tmux:10 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/swift/Vaporµs; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:11 -n '11: py'
+#        tmux send-keys -t r1pp3r-tmux:11 'cd /Users/mch12700/git-repos/github.com/PythonPlayground/Udacity_Python/MemeGenerator; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:12 -n '12: py_shared'
+#        tmux send-keys -t r1pp3r-tmux:12 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/python/uwb-simulator; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:13 -n '13: rst'
+#        tmux send-keys -t r1pp3r-tmux:13 'cd /Users/mch12700/git-repos/github.com/rust-playground/DungeonCrawlerGame; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:14 -n '14: rst_shared'
+#        tmux send-keys -t r1pp3r-tmux:14 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/rust; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:15 -n '15: jvm'
+#        tmux send-keys -t r1pp3r-tmux:15 'cd /Users/mch12700/git-repos/github.com/JavaWorkspace/KotKa; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:16 -n '16: jvm_shared'
+#        tmux send-keys -t r1pp3r-tmux:16 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/jvm/; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:17 -n '17: .NET'
+#        tmux send-keys -t r1pp3r-tmux:17 'cd /Users/mch12700/git-repos/github.com/dotNetPlayground/AskGPT; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:18 -n '18: .NET_shared'
+#        tmux send-keys -t r1pp3r-tmux:18 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/dotNet/µServices/InventorySystem; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:19 -n '19: cpp'
+#        tmux send-keys -t r1pp3r-tmux:19 'cd /Users/mch12700/git-repos/github.com/CPPPlayground/RoutePlanning/Route_Planning_Playground; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:20 -n '20: cpp_shared'
+#        tmux send-keys -t r1pp3r-tmux:20 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/cpp/udacity_nd213/AStarDemo; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:21 -n '21: DevEnv'
+#        tmux send-keys -t r1pp3r-tmux:21 'cd /Users/mch12700/git-repos/github.com/DevEnv; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:22 -n '22: MFA'
+#        tmux send-keys -t r1pp3r-tmux:22 'cd /Users/mch12700/git-repos/code.siemens.com/office-platform/infrastructure/scripts/cluster_setup/aws_mfa_utils; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:23 -n '23: OP'
+#        tmux send-keys -t r1pp3r-tmux:23 'cd /Users/mch12700/git-repos/code.siemens.com/office-platform/csx-core-system/prototypes/sut-setup/charts/csx-sut; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#        
+#        tmux new-window -t r1pp3r-tmux:24 -n '24: exercism'
+#        tmux send-keys -t r1pp3r-tmux:24 'cd /Users/mch12700/git-repos/github.com/exercism; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:25 -n '25: kubectl'
+#        tmux send-keys -t r1pp3r-tmux:25 'cd /Users/mch12700/git-repos/code.siemens.com/office-platform/infrastructure; source ~/.profile.nix; source ~/.zprofile; source ~/.profile.homebrew; source ~/.profile.kubectl; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:26 -n '26: VTC'
+#        tmux send-keys -t r1pp3r-tmux:26 'cd /Users/mch12700//Desktop/m1_max_gmv_desktop/workspace_exchange/MyApps/Virtual\ Time\ Capsule; source ~/.zprofile; source ~/.profile.nix; clear' Enter        
+#
+#        tmux new-window -t r1pp3r-tmux:27 -n '27: AIPlayground'
+#        tmux send-keys -t r1pp3r-tmux:27 'cd /Users/mch12700/git-repos/github.com/AIPlayground; source ~/.zprofile; source ~/.profile.nix; clear' Enter        
+#
+#        tmux new-window -t r1pp3r-tmux:28 -n '28: AIPlayground'
+#        tmux send-keys -t r1pp3r-tmux:28 'cd /Users/mch12700/git-repos/github.com/AIPlayground; source ~/.zprofile; source ~/.profile.nix; clear' Enter
+#       
+#        tmux new-window -t r1pp3r-tmux:29 -n '29: ~'
+#        tmux send-keys -t r1pp3r-tmux:29 'cd ~; source ~/.zprofile; source ~/.profile.nix; clear' Enter            
 
-        tmux new-window -t r1pp3r-tmux:9 -n '9: xcode'
-        tmux send-keys -t r1pp3r-tmux:9 'cd /Users/mch12700/git-repos/github.com/xcode-playground/cs193p/Memorize; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:10 -n '10: xcode_shared'
-        tmux send-keys -t r1pp3r-tmux:10 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/swift/Vaporµs; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:11 -n '11: py'
-        tmux send-keys -t r1pp3r-tmux:11 'cd /Users/mch12700/git-repos/github.com/PythonPlayground/Udacity_Python/MemeGenerator; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:12 -n '12: py_shared'
-        tmux send-keys -t r1pp3r-tmux:12 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/python/uwb-simulator; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:13 -n '13: rst'
-        tmux send-keys -t r1pp3r-tmux:13 'cd /Users/mch12700/git-repos/github.com/rust-playground/DungeonCrawlerGame; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:14 -n '14: rst_shared'
-        tmux send-keys -t r1pp3r-tmux:14 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/rust; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:15 -n '15: jvm'
-        tmux send-keys -t r1pp3r-tmux:15 'cd /Users/mch12700/git-repos/github.com/JavaWorkspace/KotKa; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:16 -n '16: jvm_shared'
-        tmux send-keys -t r1pp3r-tmux:16 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/jvm/; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:17 -n '17: .NET'
-        tmux send-keys -t r1pp3r-tmux:17 'cd /Users/mch12700/git-repos/github.com/dotNetPlayground/AskGPT; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:18 -n '18: .NET_shared'
-        tmux send-keys -t r1pp3r-tmux:18 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/dotNet/µServices/InventorySystem; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:19 -n '19: cpp'
-        tmux send-keys -t r1pp3r-tmux:19 'cd /Users/mch12700/git-repos/github.com/CPPPlayground/RoutePlanning/Route_Planning_Playground; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:20 -n '20: cpp_shared'
-        tmux send-keys -t r1pp3r-tmux:20 'cd /Users/mch12700/Desktop/m1_max_gmv_desktop/workspace_exchange/cpp/udacity_nd213/AStarDemo; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:21 -n '21: DevEnv'
-        tmux send-keys -t r1pp3r-tmux:21 'cd /Users/mch12700/git-repos/github.com/DevEnv; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:22 -n '22: MFA'
-        tmux send-keys -t r1pp3r-tmux:22 'cd /Users/mch12700/git-repos/code.siemens.com/office-platform/infrastructure/scripts/cluster_setup/aws_mfa_utils; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:23 -n '23: OP'
-        tmux send-keys -t r1pp3r-tmux:23 'cd /Users/mch12700/git-repos/code.siemens.com/office-platform/csx-core-system/prototypes/sut-setup/charts/csx-sut; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-        
-        tmux new-window -t r1pp3r-tmux:24 -n '24: exercism'
-        tmux send-keys -t r1pp3r-tmux:24 'cd /Users/mch12700/git-repos/github.com/exercism; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:25 -n '25: kubectl'
-        tmux send-keys -t r1pp3r-tmux:25 'cd /Users/mch12700/git-repos/code.siemens.com/office-platform/infrastructure; source ~/.profile.nix; source ~/.zprofile; source ~/.profile.homebrew; source ~/.profile.kubectl; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:26 -n '26: VTC'
-        tmux send-keys -t r1pp3r-tmux:26 'cd /Users/mch12700//Desktop/m1_max_gmv_desktop/workspace_exchange/MyApps/Virtual\ Time\ Capsule; source ~/.zprofile; source ~/.profile.nix; clear' Enter        
-
-        tmux new-window -t r1pp3r-tmux:27 -n '27: AIPlayground'
-        tmux send-keys -t r1pp3r-tmux:27 'cd /Users/mch12700/git-repos/github.com/AIPlayground; source ~/.zprofile; source ~/.profile.nix; clear' Enter        
-
-        tmux new-window -t r1pp3r-tmux:28 -n '28: AIPlayground'
-        tmux send-keys -t r1pp3r-tmux:28 'cd /Users/mch12700/git-repos/github.com/AIPlayground; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-        
-        tmux new-window -t r1pp3r-tmux:29 -n '29: ~'
-        tmux send-keys -t r1pp3r-tmux:29 'cd ~; source ~/.zprofile; source ~/.profile.nix; clear' Enter
-      # Add more windows as per your need
     fi
 
     # Finally attach to the session

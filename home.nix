@@ -12,9 +12,9 @@
   # packages to install
   home.packages = [
     # pkgs is the set of all packages in the default home.nix implementation
-    direnv
-    nix-direnv
-    autojump    
+    pkgs.direnv
+    pkgs.nix-direnv
+    pkgs.autojump    
   ];
 
   # Raw configuration files
