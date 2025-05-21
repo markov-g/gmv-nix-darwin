@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, user, ... }:
 
 let
   brews = import ./homebrew/brews.nix;
@@ -6,10 +6,13 @@ let
 in
 {
   homebrew = {
-    enable                  = true;          # tells nix-darwin to run `brew bundle`
+    enable                  = true;           # tells nix-darwin to run `brew bundle`
+    brewPrefix              = "/Users/${user}/PACKAGEMGMT/Homebrew/bin";
     brews                   = brews;
     casks                   = casks;
-    # masApps                 = {};            # add MAS apps later if you like
+    masApps                 = {               # add MAS apps later if you like
+       # e.g. "Xcode" = 497799835;
+    };
 
     onActivation = {
       autoUpdate = false;   # don’t refresh taps

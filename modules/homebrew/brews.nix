@@ -21,7 +21,7 @@
   "kotlin"
   "kotlin-language-server"
   "m-cli"
-  # "mas"
+  "mas"
   "minikube"
   "ncdu"
   "node"
@@ -37,7 +37,7 @@
   "zplug"
 
   # tap-qualified formulas
-  # "kylef/formulae/swiftenv"
-  # "swiftbrew/tap/swiftbrew"
-  # "mas-cli/tap/mas"
+  "kylef/formulae/swiftenv"
+  "swiftbrew/tap/swiftbrew"
+  "mas-cli/tap/mas"
 ]
