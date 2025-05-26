@@ -33,6 +33,11 @@
       url   = "github:swiftbrew/homebrew-tap";
       flake = false;
     };
+
+    sdkman-tap = {
+      url   = "github:sdkman/homebrew-tap";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, nix-homebrew, homebrew-core, homebrew-cask, ... }@inputs:
@@ -81,6 +86,7 @@
                 "kylef/formulae" = inputs.kylef-formulae;
                 "mas-cli/tap"    = inputs.mas-cli-tap;
                 "swiftbrew/tap"  = inputs.swiftbrew-tap;
+                "sdkman/tap"     = inputs.sdkman;
               };
             };
           };

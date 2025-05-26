@@ -11,13 +11,21 @@ in
     brews                   = brews;
     casks                   = casks;
     masApps                 = {               # add MAS apps later if you like
-       # e.g. "Xcode" = 497799835;
+      "Kagi for Safari" = 1622835804;
+      "Microsoft To Do" = 1274495053;
+      "Quiver"          = 866773894;
+      "Termius"         = 1176074088;
+      "UTM"             = 1538878817;
+      "Windows App"     = 1295203466;
+      "Workspaces"      = 1540284555;
+      "Xcode"           = 497799835;
     };
 
     onActivation = {
-      autoUpdate = false;   # don’t refresh taps
-      upgrade    = false;   # don’t bump versions
-      cleanup    = "none";  # keep unlisted packages around
+      autoUpdate = true;
+      upgrade    = true;
+      extraFlags = [ "--greedy" ];
+      cleanup    = "uninstall";   # one of: "none" (default)	Leave unlisted formulae installed—you never lose anything. | "uninstall"	Run brew bundle install --cleanup, which will brew uninstall every formula not in your lists. | "zap"	Same as "uninstall", but for casks also runs brew uninstall --zap, removing all associated files.
     };
   };
 }
