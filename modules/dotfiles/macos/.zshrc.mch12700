@@ -556,7 +556,7 @@ fi
 alias nix-search="nix search nixpkgs"                            # interactive package search
 alias nix-install="nix profile install"                          # install a flake URI or attr
 alias nix-upgrade="nix profile upgrade"                          # upgrade your profiles
-alias nix-flake-update  ="nix flake update"                             # update all flake inputs
+alias nix-flake-update="nix flake update"                             # update all flake inputs
 
 # ── Nix-Darwin & Home-Manager ▸ one-liners ───────────────────────────────────
 alias darwin-re="darwin-rebuild switch --flake ~/.config/nix-darwin"
