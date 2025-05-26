@@ -559,21 +559,32 @@ export KEYTIMEOUT=1
 #eval "$(starship init zsh)"
 
 # Setup nix
-export NIX_PATH=darwin-config=$HOME/.nixpkgs/darwin-configuration.nix:$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
-source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+# export NIX_PATH=darwin-config=$HOME/.nixpkgs/darwin-configuration.nix:$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
+# ── Home-Manager session hook (Determinate Nix) ───────────────────────────────
+if [[ -r /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh ]]; then
+  source /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh
+fi
 
-# Nix Aliases
-alias nix-env-search="nix-env -qaP"
-alias nix-env-install="nix-env -iA"
-alias nix-env-update-all="nix-channel --update nixpkgs && nix-env -u '*'"
-alias nix-up="nix-env -u"
-alias nix-darwin-re="darwin-rebuild switch"
-alias nix-homemanager-re="home-manager switch"
-alias nixpkg-self-upgrade="sudo -i sh -c 'nix-channel --update && nix-env -iA nixpkgs.nix && launchctl remove org.nixos.nix-daemon && launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist'"
+# ── Flake-based Nix shortcuts ─────────────────────────────────────────────────
+alias nix-search="nix search nixpkgs"       # interactive package search
+alias nix-install="nix profile install"     # install a flake URI or attr
+alias nix-upgrade="nix profile upgrade"     # upgrade your profiles
+alias nix-flake-update="nix flake update"   # update all flake inputs
+
+# ── Nix-Darwin & Home-Manager ▸ one-liners ───────────────────────────────────
+alias darwin-re="darwin-rebuild switch --flake ~/.config/nix-darwin"
+alias hm-re="home-manager switch --flake ~/.config/nix-darwin#homeManagerConfigurations.${HOSTNAME}.activationPackage"
+
+# ── Garbage-collect old builds ───────────────────────────────────────────────
 alias nix-gc="nix-collect-garbage -d"
-alias nix-darwin-cfg="code ~/.nixpkgs/darwin-configuration.nix"
-alias nix-homemgr-cfg="code ~/.config/nixpkgs/home.nix"
-alias nix-shell-with-package='nix-shell -p $1'
+
+# ── Jump to your config files ────────────────────────────────────────────────
+alias darwin-cfg="code ~/.config/nix-darwin/flake.nix"
+alias hm-cfg="code ~/.config/nix-darwin/modules/home.nix"
+
+# ── Temporary nix-shell for a package ─────────────────────────────────────────
+alias nix-shell-with-package='nix shell nixpkgs#$1 --command $1'
+
 
 #Screen autostart
 # if [ $TERM != wy30 ] ; then
@@ -614,65 +625,65 @@ if [[ -z "$TMUX" ]] && [[ "$TERM" != "screen" ]]; then
         tmux new-window -t r1pp3r-tmux:7 -n '7: ~'
         tmux send-keys -t r1pp3r-tmux:7 'cd ~; clear' Enter
 
-        tmux new-window -t r1pp3r-tmux:8 -n '8: diss'
-        tmux send-keys -t r1pp3r-tmux:8 'cd /Users/r1pp3r/git-repos/overleaf.com/diss; source ~/.profile.nix; clear' Enter
+#        tmux new-window -t r1pp3r-tmux:8 -n '8: diss'
+#        tmux send-keys -t r1pp3r-tmux:8 'cd /Users/r1pp3r/git-repos/overleaf.com/diss; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:9 -n '9: xcode'
+#        tmux send-keys -t r1pp3r-tmux:9 'cd /Users/r1pp3r/git-repos/github.com/xcode-playground/cs193p/Memorize; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:10 -n '10: xcode_shared'
+#        tmux send-keys -t r1pp3r-tmux:10 'cd /Users/r1pp3r/Desktop/workspace_exchange/swift/Vaporµs; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:11 -n '11: py'
+#        tmux send-keys -t r1pp3r-tmux:11 'cd /Users/r1pp3r/git-repos/github.com/PythonPlayground/Udacity_Python/MemeGenerator; source ~/.profile.nix; clear' Enter
 
-        tmux new-window -t r1pp3r-tmux:9 -n '9: xcode'
-        tmux send-keys -t r1pp3r-tmux:9 'cd /Users/r1pp3r/git-repos/github.com/xcode-playground/cs193p/Memorize; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:10 -n '10: xcode_shared'
-        tmux send-keys -t r1pp3r-tmux:10 'cd /Users/r1pp3r/Desktop/workspace_exchange/swift/Vaporµs; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:11 -n '11: py'
-        tmux send-keys -t r1pp3r-tmux:11 'cd /Users/r1pp3r/git-repos/github.com/PythonPlayground/Udacity_Python/MemeGenerator; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:12 -n '12: py_shared'
-        tmux send-keys -t r1pp3r-tmux:12 'cd /Users/r1pp3r/Desktop/workspace_exchange/python/uwb-simulator; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:13 -n '13: rst'
-        tmux send-keys -t r1pp3r-tmux:13 'cd /Users/r1pp3r/git-repos/github.com/rust-playground/DungeonCrawlerGame; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:14 -n '14: rst_shared'
-        tmux send-keys -t r1pp3r-tmux:14 'cd /Users/r1pp3r/Desktop/workspace_exchange/rust; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:15 -n '15: jvm'
-        tmux send-keys -t r1pp3r-tmux:15 'cd /Users/r1pp3r/git-repos/github.com/JavaWorkspace/KotKa; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:16 -n '16: jvm_shared'
-        tmux send-keys -t r1pp3r-tmux:16 'cd /Users/r1pp3r/Desktop/workspace_exchange/jvm/; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:17 -n '17: .NET'
-        tmux send-keys -t r1pp3r-tmux:17 'cd /Users/r1pp3r/git-repos/github.com/dotNetPlayground/AskGPT; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:18 -n '18: .NET_shared'
-        tmux send-keys -t r1pp3r-tmux:18 'cd /Users/r1pp3r/Desktop/workspace_exchange/dotNet/µServices/InventorySystem; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:19 -n '19: cpp'
-        tmux send-keys -t r1pp3r-tmux:19 'cd /Users/r1pp3r/git-repos/github.com/CPPPlayground/RoutePlanning/Route_Planning_Playground; source ~/.profile.nix; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:20 -n '20: cpp_shared'
-        tmux send-keys -t r1pp3r-tmux:20 'cd /Users/r1pp3r/Desktop/workspace_exchange/cpp/udacity_nd213/AStarDemo; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:21 -n '21: DevEnv'
-        tmux send-keys -t r1pp3r-tmux:21 'cd /Users/r1pp3r/git-repos/github.com/DevEnv; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:22 -n '22: MFA'
-        tmux send-keys -t r1pp3r-tmux:22 'cd /Users/r1pp3r/git-repos/code.siemens.com/office-platform/infrastructure/scripts/cluster_setup/aws_mfa_utils; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:23 -n '23: OP'
-        tmux send-keys -t r1pp3r-tmux:23 'cd /Users/r1pp3r/git-repos/code.siemens.com/office-platform/csx-core-system/prototypes/sut-setup/charts/csx-sut; source ~/.profile.nix; clear' Enter
-        
-        tmux new-window -t r1pp3r-tmux:24 -n '24: exercism'
-        tmux send-keys -t r1pp3r-tmux:24 'cd /Users/r1pp3r/git-repos/github.com/exercism; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:25 -n '25: VTC'
-        tmux send-keys -t r1pp3r-tmux:25 'cd /Users/r1pp3r/Desktop/workspace_exchange/MyApps/Virtual\ Time\ Capsule; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:26 -n '26: AIPlayground'
-        tmux send-keys -t r1pp3r-tmux:26 'cd /Users/r1pp3r/git-repos/github.com/AIPlayground; source ~/.profile.nix; clear' Enter
-
-        tmux new-window -t r1pp3r-tmux:27 -n '27: AIPlayground'
-        tmux send-keys -t r1pp3r-tmux:27 'cd /Users/r1pp3r/git-repos/github.com/AIPlayground; source ~/.profile.nix; clear' Enter
+#        tmux new-window -t r1pp3r-tmux:12 -n '12: py_shared'
+#        tmux send-keys -t r1pp3r-tmux:12 'cd /Users/r1pp3r/Desktop/workspace_exchange/python/uwb-simulator; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:13 -n '13: rst'
+#        tmux send-keys -t r1pp3r-tmux:13 'cd /Users/r1pp3r/git-repos/github.com/rust-playground/DungeonCrawlerGame; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:14 -n '14: rst_shared'
+#        tmux send-keys -t r1pp3r-tmux:14 'cd /Users/r1pp3r/Desktop/workspace_exchange/rust; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:15 -n '15: jvm'
+#        tmux send-keys -t r1pp3r-tmux:15 'cd /Users/r1pp3r/git-repos/github.com/JavaWorkspace/KotKa; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:16 -n '16: jvm_shared'
+#        tmux send-keys -t r1pp3r-tmux:16 'cd /Users/r1pp3r/Desktop/workspace_exchange/jvm/; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:17 -n '17: .NET'
+#        tmux send-keys -t r1pp3r-tmux:17 'cd /Users/r1pp3r/git-repos/github.com/dotNetPlayground/AskGPT; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:18 -n '18: .NET_shared'
+#        tmux send-keys -t r1pp3r-tmux:18 'cd /Users/r1pp3r/Desktop/workspace_exchange/dotNet/µServices/InventorySystem; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:19 -n '19: cpp'
+#        tmux send-keys -t r1pp3r-tmux:19 'cd /Users/r1pp3r/git-repos/github.com/CPPPlayground/RoutePlanning/Route_Planning_Playground; source ~/.profile.nix; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:20 -n '20: cpp_shared'
+#        tmux send-keys -t r1pp3r-tmux:20 'cd /Users/r1pp3r/Desktop/workspace_exchange/cpp/udacity_nd213/AStarDemo; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:21 -n '21: DevEnv'
+#        tmux send-keys -t r1pp3r-tmux:21 'cd /Users/r1pp3r/git-repos/github.com/DevEnv; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:22 -n '22: MFA'
+#        tmux send-keys -t r1pp3r-tmux:22 'cd /Users/r1pp3r/git-repos/code.siemens.com/office-platform/infrastructure/scripts/cluster_setup/aws_mfa_utils; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:23 -n '23: OP'
+#        tmux send-keys -t r1pp3r-tmux:23 'cd /Users/r1pp3r/git-repos/code.siemens.com/office-platform/csx-core-system/prototypes/sut-setup/charts/csx-sut; source ~/.profile.nix; clear' Enter
+#        
+#        tmux new-window -t r1pp3r-tmux:24 -n '24: exercism'
+#        tmux send-keys -t r1pp3r-tmux:24 'cd /Users/r1pp3r/git-repos/github.com/exercism; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:25 -n '25: VTC'
+#        tmux send-keys -t r1pp3r-tmux:25 'cd /Users/r1pp3r/Desktop/workspace_exchange/MyApps/Virtual\ Time\ Capsule; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:26 -n '26: AIPlayground'
+#        tmux send-keys -t r1pp3r-tmux:26 'cd /Users/r1pp3r/git-repos/github.com/AIPlayground; source ~/.profile.nix; clear' Enter
+#
+#        tmux new-window -t r1pp3r-tmux:27 -n '27: AIPlayground'
+#        tmux send-keys -t r1pp3r-tmux:27 'cd /Users/r1pp3r/git-repos/github.com/AIPlayground; source ~/.profile.nix; clear' Enter
       # Add more windows as per your need
     fi
 

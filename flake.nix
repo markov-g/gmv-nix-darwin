@@ -44,8 +44,8 @@
   let
     system    = "aarch64-darwin";
     # pkgs    = nixpkgs.legacyPackages.${system};
-    host      = "MACFXHLQH3MTP";   # or builtins.getEnv "HOSTNAME";   # or get with: scutil --get LocalHostName
-    user      = "mch12700";
+    host      = "r1pp3r";   # or builtins.getEnv "HOSTNAME";   # or get with: scutil --get LocalHostName
+    user      = "r1pp3r";
   in {
     # darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
     darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
