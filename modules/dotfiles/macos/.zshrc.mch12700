@@ -1,7 +1,3 @@
-# Enable the zsh completion system (so compdef exists)
-autoload -Uz compinit
-compinit -u
-
 export TERM="xterm-256color"
 # Created by newuser for 5.1.1
 source /Users/mch12700/PACKAGEMGMT/Homebrew/share/antigen/antigen.zsh
@@ -557,21 +553,21 @@ if [[ -r /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh ]]; then
 fi
 
 # ── Flake-based Nix shortcuts ─────────────────────────────────────────────────
-alias nix-search        ="nix search nixpkgs"                            # interactive package search
-alias nix-install       ="nix profile install"                          # install a flake URI or attr
-alias nix-upgrade       ="nix profile upgrade"                          # upgrade your profiles
+alias nix-search="nix search nixpkgs"                            # interactive package search
+alias nix-install="nix profile install"                          # install a flake URI or attr
+alias nix-upgrade="nix profile upgrade"                          # upgrade your profiles
 alias nix-flake-update  ="nix flake update"                             # update all flake inputs
 
 # ── Nix-Darwin & Home-Manager ▸ one-liners ───────────────────────────────────
-alias darwin-re         ="darwin-rebuild switch --flake ~/.config/nix-darwin"
-alias hm-re             ="home-manager switch --flake ~/.config/nix-darwin#homeManagerConfigurations.${HOSTNAME}.activationPackage"
+alias darwin-re="darwin-rebuild switch --flake ~/.config/nix-darwin"
+alias hm-re="home-manager switch --flake ~/.config/nix-darwin#homeManagerConfigurations.${HOSTNAME}.activationPackage"
 
 # ── Garbage-collect old builds ───────────────────────────────────────────────
-alias nix-gc            ="nix-collect-garbage -d"
+alias nix-gc="nix-collect-garbage -d"
 
 # ── Jump to your config files ────────────────────────────────────────────────
-alias darwin-cfg        ="code ~/.config/nix-darwin/flake.nix"
-alias hm-cfg            ="code ~/.config/nix-darwin/modules/home.nix"
+alias darwin-cfg="code ~/.config/nix-darwin/flake.nix"
+alias hm-cfg="code ~/.config/nix-darwin/modules/home.nix"
 
 # ── Temporary nix-shell for a package ─────────────────────────────────────────
 alias nix-shell-with-package='nix shell nixpkgs#$1 --command $1'
