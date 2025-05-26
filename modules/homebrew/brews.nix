@@ -8,6 +8,7 @@
   "cpulimit"
   "eksctl"
   "exercism"
+  "eza"
   "fish"
   "git"
   "git-lfs"
