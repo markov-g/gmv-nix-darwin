@@ -24,7 +24,6 @@ in
     onActivation = {
       autoUpdate = true;
       upgrade    = true;
-      caskFlags  = [ "--greedy" ];
       cleanup    = "uninstall";   # one of: "none" (default)	Leave unlisted formulae installed—you never lose anything. | "uninstall"	Run brew bundle install --cleanup, which will brew uninstall every formula not in your lists. | "zap"	Same as "uninstall", but for casks also runs brew uninstall --zap, removing all associated files.
     };
   };
