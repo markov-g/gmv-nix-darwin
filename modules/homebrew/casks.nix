@@ -57,7 +57,7 @@
   "temurin"
   "thinkorswim"
   "tradingview"
-  "vagrant"
+  # "vagrant"
   "vagrant-manager"
   "vimr"
   "visual-paradigm-ce"

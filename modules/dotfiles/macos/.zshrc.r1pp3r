@@ -521,13 +521,6 @@ export JDK_HOME="$JAVA_HOME"
 ### Che Data ###
 export CHE_DATA=/Users/r1pp3r/Documents/CheData
 
-####################################################################################
-#####
-#####  Load ~/.zprofile
-#####
-####################################################################################
-[[ -e ~/.zprofile ]] && emulate sh -c 'source ~/.zprofile'
-
 # Set key timeout to 1ms for zsh vimode
 bindkey -v
 bindkey -M vicmd '?' history-incremental-search-backward
@@ -585,6 +578,13 @@ alias hm-cfg="code ~/.config/nix-darwin/modules/home.nix"
 # ── Temporary nix-shell for a package ─────────────────────────────────────────
 alias nix-shell-with-package='nix shell nixpkgs#$1 --command $1'
 
+####################################################################################
+#####
+#####  Load ~/.zprofile
+#####
+####################################################################################
+# [[ -e ~/.zprofile ]] && emulate sh -c 'source ~/.zprofile'
+[[ -e ~/.zprofile ]] && source ~/.zprofile
 
 #Screen autostart
 # if [ $TERM != wy30 ] ; then
@@ -611,7 +611,7 @@ if [[ -z "$TMUX" ]] && [[ "$TERM" != "screen" ]]; then
         tmux send-keys -t r1pp3r-tmux:2 'cd ~; source .profile.homebrew; cd ~/PACKAGEMGMT/Homebrew; clear' Enter
 
         tmux new-window -t r1pp3r-tmux:3 -n '3: NixPkg'
-        tmux send-keys -t r1pp3r-tmux:3 'cd ~/.nixpkgs; clear' Enter
+        tmux send-keys -t r1pp3r-tmux:3 'cd ~/.config/nix-darwin; clear' Enter
 
         tmux new-window -t r1pp3r-tmux:4 -n '4: conda'
         tmux send-keys -t r1pp3r-tmux:4 'cd ~; source ~/.profile.homebrew; cd /Users/r1pp3r/PACKAGEMGMT/Homebrew/Caskroom/miniconda/base/bin/; clear' Enter

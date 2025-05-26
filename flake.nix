@@ -75,7 +75,6 @@
             taps = {
               "homebrew/homebrew-core" = inputs.homebrew-core;
               "homebrew/homebrew-cask" = inputs.homebrew-cask;
-              "mas-cli/tap"            = inputs.mas-cli-tap;
               # in the following null → follow upstream HEAD     
             };
 

@@ -68,5 +68,5 @@
   "sdkman/tap/sdkman-cli"
   "supabase/tap/supabase"
   "swiftbrew/tap/swiftbrew"
-  "mas-cli/tap/mas"
+  # "mas-cli/tap/mas"
 ]
