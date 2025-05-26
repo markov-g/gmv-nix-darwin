@@ -1,3 +1,7 @@
+# Enable the zsh completion system (so compdef exists)
+autoload -Uz compinit
+compinit -u
+
 export TERM="xterm-256color"
 # Created by newuser for 5.1.1
 source /Users/mch12700/PACKAGEMGMT/Homebrew/share/antigen/antigen.zsh
@@ -546,21 +550,31 @@ export KEYTIMEOUT=1
 #eval "$(starship init zsh)"
 
 # Setup nix
-export NIX_PATH=darwin-config=$HOME/.nixpkgs/darwin-configuration.nix:$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
-source $HOME/.nix-profile/etc/profile.d/hm-session-vars.sh
+# export NIX_PATH=darwin-config=$HOME/.nixpkgs/darwin-configuration.nix:$HOME/.nix-defexpr/channels${NIX_PATH:+:}$NIX_PATH
+# ── Home-Manager session hook (Determinate Nix) ───────────────────────────────
+if [[ -r /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh ]]; then
+  source /etc/profiles/per-user/$USER/etc/profile.d/hm-session-vars.sh
+fi
 
-# Nix Aliases
-alias nix-env-search="nix-env -qaP"
-alias nix-env-install="nix-env -iA"
-alias nix-env-update-all="nix-channel --update nixpkgs && nix-env -u '*'"
-alias nix-up="nix-env -u"
-alias nix-darwin-re="darwin-rebuild switch"
-alias nix-homemanager-re="home-manager switch"
-alias nixpkg-self-upgrade="sudo -i sh -c 'nix-channel --update && nix-env -iA nixpkgs.nix && launchctl remove org.nixos.nix-daemon && launchctl load /Library/LaunchDaemons/org.nixos.nix-daemon.plist'"
-alias nix-gc="nix-collect-garbage -d"
-alias nix-darwin-cfg="code ~/.nixpkgs/darwin-configuration.nix"
-alias nix-homemgr-cfg="code ~/.config/nixpkgs/home.nix"
-alias nix-shell-with-package='nix-shell -p $1'
+# ── Flake-based Nix shortcuts ─────────────────────────────────────────────────
+alias nix-search        ="nix search nixpkgs"                            # interactive package search
+alias nix-install       ="nix profile install"                          # install a flake URI or attr
+alias nix-upgrade       ="nix profile upgrade"                          # upgrade your profiles
+alias nix-flake-update  ="nix flake update"                             # update all flake inputs
+
+# ── Nix-Darwin & Home-Manager ▸ one-liners ───────────────────────────────────
+alias darwin-re         ="darwin-rebuild switch --flake ~/.config/nix-darwin"
+alias hm-re             ="home-manager switch --flake ~/.config/nix-darwin#homeManagerConfigurations.${HOSTNAME}.activationPackage"
+
+# ── Garbage-collect old builds ───────────────────────────────────────────────
+alias nix-gc            ="nix-collect-garbage -d"
+
+# ── Jump to your config files ────────────────────────────────────────────────
+alias darwin-cfg        ="code ~/.config/nix-darwin/flake.nix"
+alias hm-cfg            ="code ~/.config/nix-darwin/modules/home.nix"
+
+# ── Temporary nix-shell for a package ─────────────────────────────────────────
+alias nix-shell-with-package='nix shell nixpkgs#$1 --command $1'
 
 ####################################################################################
 #####
