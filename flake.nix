@@ -86,7 +86,7 @@
                 "kylef/formulae" = inputs.kylef-formulae;
                 "mas-cli/tap"    = inputs.mas-cli-tap;
                 "swiftbrew/tap"  = inputs.swiftbrew-tap;
-                "sdkman/tap"     = inputs.sdkman;
+                "sdkman/tap"     = inputs.sdkman-tap;
               };
             };
           };

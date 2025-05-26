@@ -214,7 +214,24 @@
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs_3",
+        "sdkman-tap": "sdkman-tap",
         "swiftbrew-tap": "swiftbrew-tap"
+      }
+    },
+    "sdkman-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1746198460,
+        "narHash": "sha256-c4iS52jNjvJ0RgI/79kK0GgnPPjIWpcL38RG3vCg8YM=",
+        "owner": "sdkman",
+        "repo": "homebrew-tap",
+        "rev": "3fc32fcd5f252a6a29cee1cccc9ec005c2e3451a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "sdkman",
+        "repo": "homebrew-tap",
+        "type": "github"
       }
     },
     "swiftbrew-tap": {
