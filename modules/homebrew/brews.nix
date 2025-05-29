@@ -34,6 +34,7 @@
   "nvm"
   "pipx"
   "rustup"
+  "sdkman-cli"
   "sleepwatcher"
   "sourcekitten"
   "starship"
