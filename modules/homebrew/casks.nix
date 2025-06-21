@@ -1,71 +1,71 @@
 # Plain Nix list – GUI apps
 [
-  "applite"
-  "arc"
-  "authy"
-  "bibdesk"
-  "brave-browser"
-  "carbon-copy-cloner"
-  "chatgpt"
-  "claude"
-  "cursor"
-  "devonthink"
-  "devpod"
-  "discord"
-  "docker"
-  "dotnet-sdk"
-  "duckduckgo"
-  "emacs"
-  "font-cormorant-garamond"
-  "font-eb-garamond"
-  "font-fira-code"
-  "font-fira-code-nerd-font"
-  "font-hack-nerd-font"
-  "font-lato"
-  "font-noto-mono"
-  "font-source-code-pro"
-  "freetube"
-  "github-copilot-for-xcode"
-  "ibkr"
-  "iterm2"
-  "jetbrains-toolbox"
-  "kui"
-  "ledger-live"
-  "lm-studio"
-  "malwarebytes"
-  "microsoft-auto-update"
-  "microsoft-edge"
-  "microsoft-teams"
-  "mindmac"
-  "miniconda"
-  "multipass"
-  "murus"
-  "opensc"
-  "orbstack"
-  "orion"
-  "pieces"
-  "pieces-os"
-  "podman-desktop"
-  "proton-drive"
-  "proton-mail"
-  "proton-mail-bridge"
-  "proton-pass"
-  "protonvpn"
-  "royal-tsx"
-  "scrivener"
-  "sourcetree"
-  "temurin"
-  "thinkorswim"
-  "tradingview"
-  # "vagrant"
-  "vagrant-manager"
-  "vimr"
-  "visual-paradigm-ce"
-  "visual-studio-code"
-  "warp"
-  "whisky"
-  "windsurf"
-  "xbar"
-  "xquartz"
-  "yattee"
+  { name = "applite";                   greedy = true; }
+  { name = "arc";                       greedy = true; }
+  { name = "authy";                     greedy = true; }
+  { name = "bibdesk";                   greedy = true; }
+  { name = "brave-browser";             greedy = true; }
+  { name = "carbon-copy-cloner";        greedy = true; }
+  { name = "chatgpt";                   greedy = true; }
+  { name = "claude";                    greedy = true; }
+  { name = "cursor";                    greedy = true; }
+  { name = "devonthink";                greedy = true; }
+  { name = "devpod";                    greedy = true; }
+  { name = "discord";                   greedy = true; }
+  { name = "docker";                    greedy = true; }
+  { name = "dotnet-sdk";                greedy = true; }
+  { name = "duckduckgo";                greedy = true; }
+  { name = "emacs";                     greedy = true; }
+  { name = "font-cormorant-garamond";   greedy = true; }
+  { name = "font-eb-garamond";          greedy = true; }
+  { name = "font-fira-code";            greedy = true; }
+  { name = "font-fira-code-nerd-font";  greedy = true; }
+  { name = "font-hack-nerd-font";       greedy = true; }
+  { name = "font-lato";                 greedy = true; }
+  { name = "font-noto-mono";            greedy = true; }
+  { name = "font-source-code-pro";      greedy = true; }
+  { name = "freetube";                  greedy = true; }
+  { name = "github-copilot-for-xcode";  greedy = true; }
+  { name = "ibkr";                      greedy = true; }
+  { name = "iterm2";                    greedy = true; }
+  { name = "jetbrains-toolbox";         greedy = true; }
+  { name = "kui";                       greedy = true; }
+  { name = "ledger-live";               greedy = true; }
+  { name = "lm-studio";                 greedy = true; }
+  { name = "malwarebytes";              greedy = true; }
+  { name = "microsoft-auto-update";     greedy = true; }
+  { name = "microsoft-edge";            greedy = true; }
+  { name = "microsoft-teams";           greedy = true; }
+  { name = "mindmac";                   greedy = true; }
+  { name = "miniconda";                 greedy = true; }
+  { name = "multipass";                 greedy = true; }
+  { name = "murus";                     greedy = true; }
+  { name = "opensc";                    greedy = true; }
+  { name = "orbstack";                  greedy = true; }
+  { name = "orion";                     greedy = true; }
+  { name = "pieces";                    greedy = true; }
+  { name = "pieces-os";                 greedy = true; }
+  { name = "podman-desktop";            greedy = true; }
+  { name = "proton-drive";              greedy = true; }
+  { name = "proton-mail";               greedy = true; }
+  { name = "proton-mail-bridge";        greedy = true; }
+  { name = "proton-pass";               greedy = true; }
+  { name = "protonvpn";                 greedy = true; }
+  { name = "royal-tsx";                 greedy = true; }
+  { name = "scrivener";                 greedy = true; }
+  { name = "sourcetree";                greedy = true; }
+  { name = "temurin";                   greedy = true; }
+  { name = "thinkorswim";               greedy = true; }
+  { name = "tradingview";               greedy = true; }
+  # { name = "vagrant";                 greedy = true; }
+  { name = "vagrant-manager";           greedy = true; }
+  { name = "vimr";                      greedy = true; }
+  { name = "visual-paradigm-ce";        greedy = true; }
+  { name = "visual-studio-code";        greedy = true; }
+  { name = "warp";                      greedy = true; }
+  { name = "whisky";                    greedy = true; }
+  { name = "windsurf";                  greedy = true; }
+  { name = "xbar";                      greedy = true; }
+  { name = "xquartz";                   greedy = true; }
+  { name = "yattee";                    greedy = true; }
 ]
