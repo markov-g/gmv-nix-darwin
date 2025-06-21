@@ -34,7 +34,7 @@
   "nvm"
   "pipx"
   "rustup"
-  "sdkman-cli"
+  # "sdkman-cli"
   "sleepwatcher"
   "sourcekitten"
   "starship"
@@ -46,6 +46,7 @@
   "zplug"
 
   # tap-qualified formulas
+  "sdkman/tap/sdkman-cli"
   "kylef/formulae/swiftenv"
   "swiftbrew/tap/swiftbrew"
   "mas-cli/tap/mas"

@@ -76,6 +76,7 @@
               "homebrew/homebrew-core" = inputs.homebrew-core;
               "homebrew/homebrew-cask" = inputs.homebrew-cask;
               # in the following null → follow upstream HEAD     
+              "sdkman/tap"             = inputs.sdkman-tap;
             };
 
             prefixes."/Users/${user}/PACKAGEMGMT/Homebrew" = {
