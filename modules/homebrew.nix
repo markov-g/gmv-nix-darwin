@@ -1,4 +1,4 @@
-{ inputs, user, ... }:
+{ config, inputs, user, ... }:
 
 let
   brews = import ./homebrew/brews.nix;
@@ -7,6 +7,8 @@ in
 {
   homebrew = {
     enable                  = true;           # tells nix-darwin to run `brew bundle`
+    # taps                    = builtins.attrNames config.nix-homebrew.taps;
+    taps                      = builtins.attrNames config.nix-homebrew.prefixes."/Users/${user}/PACKAGEMGMT/Homebrew".taps;
     brewPrefix              = "/Users/${user}/PACKAGEMGMT/Homebrew/bin";
     brews                   = brews;
     casks                   = casks;
@@ -50,7 +52,7 @@ in
     onActivation = {
       autoUpdate = true;
       upgrade    = true;
-      cleanup    = "uninstall";   # one of: "none" (default)	Leave unlisted formulae installed—you never lose anything. | "uninstall"	Run brew bundle install --cleanup, which will brew uninstall every formula not in your lists. | "zap"	Same as "uninstall", but for casks also runs brew uninstall --zap, removing all associated files.
+      cleanup    = "zap";   # one of: "none" (default)	Leave unlisted formulae installed—you never lose anything. | "uninstall"	Run brew bundle install --cleanup, which will brew uninstall every formula not in your lists. | "zap"	Same as "uninstall", but for casks also runs brew uninstall --zap, removing all associated files.
     };
   };
 }

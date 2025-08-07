@@ -12,10 +12,10 @@
   { name = "devonthink";                greedy = true; }
   { name = "devpod";                    greedy = true; }
   { name = "discord";                   greedy = true; }
-  { name = "docker";                    greedy = true; }
+  { name = "docker-desktop";            greedy = true; }
   { name = "dotnet-sdk";                greedy = true; }
   { name = "duckduckgo";                greedy = true; }
-  { name = "emacs";                     greedy = true; }
+  { name = "emacs-app";                 greedy = true; }
   { name = "font-cormorant-garamond";   greedy = true; }
   { name = "font-eb-garamond";          greedy = true; }
   { name = "font-fira-code";            greedy = true; }
@@ -40,7 +40,7 @@
   { name = "miniconda";                 greedy = true; }
   { name = "multipass";                 greedy = true; }
   { name = "murus";                     greedy = true; }
-  { name = "opensc";                    greedy = true; }
+  { name = "opensc-app";                greedy = true; }
   { name = "orbstack";                  greedy = true; }
   { name = "orion";                     greedy = true; }
   { name = "pieces";                    greedy = true; }
@@ -57,7 +57,7 @@
   { name = "temurin";                   greedy = true; }
   { name = "thinkorswim";               greedy = true; }
   { name = "tradingview";               greedy = true; }
-  # { name = "vagrant";                 greedy = true; }
+  { name = "vagrant";                   greedy = true; }
   { name = "vagrant-manager";           greedy = true; }
   { name = "vimr";                      greedy = true; }
   { name = "visual-paradigm-ce";        greedy = true; }
@@ -67,5 +67,7 @@
   { name = "windsurf";                  greedy = true; }
   { name = "xbar";                      greedy = true; }
   { name = "xquartz";                   greedy = true; }
+  { name = "xtool-org/tap/xtool";       greedy = true; }
   { name = "yattee";                    greedy = true; }
+###  { name = "flyenv";                    greedy = true; }
 ]

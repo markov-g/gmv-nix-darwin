@@ -1,6 +1,6 @@
 # Plain Nix list – CLI formulas
 [
-    "antigen"
+  "antigen"
   "autojump"
   "aws-shell"
   "awscli"
@@ -48,6 +48,7 @@
   "neovim"
   "nvm"
   "ollama"
+  "opensc"
   "pipx"
   "quartz-wm"
   "rustup"
@@ -64,9 +65,7 @@
   
   # tap-qualified formulas
   "kylef/formulae/swiftenv"
-  "one2nc/cloudlens/cloudlens"
-  "sdkman/tap/sdkman-cli"
-  "supabase/tap/supabase"
+  "sdkman/tap/sdkman-cli"  
   "swiftbrew/tap/swiftbrew"
   # "mas-cli/tap/mas"
 ]
