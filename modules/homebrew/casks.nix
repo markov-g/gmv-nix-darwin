@@ -1,20 +1,19 @@
 # Plain Nix list – GUI apps
 [
-  { name = "applite";                   greedy = true; }
-  { name = "arc";                       greedy = true; }
-  { name = "authy";                     greedy = true; }
-  { name = "bibdesk";                   greedy = true; }
+  # { name = "applite";                   greedy = true; }
+  # { name = "authy";                     greedy = true; }
+  # { name = "bibdesk";                   greedy = true; }
   { name = "brave-browser";             greedy = true; }
-  { name = "carbon-copy-cloner";        greedy = true; }
+  # { name = "carbon-copy-cloner";        greedy = true; }
   { name = "chatgpt";                   greedy = true; }
   { name = "claude";                    greedy = true; }
-  { name = "cursor";                    greedy = true; }
+  # { name = "cursor";                    greedy = true; }
   { name = "devonthink";                greedy = true; }
-  { name = "devpod";                    greedy = true; }
-  { name = "discord";                   greedy = true; }
-  { name = "docker-desktop";            greedy = true; }
-  { name = "dotnet-sdk";                greedy = true; }
-  { name = "duckduckgo";                greedy = true; }
+  # { name = "devpod";                    greedy = true; }
+  # { name = "discord";                   greedy = true; }
+  # { name = "docker-desktop";            greedy = true; }
+  # { name = "dotnet-sdk";                greedy = true; }
+  # { name = "duckduckgo";                greedy = true; }
   { name = "emacs-app";                 greedy = true; }
   { name = "font-cormorant-garamond";   greedy = true; }
   { name = "font-eb-garamond";          greedy = true; }
@@ -24,50 +23,50 @@
   { name = "font-lato";                 greedy = true; }
   { name = "font-noto-mono";            greedy = true; }
   { name = "font-source-code-pro";      greedy = true; }
-  { name = "freetube";                  greedy = true; }
+  # { name = "freetube";                  greedy = true; }
   { name = "github-copilot-for-xcode";  greedy = true; }
-  { name = "ibkr";                      greedy = true; }
+  # { name = "ibkr";                      greedy = true; }
   { name = "iterm2";                    greedy = true; }
   { name = "jetbrains-toolbox";         greedy = true; }
-  { name = "kui";                       greedy = true; }
+  # { name = "kui";                       greedy = true; }
   { name = "ledger-live";               greedy = true; }
-  { name = "lm-studio";                 greedy = true; }
-  { name = "malwarebytes";              greedy = true; }
-  { name = "microsoft-auto-update";     greedy = true; }
+  # { name = "lm-studio";                 greedy = true; }
+  # { name = "malwarebytes";              greedy = true; }
+  # { name = "microsoft-auto-update";     greedy = true; }
   { name = "microsoft-edge";            greedy = true; }
-  { name = "microsoft-teams";           greedy = true; }
-  { name = "mindmac";                   greedy = true; }
+  # { name = "microsoft-teams";           greedy = true; }
+  # { name = "mindmac";                   greedy = true; }
   { name = "miniconda";                 greedy = true; }
   { name = "multipass";                 greedy = true; }
   { name = "murus";                     greedy = true; }
   { name = "opensc-app";                greedy = true; }
-  { name = "orbstack";                  greedy = true; }
+  # { name = "orbstack";                  greedy = true; }
   { name = "orion";                     greedy = true; }
-  { name = "pieces";                    greedy = true; }
-  { name = "pieces-os";                 greedy = true; }
+  # { name = "pieces";                    greedy = true; }
+  # { name = "pieces-os";                 greedy = true; }
   { name = "podman-desktop";            greedy = true; }
-  { name = "proton-drive";              greedy = true; }
-  { name = "proton-mail";               greedy = true; }
+  # { name = "proton-drive";              greedy = true; }
+  # { name = "proton-mail";               greedy = true; }
   { name = "proton-mail-bridge";        greedy = true; }
-  { name = "proton-pass";               greedy = true; }
-  { name = "protonvpn";                 greedy = true; }
-  { name = "royal-tsx";                 greedy = true; }
-  { name = "scrivener";                 greedy = true; }
-  { name = "sourcetree";                greedy = true; }
-  { name = "temurin";                   greedy = true; }
-  { name = "thinkorswim";               greedy = true; }
-  { name = "tradingview";               greedy = true; }
-  { name = "vagrant";                   greedy = true; }
-  { name = "vagrant-manager";           greedy = true; }
-  { name = "vimr";                      greedy = true; }
-  { name = "visual-paradigm-ce";        greedy = true; }
+  # { name = "proton-pass";               greedy = true; }
+  # { name = "protonvpn";                 greedy = true; }
+  # { name = "royal-tsx";                 greedy = true; }
+  # { name = "scrivener";                 greedy = true; }
+  # { name = "sourcetree";                greedy = true; }
+  # { name = "temurin";                   greedy = true; }
+  # { name = "thinkorswim";               greedy = true; }
+  # { name = "tradingview";               greedy = true; }
+  # { name = "vagrant";                   greedy = true; }
+  # { name = "vagrant-manager";           greedy = true; }
+  # { name = "vimr";                      greedy = true; }
+  # { name = "visual-paradigm-ce";        greedy = true; }
   { name = "visual-studio-code";        greedy = true; }
-  { name = "warp";                      greedy = true; }
-  { name = "whisky";                    greedy = true; }
-  { name = "windsurf";                  greedy = true; }
-  { name = "xbar";                      greedy = true; }
+  # { name = "warp";                      greedy = true; }
+  # { name = "whisky";                    greedy = true; }
+  # { name = "windsurf";                  greedy = true; }
+  # { name = "xbar";                      greedy = true; }
   { name = "xquartz";                   greedy = true; }
   { name = "xtool-org/tap/xtool";       greedy = true; }
-  { name = "yattee";                    greedy = true; }
-###  { name = "flyenv";                    greedy = true; }
+  # { name = "yattee";                    greedy = true; }
+  # { name = "flyenv";                    greedy = true; }
 ]
