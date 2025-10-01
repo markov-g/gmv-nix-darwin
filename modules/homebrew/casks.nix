@@ -5,8 +5,8 @@
   # { name = "bibdesk";                   greedy = true; }
   { name = "brave-browser";             greedy = true; }
   # { name = "carbon-copy-cloner";        greedy = true; }
-  { name = "chatgpt";                   greedy = true; }
-  { name = "claude";                    greedy = true; }
+  # { name = "chatgpt";                   greedy = true; }
+  # { name = "claude";                    greedy = true; }
   # { name = "cursor";                    greedy = true; }
   { name = "devonthink";                greedy = true; }
   # { name = "devpod";                    greedy = true; }
@@ -28,6 +28,7 @@
   # { name = "ibkr";                      greedy = true; }
   { name = "iterm2";                    greedy = true; }
   { name = "jetbrains-toolbox";         greedy = true; }
+  { name = "jordanbaird-ice";         greedy = true; }
   # { name = "kui";                       greedy = true; }
   { name = "ledger-live";               greedy = true; }
   # { name = "lm-studio";                 greedy = true; }
@@ -36,15 +37,16 @@
   { name = "microsoft-edge";            greedy = true; }
   # { name = "microsoft-teams";           greedy = true; }
   # { name = "mindmac";                   greedy = true; }
-  { name = "miniconda";                 greedy = true; }
+  # { name = "miniconda";                 greedy = true; }
   { name = "multipass";                 greedy = true; }
   { name = "murus";                     greedy = true; }
   { name = "opensc-app";                greedy = true; }
   # { name = "orbstack";                  greedy = true; }
   { name = "orion";                     greedy = true; }
+  { name = "path-finder";                     greedy = true; }  
   # { name = "pieces";                    greedy = true; }
   # { name = "pieces-os";                 greedy = true; }
-  { name = "podman-desktop";            greedy = true; }
+  # { name = "podman-desktop";            greedy = true; }
   # { name = "proton-drive";              greedy = true; }
   # { name = "proton-mail";               greedy = true; }
   { name = "proton-mail-bridge";        greedy = true; }
@@ -64,6 +66,7 @@
   # { name = "warp";                      greedy = true; }
   # { name = "whisky";                    greedy = true; }
   # { name = "windsurf";                  greedy = true; }
+  { name = "workspaces";                  greedy = true; }  
   # { name = "xbar";                      greedy = true; }
   { name = "xquartz";                   greedy = true; }
   { name = "xtool-org/tap/xtool";       greedy = true; }
