@@ -20,6 +20,7 @@
   { name = "orion";                     greedy = true; }
   { name = "path-finder";               greedy = true; }  
   { name = "proton-mail-bridge";        greedy = true; }
+  { name = "replit";                    greedy = true; }
   # { name = "thinkorswim";               greedy = true; }
   # { name = "tradingview";               greedy = true; }
   { name = "visual-studio-code";        greedy = true; }
