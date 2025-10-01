@@ -31,7 +31,8 @@ in
         # "Microsoft PowerPoint" = 462062816;
         # "Microsoft To Do" = 1274495053;
         # "Microsoft Word" = 462054704;
-        # "Moom Classic" = 419330170;
+        "MoneyWiz 2025 Personal Finance" = 1511185140;
+        # "Moom Classic" = 419330170;        
         "Nautik" = 1672838783;
         "Numbers" = 409203825;
         # "OneDrive" = 823766827;
@@ -46,6 +47,7 @@ in
         "Texifier" = 458866234;
         # "Trello" = 1278508951;
         "UTM" = 1538878817;
+        "Webull" = 1334590352;
         "Windows App" = 1295203466;
         "Xcode" = 497799835;
     };
