@@ -16,7 +16,7 @@
   { name = "multipass";                 greedy = true; }
   { name = "murus";                     greedy = true; }
   { name = "opensc-app";                greedy = true; }
-  { name = "openvpn";                   greedy = true; }  
+  { name = "openvpn-connect";           greedy = true; }  
   { name = "orion";                     greedy = true; }
   { name = "path-finder";               greedy = true; }  
   { name = "proton-mail-bridge";        greedy = true; }
@@ -24,7 +24,7 @@
   # { name = "thinkorswim";               greedy = true; }
   # { name = "tradingview";               greedy = true; }
   { name = "visual-studio-code";        greedy = true; }
-  { name = "workspaces";                greedy = true; }  
+  # { name = "workspaces";                greedy = true; }  
   { name = "xquartz";                   greedy = true; }
   { name = "xtool-org/tap/xtool";       greedy = true; }
 ]

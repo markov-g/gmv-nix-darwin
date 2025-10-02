@@ -20,7 +20,7 @@ in
         # "Ground News" = 1324203419;
         # "Haskell" = 841285201;
         "Hotspot Shield" = 771076721;
-        "iThoughtsX" = 720669838;
+        # "iThoughtsX" = 720669838;
         "Kagi for Safari" = 1622835804;
         "Keynote" = 409183694;
         "Kiwix" = 997079563;
@@ -49,6 +49,7 @@ in
         "UTM" = 1538878817;
         "Webull" = 1334590352;
         "Windows App" = 1295203466;
+	"Workspaces 2" = 1540284555;
         "Xcode" = 497799835;
     };
 
