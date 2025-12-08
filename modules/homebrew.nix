@@ -1,4 +1,4 @@
-{ inputs, user, ... }:
+{ config, inputs, user, ... }:
 
 let
   brews = import ./homebrew/brews.nix;
@@ -7,6 +7,8 @@ in
 {
   homebrew = {
     enable                  = true;           # tells nix-darwin to run `brew bundle`
+    # taps                    = builtins.attrNames config.nix-homebrew.taps;
+    taps                      = builtins.attrNames config.nix-homebrew.prefixes."/Users/${user}/PACKAGEMGMT/Homebrew".taps;
     brewPrefix              = "/Users/${user}/PACKAGEMGMT/Homebrew/bin";
     brews                   = brews;
     casks                   = casks;
