@@ -260,6 +260,12 @@ sudo darwin-rebuild switch --flake ~/.config/nix-darwin
   * Home-Manager activation
 3. **Enjoy** your updated, reproducible Mac!
 
+Note!
+Initially, since darwin-rebuild doesn't exist yet, use nix run to execute it directly from the nix-darwin flake to bootstrap:
+```
+sudo -i nix run github:LnL7/nix-darwin#darwin-rebuild -- switch --flake /Users/$USER/.config/nix-darwin#$(hostname -s)
+```
+
 ---
 
 ## 🌱 Updating
