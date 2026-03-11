@@ -6,7 +6,7 @@
 #   hyperfine, procs, jq
 [
   "antigen"             # zsh plugin manager (sourced from BREW_PREFIX in .zshrc)
-  "aws-shell"
+  # "aws-shell"
   "awscli"
   "azure-cli"
   "blueutil"            # Bluetooth control (used in ~/.sleep / ~/.wakeup)
@@ -18,7 +18,7 @@
   "eksctl"
   "exercism"
   "fail2ban"
-  "fish"
+  # "fish"
   "gambit"
   "git"
   "git-lfs"

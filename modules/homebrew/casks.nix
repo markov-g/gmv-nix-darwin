@@ -18,7 +18,7 @@
   { name = "iterm2";                    greedy = true; }
   { name = "jetbrains-toolbox";         greedy = true; }
   { name = "jordanbaird-ice";           greedy = true; }
-  { name = "ledger-live";               greedy = true; }
+  { name = "ledger-workspace";          greedy = true; }
   { name = "lm-studio";                 greedy = true; }
   # ── Security & Privacy (Objective-See + others) ──────────────────────────
   { name = "blockblock";                greedy = true; }   # persistence monitor (LaunchAgents/Daemons)
