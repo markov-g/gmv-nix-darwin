@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# install-macports.sh — Download the latest MacPorts .pkg for the running macOS
-# version from GitHub, open it for GUI installation.
+# install-macports.sh — Download and install the latest MacPorts .pkg for the
+# running macOS version from the command line (no GUI needed).
 #
 # MacPorts cannot be managed declaratively through Nix like Homebrew; it must
 # be installed imperatively. Once installed, opt-in via ~/.profile.macports.
@@ -58,14 +58,13 @@ else
     fatal "Download failed. Verify: ${DOWNLOAD_URL}"
 fi
 
-# ── Open for installation ─────────────────────────────────────────────────────
-info "Opening ${DEST} ..."
-info "Complete the PKG installer, then source ~/.profile.macports in your shell."
-open "${DEST}"
+# ── Install from command line ─────────────────────────────────────────────────
+info "Installing ${PKG_NAME} (will prompt for sudo password)..."
+sudo installer -pkg "${DEST}" -target /
 
 cat <<'EOF'
 
-After installation completes, opt in to MacPorts by running:
+MacPorts installed. Opt in by running:
   source ~/.profile.macports
 
 Or make it persistent (e.g. for a dedicated MacPorts shell) by adding to ~/.zprofile.local:
