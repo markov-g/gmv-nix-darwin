@@ -1,0 +1,1 @@
+sudo port selfupdate && sudo port upgrade outdated && sudo port uninstall inactive && sudo port clean --work installed && sudo port clean --all installed

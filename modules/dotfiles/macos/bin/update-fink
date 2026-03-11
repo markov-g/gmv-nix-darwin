@@ -1,0 +1,1 @@
+sudo apt-get update && sudo apt-get dist-upgrade && sudo fink selfupdate && sudo fink update-all && sudo fink scanpackages

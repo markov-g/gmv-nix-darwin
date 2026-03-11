@@ -1,0 +1,35 @@
+# BREW_PREFIX is set by .zprofile; fall back here if sourced standalone
+export BREW_PREFIX="${BREW_PREFIX:-${HOME}/PACKAGEMGMT/Homebrew}"
+
+export PATH="${BREW_PREFIX}/bin:${BREW_PREFIX}/sbin:${BREW_PREFIX}/opt/go/libexec/bin:${BREW_PREFIX}/opt/qt/bin:${BREW_PREFIX}/opt/texinfo/bin:${BREW_PREFIX}/opt/gettext/bin:${HOME}/.cargo/bin:$PATH"
+export MANPATH="${BREW_PREFIX}/share/man:${BREW_PREFIX}/opt/coreutils/libexec/gnuman:$MANPATH"
+
+export LDFLAGS="-L${BREW_PREFIX}/opt/llvm/lib -L${BREW_PREFIX}/opt/qt/lib -L${BREW_PREFIX}/opt/gettext/lib"
+export CPPFLAGS="-I${BREW_PREFIX}/opt/llvm/include -I${BREW_PREFIX}/opt/qt/include -I${BREW_PREFIX}/opt/gettext/include"
+export PKG_CONFIG_PATH="${BREW_PREFIX}/opt/qt/lib/pkgconfig"
+export LIBRARY_PATH="${BREW_PREFIX}/lib:$LIBRARY_PATH"
+
+# JENV
+export PATH="${HOME}/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+
+# For Mono/ASP.NET
+export MONO_GAC_PREFIX="${BREW_PREFIX}"
+
+# NVM
+export NVM_DIR="${HOME}/.nvm"
+[ -s "${BREW_PREFIX}/opt/nvm/nvm.sh" ] && . "${BREW_PREFIX}/opt/nvm/nvm.sh"
+
+# Disable brew analytics
+export HOMEBREW_NO_ANALYTICS=1
+
+# SDKMAN (Java/Kotlin/Scala version manager, installed via Homebrew)
+export SDKMAN_DIR="${BREW_PREFIX}/opt/sdkman-cli/libexec"
+[[ -s "${SDKMAN_DIR}/bin/sdkman-init.sh" ]] && source "${SDKMAN_DIR}/bin/sdkman-init.sh"
+
+# Swiftenv
+export SWIFTENV_ROOT="${BREW_PREFIX}/var/swiftenv"
+command -v swiftenv >/dev/null && eval "$(swiftenv init -)"
+
+# include .profile.include_always if it exists
+[ -f ~/.profile.include_always ] && source ~/.profile.include_always

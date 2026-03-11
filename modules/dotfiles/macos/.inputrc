@@ -1,0 +1,79 @@
+# Added by Easy-Cyrillic.
+# A lot of helpful bindings which are conditionalized depending
+# on which program is running, or what terminal is active.
+#
+# In Linux console, do the right thing and fix annoing.
+$if TERM=linux
+    "\e[1~": beginning-of-line		# Home now will work
+    "\e[4~": end-of-line		# End now will work
+    "\e[3~": delete-char		# And even Delete will work
+$endif # TERM=linux
+
+# Fix the same thing in xterm windows.
+$if TERM=xterm
+    "\e[\C-@": beginning-of-line	# Home now will work
+    "\e[e":    end-of-line		# End now will work
+    "\C-?":    delete-char		# And even Delete will work
+$endif TERM=xterm
+
+# Under Bash we bind some local Fn keys to do something useful.
+$if Bash
+    "\e[23~": "clear\C-m"	
+    "\e[24~": ""	
+    "\e[25~": "\C-m"	
+    "\e[26~": "top\C-m"	
+    "\e[18~": "# Just press Control-O\C-m"   # F7 - We are already in MC
+    "\e[21~": "exit\C-m"	# F10 - Exit from shell
+    $if TERM=linux
+	"\e[31~": "startx\C-m"	# Shift+F7 - Start Xwindows
+    $endif TERM=linux
+$endif # Bash
+
+set meta-flag on
+set convert-meta off
+set output-meta on
+# End of Easy-Cyrillic.
+
+
+
+# Added by Easy-Cyrillic.
+# A lot of helpful bindings which are conditionalized depending
+# on which program is running, or what terminal is active.
+#
+# In Linux console, do the right thing and fix annoing.
+$if TERM=linux
+    "\e[1~": beginning-of-line		# Home now will work
+    "\e[4~": end-of-line		# End now will work
+    "\e[3~": delete-char		# And even Delete will work
+$endif # TERM=linux
+
+# Fix the same thing in xterm windows.
+$if TERM=xterm
+    "\e[\C-@": beginning-of-line	# Home now will work
+    "\e[e":    end-of-line		# End now will work
+    "\C-?":    delete-char		# And even Delete will work
+$endif TERM=xterm
+
+# Under Bash we bind some local Fn keys to do something useful.
+$if Bash
+    
+    "\e[17~": "startx\C-m"
+    "\e[18~": ""	
+###    "\e[19~": "mc -c\C-m"	
+    "\e[20~": ""
+    "\e[21~": "exit\C-m"	
+    "\e[22~": "ejectcd\C-m"
+    "\e[23~": "cdin\C-m"
+
+
+
+    $if TERM=linux
+	"\e[31~": "startx\C-m"	# Shift+F7 - Start Xwindows
+    $endif TERM=linux
+$endif # Bash
+
+set meta-flag on
+set convert-meta off
+set output-meta on
+# End of Easy-Cyrillic.
+

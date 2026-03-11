@@ -1,0 +1,14 @@
+# include bash_comletion
+if [ -f ~/PACKAGEMGMT/Gentoo/etc/profile.d/bash-completion.sh ]; then
+        source ~/PACKAGEMGMT/Gentoo/etc/profile.d/bash-completion.sh
+fi
+
+alias emerge_update_system='emerge -av --update --deep --newuse system'
+alias emerge_update_world='emerge -av --update --deep --newuse world'
+alias emerge_depclean='emerge -av --depclean'
+#alias emerge='emerge -av'
+alias emerge='emerge -av --noreplace'
+alias emerge_complete_remove='CONFIG_PROTECT="-*" CONFIG_MASK="-*" emerge -Cva'
+alias emerge_sync='emerge --sync && eupdatedb && layman -s ALL'
+
+ 

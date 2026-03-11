@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# ~/.sleep — executed by sleepwatcher on system sleep
+# Managed by Nix (home.nix); edit in modules/dotfiles/macos/.sleep
+
+# Disable Bluetooth on sleep
+"${HOME}/PACKAGEMGMT/Homebrew/bin/blueutil" -p 0
+
+# Disable Wi-Fi on sleep
+/usr/sbin/networksetup -setairportpower en0 off

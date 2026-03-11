@@ -1,5 +1,5 @@
 {
-  description = "GMv's super basic macOS Nix SetUp via nix-darwin + Home-Manager flake";
+  description = "GMv's macOS Nix setup — nix-darwin + Home-Manager (multi-machine)";
 
   inputs = {
     nixpkgs      .url = "github:NixOS/nixpkgs/nixpkgs-unstable";
@@ -10,69 +10,57 @@
     home-manager .url = "github:nix-community/home-manager";
     home-manager .inputs.nixpkgs.follows = "nixpkgs";
 
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     ######################################
     # Homebrew bootstrap (nix-homebrew)
     ######################################
     nix-homebrew.url   = "github:zhaofengli/nix-homebrew";
 
-    # Pin the two official taps so your build is reproducible
     homebrew-core  = { url = "github:homebrew/homebrew-core";  flake = false; };
     homebrew-cask  = { url = "github:homebrew/homebrew-cask";  flake = false; };
-    mas-cli-tap = { url = "github:mas-cli/homebrew-tap"; flake = false; };
-    xtool-org-tap = { url = "github:xtool-org/homebrew-tap"; flake = false; };
+    mas-cli-tap    = { url = "github:mas-cli/homebrew-tap";    flake = false; };
+    xtool-org-tap  = { url = "github:xtool-org/homebrew-tap";  flake = false; };
 
     # FlakeHub
     fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*";
 
     kylef-formulae = { url = "github:kylef/homebrew-formulae"; flake = false; };
-    swiftbrew-tap = { url = "github:swiftbrew/homebrew-tap"; flake = false; };
-    sdkman-tap = { url = "github:sdkman/homebrew-tap"; flake = false; };
+    swiftbrew-tap  = { url = "github:swiftbrew/homebrew-tap";  flake = false; };
+    sdkman-tap     = { url = "github:sdkman/homebrew-tap";     flake = false; };
   };
 
-  # outputs = { self, nixpkgs, nix-darwin, home-manager, nix-homebrew, homebrew-core, homebrew-cask, ... }@inputs:
-  outputs = { self, nixpkgs, nix-darwin, home-manager, nix-homebrew, homebrew-core, homebrew-cask, mas-cli-tap, xtool-org-tap, ... }@inputs:
+  outputs = { self, nixpkgs, nix-darwin, home-manager, nix-homebrew, ... }@inputs:
 
   let
-    system    = "aarch64-darwin";
-    # pkgs    = nixpkgs.legacyPackages.${system};
-    host      = "minidevbox";   # or builtins.getEnv "HOSTNAME";   # or get with: scutil --get LocalHostName
-    user      = "r1pp3r";
-  in {
-    # darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
-    darwinConfigurations.${host} = nix-darwin.lib.darwinSystem {
-      inherit system;
+    # ── Helper: build a darwinSystem for one machine ─────────────────────────
+    # host, user, system are injected into every module via specialArgs.
+    # To add a machine: copy a block in darwinConfigurations below.
+    mkDarwin = { host, user, system ? "aarch64-darwin" }:
+      nix-darwin.lib.darwinSystem {
+        inherit system;
+        specialArgs = { inherit host user inputs; };
 
-      # make `user` available to every module
-      specialArgs = { inherit user inputs; };
+        modules = [
+          # ── macOS-level configuration ──────────────────────────────────────
+          ./modules/system.nix
 
-      modules = [
-        # ---------- macOS-level configuration ----------
-        ./modules/system.nix  
+          # home directory for the primary user
+          ({ ... }: { users.users.${user}.home = "/Users/${user}"; })
 
-        # Tell nix-darwin where the *real* home directory is
-        ({ ... }: { users.users.${user}.home = "/Users/${user}"; })
-
-        # ── Homebrew core (pinned) ───────────────────────────────
-        nix-homebrew.darwinModules.nix-homebrew
-        ({ nix-homebrew = {
+          # ── Homebrew ───────────────────────────────────────────────────────
+          nix-homebrew.darwinModules.nix-homebrew
+          ({ ... }: { nix-homebrew = {
             enable      = true;
             user        = user;
             mutableTaps = true;
-            # NOTE: autoMigrate only copies the *default* prefixes
-            #       (/opt/homebrew, /usr/local). It has no effect on
-            #       your custom ~/PACKAGEMGMT prefix, so we drop it.
-            autoMigrate  = true;
-
-            taps = {
-            #   "homebrew/homebrew-core" = inputs.homebrew-core;
-            #   "homebrew/homebrew-cask" = inputs.homebrew-cask;
-            #   # in the following null → follow upstream HEAD              
-            };
+            autoMigrate = true;
+            taps        = {};
 
             prefixes."/Users/${user}/PACKAGEMGMT/Homebrew" = {
               enable  = true;
-              library = "/Users/${user}/PACKAGEMGMT/Homebrew/Library";              
-              # You could pin extra taps *specific to this prefix*              
+              library = "/Users/${user}/PACKAGEMGMT/Homebrew/Library";
               taps = {
                 "kylef/formulae" = inputs.kylef-formulae;
                 "mas-cli/tap"    = inputs.mas-cli-tap;
@@ -81,25 +69,45 @@
                 "xtool-org/tap"  = inputs.xtool-org-tap;
               };
             };
-          };
-        })
+          }; })
 
-        # ── Declarative formulas / casks list ───────────────────
-        ./modules/homebrew.nix
+          ./modules/homebrew.nix
 
-        # ---------- Home-Manager integration ----------
-        home-manager.darwinModules.home-manager
-        ({
-          home-manager.useGlobalPkgs   = true;
-          home-manager.useUserPackages = true;
+          # ── Home Manager ───────────────────────────────────────────────────
+          home-manager.darwinModules.home-manager
+          ({ ... }: {
+            home-manager.useGlobalPkgs   = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = { inherit host user inputs; };
+            home-manager.sharedModules   = [ inputs.sops-nix.homeManagerModules.sops ];
+            home-manager.users.${user}   = import ./modules/home.nix;
+          })
+        ];
+      };
 
-          # pass `user` into Home-Manager modules
-          home-manager.extraSpecialArgs = { inherit user inputs; };
+  in {
+    darwinConfigurations = {
+      # Apply:  darwin-rebuild switch --flake .#<host>
+      # Build:  darwin-rebuild build  --flake .#<host>  (no activation)
 
-          # per-user HM configuration
-          home-manager.users.${user} = import ./modules/home.nix;
-        })
-      ];
+      "minidevbox" = mkDarwin {
+        host   = "minidevbox";
+        user   = "r1pp3r";
+        system = "aarch64-darwin";
+      };
+
+      # Uncomment + fill in to add another machine:
+      # "macbook" = mkDarwin {
+      #   host   = "macbook";
+      #   user   = "r1pp3r";
+      #   system = "aarch64-darwin";
+      # };
+
+      # "worklaptop" = mkDarwin {
+      #   host   = "worklaptop";
+      #   user   = "gmarkov";    # different username on work machine
+      #   system = "aarch64-darwin";
+      # };
     };
   };
 }

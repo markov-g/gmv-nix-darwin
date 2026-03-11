@@ -1,0 +1,11 @@
+# Rust / Cargo (always available: scripts, launchd, non-login shells)
+export RUSTUP_HOME="${HOME}/.rustup"
+export CARGO_HOME="${HOME}/.cargo"
+export PATH="${CARGO_HOME}/bin:${PATH}"
+# Or source the full cargo env: . "${HOME}/.cargo/env"
+
+# LM Studio CLI
+export PATH="${PATH}:${HOME}/.cache/lm-studio/bin:${HOME}/.lmstudio/bin"
+
+# NOTE: ServBay env vars are intentionally excluded here.
+# This file is managed by nix (read-only symlink); ServBay uses ~/.bash_profile instead.

@@ -1,0 +1,18 @@
+if [ -x "${HOME}/pkg/bin/bmake" ]; then
+	export PATH="${HOME}/pkg/bin:${HOME}/pkg/sbin:$PATH"
+	export MANPATH="${HOME}/pkg/man:$MANPATH"
+fi
+
+if [ -r "${HOME}/pkg/share/bash-completion/bash_completion" ]; then
+    . "${HOME}/pkg/share/bash-completion/bash_completion"
+fi
+
+#export MAKE_JOBS=`sysctl -n hw.ncpu`
+export STRIPFLAG=-s
+export CC=/usr/bin/clang
+export CFLAGS="-pipe -march=native -fomit-frame-pointer -fno-stack-protector -fstrict-aliasing"
+
+# include .profile.include_always if it exists
+if [ -f ~/.profile.include_always ]; then
+        source ~/.profile.include_always
+fi

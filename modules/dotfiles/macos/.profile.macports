@@ -1,0 +1,20 @@
+if [ -x /opt/local/bin/port ]; then
+	export LDFLAGS="-L/opt/local/lib ${LDFLAGS}"
+	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+	export MANPATH=/opt/local/share/man:$MANPATH
+	export INFOPATH=/opt/local/share/info:$INFOPATH
+	export CC="ccache gcc -m64"
+	export CXX="ccache g++ -m64"
+	export CPATH=/opt/local/include:${CPATH}
+	export PKG_CONFIG_PATH=/opt/local/lib/pkgconfig:${PKG_CONFIG_PATH}	
+	export CFLAGS="-I/opt/local/include -L/opt/local/lib -march=native -O2 -pipe -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"	
+	export CPPFLAGS="$CFLAGS"
+	export ACLOCAL_FLAGS="-I /opt/local/share/aclocal"
+	export F77=gfortran-mp-4.2
+fi
+
+# include .profile.include_always if it exists
+if [ -f ~/.profile.include_always ]; then
+        source ~/.profile.include_always
+fi
+

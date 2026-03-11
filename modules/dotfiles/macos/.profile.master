@@ -1,0 +1,32 @@
+# Master profile — sets up PATH/MANPATH/INFOPATH for all installed package managers.
+# Each manager's dedicated .profile.* file overrides/extends these.
+
+# MacPorts
+export MACPORTS_PATH=/opt/local/bin:/opt/local/sbin:/opt/local/apache2/bin:/opt/local/lib/postgresql81/bin:/opt/local/lib/mysql5/bin
+export MACPORTS_MANPATH=/opt/local/share/man
+export MACPORTS_INFOPATH=/opt/local/share/info
+
+# System defaults
+export SYSTEM_PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/sbin:/usr/X11/bin
+export SYSTEM_MANPATH=/usr/share/man:/usr/local/share/man
+export SYSTEM_INFOPATH=/usr/share/info:/usr/local/share/info
+
+# Fink
+export FINK_PATH=/sw/bin:/sw/sbin
+export FINK_MANPATH=/sw/share/man
+export FINK_INFOPATH=/sw/share/info:/sw/info
+
+# pkgsrc / portage (paths added per .profile.pkgsrc / .profile.portage)
+export PKGSCR_PATH=~/bin:~/pkg/bin:~/pkg/sbin
+export PKGSRC_MANPATH=
+export PKGSRC_INFOPATH=
+export PORTAGE_PATH=
+export PORTAGE_MANPATH=
+export PORTAGE_INFOPATH=
+
+export PATH=$MACPORTS_PATH:$SYSTEM_PATH:$FINK_PATH:$PKGSCR_PATH:$PORTAGE_PATH:$PATH
+export MANPATH=$MACPORTS_MANPATH:$SYSTEM_MANPATH:$FINK_MANPATH:$PKGSRC_MANPATH:$PORTAGE_MANPATH:$MANPATH
+export INFOPATH=$MACPORTS_INFOPATH:$SYSTEM_INFOPATH:$FINK_INFOPATH:$PKGSRC_INFOPATH:$PORTAGE_INFOPATH:$INFOPATH
+
+# include .profile.include_always if it exists
+[ -f ~/.profile.include_always ] && source ~/.profile.include_always

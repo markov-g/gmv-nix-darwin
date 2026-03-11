@@ -1,0 +1,37 @@
+# don't display copyright page
+startup_message off
+
+# no audible bell, just visual
+vbell on
+vbell_msg "bell on %t (%n)"
+
+# scroll back
+defscrollback 20000
+
+# allow bold colors
+attrcolor b ".I"
+attrcolor i "+b"
+
+caption always "%{=u .d} %-w%<%{=ub .B}%n %t%{=u .d}%+w "
+hardstatus on
+hardstatus alwayslastline
+hardstatus string '%{= kG}[ %{G}%H %{g}][%= %{= kw}%?%-Lw%?%{r}(%{W}%n*%f%t%?(%u)%?%{r})%{w}%?%+Lw%?%?%= %{g}][%{B} %d/%m %{W}%c %{g}]'%
+
+# window setup
+screen -t '0: ~/Desktop'  zsh -c "cd ~/Desktop; zsh -l"
+screen -t '1: macports'   zsh -c "sleep 2;  cd ~; source .profile.macports; cd /opt/local; zsh -l"
+screen -t '2: homebrew'   zsh -c "sleep 4;  cd ~; source .profile.homebrew; cd ~/PACKAGEMGMT/Homebrew; zsh -l"
+screen -t '3: NixPkg'     zsh -c "sleep 10; cd ~/.config/nix-darwin; zsh -l"
+screen -t '4: RUST'       zsh -c "sleep 15; cd ~/.cargo; zsh -l"
+screen -t '5: Emacs'      zsh -c "sleep 20; cd ~; source .profile.homebrew; /Applications/Emacs.app/Contents/MacOS/Emacs &; zsh -l"
+screen -t '6: ~'          zsh -c "sleep 5;  cd ~; zsh -l"
+screen -t '7: diss'       zsh -c "sleep 6;  cd ~/git-repos/overleaf.com/diss; zsh -l"
+screen -t '8: xcode'      zsh -c "sleep 7;  cd ~/git-repos/github.com/xcode-playground; zsh -l"
+screen -t '9: py'         zsh -c "sleep 8;  cd ~/git-repos/github.com/PythonPlayground; zsh -l"
+screen -t '10: rst'       zsh -c "sleep 9;  cd ~/git-repos/github.com/rust-playground; zsh -l"
+screen -t '11: jvm'       zsh -c "sleep 10; cd ~/git-repos/github.com/JavaWorkspace; zsh -l"
+screen -t '12: .NET'      zsh -c "sleep 11; cd ~/git-repos/github.com/dotNetPlayground; zsh -l"
+screen -t '13: cpp'       zsh -c "sleep 12; cd ~/git-repos/github.com/CPPPlayground; zsh -l"
+screen -t '14: DevEnv'    zsh -c "sleep 12; cd ~/git-repos/github.com/DevEnv; zsh -l"
+screen -t '15: siemens'   zsh -c "sleep 12; cd ~/git-repos/code.siemens.com; zsh -l"
+screen -t '16: exercism'  zsh -c "sleep 12; cd ~/git-repos/github.com/exercism; zsh -l"

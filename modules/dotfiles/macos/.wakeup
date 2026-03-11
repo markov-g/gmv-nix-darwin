@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# ~/.wakeup — executed by sleepwatcher on system wake
+# Managed by Nix (home.nix); edit in modules/dotfiles/macos/.wakeup
+
+# Re-enable Bluetooth on wake
+"${HOME}/PACKAGEMGMT/Homebrew/bin/blueutil" -p 1
+
+# Re-enable Wi-Fi on wake
+/usr/sbin/networksetup -setairportpower en0 on
+
+# Restart ollama (LLM inference server) so models are available immediately
+"${HOME}/PACKAGEMGMT/Homebrew/bin/brew" services restart ollama

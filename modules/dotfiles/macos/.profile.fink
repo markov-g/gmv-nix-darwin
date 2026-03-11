@@ -1,0 +1,17 @@
+if [ -r /sw/bin/init.csh ]; then
+	source /sw/bin/init.sh
+	export LDFLAGS="-L/sw/lib $LDFLAGS"
+	export CPATH=/sw/include:$CPATH
+	export PKG_CONFIG_PATH=/sw/lib/pkgconfig:$PKG_CONFIG_PATH
+	export CFLAGS="-I/sw/include -L/sw/lib -march=native -O2 -pipe"
+	export CXXFLAGS=$CFLAGS
+	export CPPFLAGS=$CXXFLAGS
+	export ACLOCAL_FLAGS=-I/sw/share/aclocal
+	export MACOSX_DEPLOYMENT_TARGET=10.13
+fi
+
+# enable programmable completion features
+[ -f /sw/etc/bash_completion ] && source /sw/etc/bash_completion
+
+# include .profile.include_always if it exists
+[ -f ~/.profile.include_always ] && source ~/.profile.include_always
