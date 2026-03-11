@@ -18,8 +18,13 @@ fatal() { echo "${LOG_PREFIX} FATAL: $*" >&2; exit 1; }
 
 [[ "$(uname)" == "Darwin" ]] || fatal "macOS only."
 
+# Check if Nix is already installed — either on PATH or at the well-known location
 if command -v nix &>/dev/null; then
   info "Nix is already installed: $(nix --version)"
+  exit 0
+elif [[ -d "/nix/store" ]]; then
+  info "Nix is already installed (/nix/store exists). Source the daemon profile to use it:"
+  info "  source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh"
   exit 0
 fi
 

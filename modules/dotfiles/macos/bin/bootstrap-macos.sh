@@ -71,8 +71,8 @@ if ! command -v nix &>/dev/null; then
 
   if ! command -v nix &>/dev/null; then
     echo ""
-    echo "  The Determinate Nix DMG has been opened."
-    echo "  Complete the installation, open a NEW terminal, then re-run:"
+    echo "  Nix was installed but is not yet on PATH."
+    echo "  Open a NEW terminal, then re-run:"
     echo "    bash ${NIX_CONFIG_DIR}/modules/dotfiles/macos/bin/bootstrap-macos.sh"
     exit 0
   fi

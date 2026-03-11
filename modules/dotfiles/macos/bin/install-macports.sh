@@ -15,8 +15,13 @@ fatal() { echo "${LOG_PREFIX} FATAL: $*" >&2; exit 1; }
 
 [[ "$(uname)" == "Darwin" ]] || fatal "macOS only."
 
+# Check if MacPorts is already installed — either on PATH or at the well-known location
 if command -v port &>/dev/null; then
   info "MacPorts already installed: $(port version)"
+  exit 0
+elif [[ -x "/opt/local/bin/port" ]]; then
+  info "MacPorts is already installed (/opt/local/bin/port exists). Activate it with:"
+  info "  source ~/.profile.macports"
   exit 0
 fi
 
