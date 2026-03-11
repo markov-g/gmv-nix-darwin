@@ -57,8 +57,12 @@
     ripgrep    # rg — fast grep
     jq         # JSON processor (essential everywhere)
 
-    # ── Runtime — needed by Mason (nvim) to install npm-based LSP servers ───
+    # ── Runtime & LSP servers — Mason can't always build these on aarch64 ───
     nodejs     # node + npm (pyright, vtsls, yaml-ls, etc.)
+    go         # Go toolchain (gopls needs it)
+    nil        # Nix LSP (nil_ls)
+    statix     # Nix linter (used by LazyVim nix extra)
+    gopls      # Go LSP server
 
     # ── Editor ────────────────────────────────────────────────────────────────
     neovim     # editor — LazyVim config in ~/.config/nvim

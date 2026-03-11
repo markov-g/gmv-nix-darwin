@@ -4,13 +4,12 @@
 -- ─────────────────────────────────────────────────────────────────────────────
 return {
   -- ── Mason: ensure these servers/tools are installed ──────────────────────────
+  -- NOTE: Many LSP servers (nil, gopls, statix) are provided by nix system
+  -- packages and found on PATH. Mason is only needed for tools not in nixpkgs.
   {
     "mason-org/mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
-      -- Only list tools NOT already installed by LazyVim language extras.
-      -- Extras already handle: bash-language-server, shfmt, yaml-language-server,
-      -- marksman, markdownlint, hadolint, nil, stylua, etc.
       vim.list_extend(opts.ensure_installed, {
         -- .NET / C#
         "omnisharp",
@@ -22,6 +21,14 @@ return {
         "nixpkgs-fmt",
       })
     end,
+  },
+
+  -- Tell mason-lspconfig not to auto-install servers already on PATH (nix-provided)
+  {
+    "mason-org/mason-lspconfig.nvim",
+    opts = {
+      automatic_installation = { exclude = { "nil_ls", "gopls", "rust_analyzer", "clangd", "zls" } },
+    },
   },
 
   -- ── nvim-lspconfig: extra server configs ─────────────────────────────────────
