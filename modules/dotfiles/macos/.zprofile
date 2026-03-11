@@ -15,6 +15,11 @@
 #   source ~/.profile.kubectl    → helm + eksctl completions
 ##############################################################################
 
+# ── 0. Locale — must be UTF-8 for Nerd Fonts / wide Unicode in tmux ──────────
+# macOS GUI sessions set this automatically; SSH sessions often don't.
+export LANG="${LANG:-en_US.UTF-8}"
+export LC_ALL="${LC_ALL:-en_US.UTF-8}"
+
 # ── 1. System PATH (reads /etc/paths + /etc/paths.d/ — includes Nix via /etc/paths.d/nix)
 [[ -x /usr/libexec/path_helper ]] && eval $(/usr/libexec/path_helper -s)
 
