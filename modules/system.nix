@@ -17,7 +17,16 @@
   # Security
   ########################################
   # Allow Touch ID to authenticate sudo in Terminal
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
+
+  ########################################
+  # Application Firewall
+  ########################################
+  networking.applicationFirewall.enable            = true;
+  networking.applicationFirewall.blockAllIncoming   = false;
+  networking.applicationFirewall.enableStealthMode  = true;   # don't respond to pings
+  networking.applicationFirewall.allowSigned        = false;  # don't auto-allow ALL signed apps
+  networking.applicationFirewall.allowSignedApp     = false;  # don't auto-allow App Store apps
 
   ########################################
   # Keyboard
@@ -145,11 +154,8 @@
     # ── Login window ──────────────────────────────────────────────────────────
     loginwindow.GuestEnabled = false;
 
-    # ── Application Layer Firewall (ALF) ─────────────────────────────────────
-    alf.globalstate                    = 1;  # enable macOS application firewall
-    alf.stealthenabled                 = 1;  # stealth mode — don't respond to pings
-    alf.allowsignedenabled             = 0;  # don't auto-allow ALL signed apps
-    alf.allowdownloadsignedenabled     = 0;  # don't auto-allow App Store apps
+    # ── Application Layer Firewall ────────────────────────────────────────────
+    # (moved to networking.applicationFirewall — see below)
 
     # ── Screensaver ───────────────────────────────────────────────────────────
     screensaver.askForPassword      = 1;   # require password to unlock screensaver
