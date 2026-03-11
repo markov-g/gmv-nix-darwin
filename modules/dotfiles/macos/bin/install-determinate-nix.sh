@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# install-determinate-nix.sh — Download the Determinate Nix macOS .pkg installer
-# and open it for GUI installation.
+# install-determinate-nix.sh — Download and install the Determinate Nix macOS
+# .pkg from the command line (no GUI needed).
 #
 # Determinate Nix is a reliable, production-grade Nix distribution for macOS:
 # https://determinate.systems/nix
@@ -34,7 +34,6 @@ else
   curl -fL --progress-bar "${DOWNLOAD_URL}" -o "${DEST}"
 fi
 
-# ── Open for installation ─────────────────────────────────────────────────────
-info "Opening ${DEST} ..."
-info "Complete the installer, then return here and re-run bootstrap-macos.sh"
-open "${DEST}"
+# ── Install from command line ─────────────────────────────────────────────────
+info "Installing ${DEST} (will prompt for sudo password)..."
+sudo installer -pkg "${DEST}" -target /
