@@ -24,6 +24,8 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
+  -- lockfile must be writable; ~/.config/nvim is a read-only nix store symlink
+  lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
   spec = {
     -- ── LazyVim core ────────────────────────────────────────────────────────
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },

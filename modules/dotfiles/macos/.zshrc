@@ -190,7 +190,7 @@ man() {
     man "$@"
 }
 
-repeat() {
+repeat-cmd() {
   local i max=$1; shift
   for ((i=1; i <= max; i++)); do eval "$@"; done
 }
@@ -258,3 +258,7 @@ fi
 if command -v atuin &>/dev/null; then
   eval "$(atuin init zsh --disable-up-arrow)"
 fi
+
+# ── Powerlevel10k instant prompt & config ────────────────────────────────────
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
