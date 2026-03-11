@@ -158,7 +158,7 @@
     # (moved to networking.applicationFirewall — see below)
 
     # ── Screensaver ───────────────────────────────────────────────────────────
-    screensaver.askForPassword      = 1;   # require password to unlock screensaver
+    screensaver.askForPassword      = true;   # require password to unlock screensaver
     screensaver.askForPasswordDelay = 0;   # immediately (no grace period)
 
     # ── Spaces / Mission Control ──────────────────────────────────────────────
