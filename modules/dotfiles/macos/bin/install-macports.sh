@@ -30,6 +30,7 @@ MACOS_VERSION="$(sw_vers -productVersion)"
 MACOS_MAJOR="$(echo "${MACOS_VERSION}" | cut -d. -f1)"
 
 case "${MACOS_MAJOR}" in
+  26) MACOS_NAME="Tahoe"    ;;
   15) MACOS_NAME="Sequoia"  ;;
   14) MACOS_NAME="Sonoma"   ;;
   13) MACOS_NAME="Ventura"  ;;
