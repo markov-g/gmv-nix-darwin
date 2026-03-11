@@ -132,35 +132,43 @@ fi
 SERVBAY_APP="/Applications/ServBay.app"
 if [[ ! -d "${SERVBAY_APP}" ]]; then
   if ask "Install ServBay (local dev environment — PHP, MySQL, Redis, Node, etc.)?"; then
-    SERVBAY_URL="https://dl.servbay.com/release/latest/ServBayInstaller.dmg"
-    SERVBAY_DMG="${HOME}/Downloads/ServBayInstaller.dmg"
+    # Scrape the current stable DMG URL from the download page
+    info "Fetching latest ServBay download URL..."
+    SERVBAY_URL="$(curl -fsSL https://www.servbay.com/download \
+      | grep -oE 'https://dl\.servbay\.com/release/ServBayInstaller-v[0-9][^"'"'"']*\.dmg' \
+      | head -1)"
+    [[ -n "${SERVBAY_URL}" ]] || { warn "Could not find ServBay DMG URL. Download manually from https://www.servbay.com/download"; SERVBAY_URL=""; }
 
-    if [[ ! -f "${SERVBAY_DMG}" ]]; then
-      info "Downloading ServBay..."
-      curl -fL --progress-bar "${SERVBAY_URL}" -o "${SERVBAY_DMG}"
-    else
-      info "Already downloaded: ${SERVBAY_DMG}"
+    if [[ -n "${SERVBAY_URL}" ]]; then
+      SERVBAY_DMG="${HOME}/Downloads/$(basename "${SERVBAY_URL}")"
+
+      if [[ ! -f "${SERVBAY_DMG}" ]]; then
+        info "Downloading ServBay..."
+        curl -fL --progress-bar "${SERVBAY_URL}" -o "${SERVBAY_DMG}"
+      else
+        info "Already downloaded: ${SERVBAY_DMG}"
+      fi
+
+      info "Mounting ServBay DMG..."
+      MOUNT_POINT="$(hdiutil attach "${SERVBAY_DMG}" -nobrowse -readonly | grep '/Volumes/' | awk -F'\t' '{print $NF}')"
+
+      SERVBAY_PKG="$(find "${MOUNT_POINT}" -maxdepth 1 -name '*.pkg' -print -quit 2>/dev/null)"
+      SERVBAY_APPDIR="$(find "${MOUNT_POINT}" -maxdepth 1 -name '*.app' -print -quit 2>/dev/null)"
+
+      if [[ -n "${SERVBAY_PKG}" ]]; then
+        info "Installing ServBay via pkg..."
+        sudo installer -pkg "${SERVBAY_PKG}" -target /
+      elif [[ -n "${SERVBAY_APPDIR}" ]]; then
+        info "Copying ServBay.app to /Applications..."
+        cp -R "${SERVBAY_APPDIR}" /Applications/
+      else
+        warn "Could not find .pkg or .app inside DMG. Open it manually:"
+        warn "  open ${SERVBAY_DMG}"
+      fi
+
+      hdiutil detach "${MOUNT_POINT}" -quiet 2>/dev/null || true
+      info "ServBay installed."
     fi
-
-    info "Mounting ServBay DMG..."
-    MOUNT_POINT="$(hdiutil attach "${SERVBAY_DMG}" -nobrowse -readonly | grep '/Volumes/' | awk -F'\t' '{print $NF}')"
-
-    SERVBAY_PKG="$(find "${MOUNT_POINT}" -maxdepth 1 -name '*.pkg' -print -quit 2>/dev/null)"
-    SERVBAY_APPDIR="$(find "${MOUNT_POINT}" -maxdepth 1 -name '*.app' -print -quit 2>/dev/null)"
-
-    if [[ -n "${SERVBAY_PKG}" ]]; then
-      info "Installing ServBay via pkg..."
-      sudo installer -pkg "${SERVBAY_PKG}" -target /
-    elif [[ -n "${SERVBAY_APPDIR}" ]]; then
-      info "Copying ServBay.app to /Applications..."
-      cp -R "${SERVBAY_APPDIR}" /Applications/
-    else
-      warn "Could not find .pkg or .app inside DMG. Open it manually:"
-      warn "  open ${SERVBAY_DMG}"
-    fi
-
-    hdiutil detach "${MOUNT_POINT}" -quiet 2>/dev/null || true
-    info "ServBay installed."
   else
     info "Skipped ServBay."
   fi
