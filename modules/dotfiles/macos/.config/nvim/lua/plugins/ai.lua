@@ -16,17 +16,19 @@ return {
   -- ── Avante: Claude / GPT AI assistant panel ─────────────────────────────────
   {
     "yetone/avante.nvim",
-    event   = "VeryLazy",
+    cmd     = { "AvanteAsk", "AvanteEdit", "AvanteToggle", "AvanteRefresh", "AvanteSwitchProvider" },
     version = false,   -- always use the latest commit
     opts = {
       provider = "claude",
       auto_suggestions_provider = "claude",
-      claude = {
-        endpoint    = "https://api.anthropic.com",
-        model       = "claude-sonnet-4-5",
-        timeout     = 30000,
-        temperature = 0,
-        max_tokens  = 8096,
+      providers = {
+        claude = {
+          endpoint    = "https://api.anthropic.com",
+          model       = "claude-sonnet-4-5",
+          timeout     = 30000,
+          temperature = 0,
+          max_tokens  = 8096,
+        },
       },
       behaviour = {
         auto_suggestions          = false, -- use supermaven for inline, avante for chat

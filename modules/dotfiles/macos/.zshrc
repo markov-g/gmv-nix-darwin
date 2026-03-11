@@ -1,4 +1,5 @@
-export TERM="xterm-256color"
+# Set TERM only outside tmux — inside tmux, let tmux's default-terminal (tmux-256color) win.
+[[ -z "$TMUX" ]] && export TERM="xterm-256color"
 
 # ── Plugin manager (antigen) ──────────────────────────────────────────────────
 source ~/PACKAGEMGMT/Homebrew/share/antigen/antigen.zsh

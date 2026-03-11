@@ -5,30 +5,21 @@
 return {
   -- ── Mason: ensure these servers/tools are installed ──────────────────────────
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
+      -- Only list tools NOT already installed by LazyVim language extras.
+      -- Extras already handle: bash-language-server, shfmt, yaml-language-server,
+      -- marksman, markdownlint, hadolint, nil, stylua, etc.
       vim.list_extend(opts.ensure_installed, {
         -- .NET / C#
         "omnisharp",
-        -- Shell / Bash
-        "bash-language-server",
-        "shfmt",
+        -- Shell
         "shellcheck",
-        -- YAML / CI (GitHub Actions schema auto-injected via yaml-language-server)
-        "yaml-language-server",
-        -- Markdown
-        "markdownlint",
-        "marksman",
-        -- Dockerfile
-        "hadolint",
         -- SQL
         "sqlfluff",
         -- Nix
-        "nil",
         "nixpkgs-fmt",
-        -- Lua
-        "stylua",
       })
     end,
   },
