@@ -149,7 +149,7 @@
     alf.globalstate                    = 1;  # enable macOS application firewall
     alf.stealthenabled                 = 1;  # stealth mode — don't respond to pings
     alf.allowsignedenabled             = 0;  # don't auto-allow ALL signed apps
-    alf.allowdownloadssignedenabled    = 0;  # don't auto-allow App Store apps
+    alf.allowdownloadsignedenabled     = 0;  # don't auto-allow App Store apps
 
     # ── Screensaver ───────────────────────────────────────────────────────────
     screensaver.askForPassword      = 1;   # require password to unlock screensaver
