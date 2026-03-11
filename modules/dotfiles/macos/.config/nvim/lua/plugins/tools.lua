@@ -125,13 +125,15 @@ return {
   -- },
 
   -- ── rest.nvim: HTTP client inside nvim (.http files) ────────────────────────
-  {
-    "rest-nvim/rest.nvim",
-    ft   = { "http" },
-    opts = {},
-    keys = {
-      { "<leader>rr", "<cmd>Rest run<cr>",      desc = "Run REST request" },
-      { "<leader>rl", "<cmd>Rest run last<cr>", desc = "Run last REST request" },
-    },
-  },
+  -- Disabled: requires luarocks build which fails in nix-managed config.
+  -- Re-enable once rest.nvim moves off luarocks or when luarocks is on PATH.
+  -- {
+  --   "rest-nvim/rest.nvim",
+  --   ft   = { "http" },
+  --   opts = {},
+  --   keys = {
+  --     { "<leader>rr", "<cmd>Rest run<cr>",      desc = "Run REST request" },
+  --     { "<leader>rl", "<cmd>Rest run last<cr>", desc = "Run last REST request" },
+  --   },
+  -- },
 }
