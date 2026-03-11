@@ -39,10 +39,12 @@
     # To add a machine: copy a block in darwinConfigurations below.
     mkDarwin = { host, user, system ? "aarch64-darwin" }:
       nix-darwin.lib.darwinSystem {
-        inherit system;
         specialArgs = { inherit host user inputs; };
 
         modules = [
+          # ── Set target platform (replaces deprecated `system` arg) ───────
+          { nixpkgs.hostPlatform = system; }
+
           # ── macOS-level configuration ──────────────────────────────────────
           ./modules/system.nix
 

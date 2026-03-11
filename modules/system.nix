@@ -53,7 +53,7 @@
     eza        # modern ls
     fzf        # fuzzy finder
     fd         # fast find (fzf companion)
-    git-delta  # better git diff / pager
+    delta      # better git diff / pager (git-delta)
     ripgrep    # rg — fast grep
     jq         # JSON processor (essential everywhere)
 
