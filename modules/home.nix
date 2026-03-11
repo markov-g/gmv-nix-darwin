@@ -19,17 +19,17 @@
     autojump    
   ];
 
-  # Raw configuration files — filenames with .${user} are per-user variants
+  # Raw configuration files (shared across all users/machines)
   home.file = {
     # ── Shell ───────────────────────────────────────────────────
-    ".zshrc".source    = ./dotfiles/macos/.zshrc.${user};
+    ".zshrc".source    = ./dotfiles/macos/.zshrc;
     # .zshenv is intentionally NOT managed by Nix — it must remain a regular writable
     # file so that apps like ServBay can inject / rewrite their env blocks.
     # On a new machine, seed it once: cp modules/dotfiles/macos/.zshenv.seed ~/.zshenv
-    ".zprofile".source = ./dotfiles/macos/.zprofile.${user};
+    ".zprofile".source = ./dotfiles/macos/.zprofile;
 
     # ── Git ─────────────────────────────────────────────────────
-    ".gitconfig".source        = ./dotfiles/macos/.gitconfig.${user};
+    ".gitconfig".source        = ./dotfiles/macos/.gitconfig;
     ".gitignore_global".source = ./dotfiles/macos/.gitignore_global;
 
     # ── Terminal utilities ───────────────────────────────────────
@@ -45,7 +45,7 @@
     ".profile.homebrew".source       = ./dotfiles/macos/.profile.homebrew;
     ".profile.macports".source       = ./dotfiles/macos/.profile.macports;
     ".profile.fink".source           = ./dotfiles/macos/.profile.fink;
-    ".profile.pkgsrc".source         = ./dotfiles/macos/.profile.pkgsrc.${user};
+    ".profile.pkgsrc".source         = ./dotfiles/macos/.profile.pkgsrc;
     ".profile.portage".source        = ./dotfiles/macos/.profile.portage;
     ".profile.kubectl".source        = ./dotfiles/macos/.profile.kubectl;
 
