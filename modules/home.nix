@@ -97,14 +97,14 @@
     TPM_DIR="$HOME/.tmux/plugins/tpm"
     if [ ! -d "$TPM_DIR/.git" ]; then
       echo "[bootstrap] Cloning TPM (Tmux Plugin Manager)..."
-      $DRY_RUN_CMD git clone --depth=1 https://github.com/tmux-plugins/tpm "$TPM_DIR"
+      $DRY_RUN_CMD /usr/bin/git clone --depth=1 https://github.com/tmux-plugins/tpm "$TPM_DIR"
     fi
   '';
 
   home.activation.bootstrapFzfGit = lib.hm.dag.entryAfter ["writeBoundary"] ''
     if [ ! -f "$HOME/.fzf-git.sh/fzf-git.sh" ]; then
       echo "[bootstrap] Cloning fzf-git.sh..."
-      $DRY_RUN_CMD git clone --depth=1 https://github.com/junegunn/fzf-git.sh "$HOME/.fzf-git.sh"
+      $DRY_RUN_CMD /usr/bin/git clone --depth=1 https://github.com/junegunn/fzf-git.sh "$HOME/.fzf-git.sh"
     fi
   '';
 
