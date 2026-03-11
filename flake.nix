@@ -90,24 +90,39 @@
       # Apply:  darwin-rebuild switch --flake .#<host>
       # Build:  darwin-rebuild build  --flake .#<host>  (no activation)
 
+      "worklaptop" = mkDarwin {
+        host   = "r1pp3r";
+        user   = "r1pp3r"; 
+        system = "aarch64-darwin";
+      };
+
+      "worklaptop" = mkDarwin {
+        host   = "SE1FXHLQH3MTP";
+        user   = "mch12700";    # different username on work machine
+        system = "aarch64-darwin";
+      };
+
       "minidevbox" = mkDarwin {
         host   = "minidevbox";
         user   = "r1pp3r";
         system = "aarch64-darwin";
+      };      
+
+      "macbook" = mkDarwin {
+        host   = "minidevboxvm";
+        user   = "devel";
+        system = "aarch64-darwin";
       };
 
-      # Uncomment + fill in to add another machine:
-      # "macbook" = mkDarwin {
-      #   host   = "macbook";
-      #   user   = "r1pp3r";
-      #   system = "aarch64-darwin";
-      # };
+      # Uncomment + fill in to add another machine:      
 
       # "worklaptop" = mkDarwin {
       #   host   = "worklaptop";
       #   user   = "gmarkov";    # different username on work machine
       #   system = "aarch64-darwin";
       # };
+
+      
     };
   };
 }
