@@ -21,6 +21,9 @@
     mas-cli-tap = { url = "github:mas-cli/homebrew-tap"; flake = false; };
     xtool-org-tap = { url = "github:xtool-org/homebrew-tap"; flake = false; };
 
+    # FlakeHub
+    fh.url = "https://flakehub.com/f/DeterminateSystems/fh/*";
+
     kylef-formulae = { url = "github:kylef/homebrew-formulae"; flake = false; };
     swiftbrew-tap = { url = "github:swiftbrew/homebrew-tap"; flake = false; };
     sdkman-tap = { url = "github:sdkman/homebrew-tap"; flake = false; };

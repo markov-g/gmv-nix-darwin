@@ -1,4 +1,4 @@
-{ pkgs, user, ... }:
+{ pkgs, user, inputs, ... }:
 {  
   # Don’t let Determinate’s top level enable nix; nix-darwin takes over.
   nix.enable = false;  
@@ -28,6 +28,7 @@
     bat                # cat with syntax highlight
     eza                # modern ls replacement    
     tmux
+    inputs.fh.packages.${pkgs.system}.default
   ];
 
   # (Optional) macOS services, e.g. 

@@ -9,13 +9,13 @@ in
     enable                  = true;           # tells nix-darwin to run `brew bundle`
     # taps                    = builtins.attrNames config.nix-homebrew.taps;
     taps                      = builtins.attrNames config.nix-homebrew.prefixes."/Users/${user}/PACKAGEMGMT/Homebrew".taps;
-    brewPrefix              = "/Users/${user}/PACKAGEMGMT/Homebrew/bin";
+    prefix                  = "/Users/${user}/PACKAGEMGMT/Homebrew";
     brews                   = brews;
     casks                   = casks;
     masApps                 = {               # add MAS apps later if you like
       "Kagi for Safari" = 1622835804;
       "Microsoft To Do" = 1274495053;
-      "Quiver"          = 866773894;
+#      "Quiver"          = 866773894;
       "Termius"         = 1176074088;
       "UTM"             = 1538878817;
       "Windows App"     = 1295203466;

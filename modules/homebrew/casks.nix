@@ -2,25 +2,30 @@
 [   
   { name = "brave-browser";             greedy = true; }  
   { name = "carbon-copy-cloner";        greedy = true; }  
+  # { name = "chatbox";                   greedy = true; }    
+  { name = "devpod";                    greedy = true; }  
   { name = "dotnet-sdk";                greedy = true; }
   { name = "font-cormorant-garamond";   greedy = true; }
   { name = "font-eb-garamond";          greedy = true; }
   { name = "font-fira-code";            greedy = true; }
   { name = "font-fira-code-nerd-font";  greedy = true; }
   { name = "font-hack-nerd-font";       greedy = true; }
-  { name = "font-lato";                 greedy = false; }
+#  { name = "font-lato";                 greedy = false; }
   { name = "font-noto-mono";            greedy = true; }
   { name = "font-source-code-pro";      greedy = true; }
   { name = "iterm2";                    greedy = true; }
   { name = "jetbrains-toolbox";         greedy = true; }
   { name = "jordanbaird-ice";           greedy = true; }
-  { name = "miniconda";                 greedy = true; }
+  { name = "mindmac";                   greedy = true; }
+#  { name = "miniconda";                 greedy = true; }
   { name = "multipass";                 greedy = true; }
+  { name = "orbstack";                  greedy = true; }
   { name = "openvpn-connect";           greedy = true; }
   { name = "path-finder";               greedy = true; }
   { name = "podman-desktop";            greedy = true; }
   { name = "temurin";                   greedy = true; }
   { name = "vagrant";                   greedy = true; }
+  { name = "visual-studio-code";        greedy = true; }
   { name = "xquartz";                   greedy = true; }
   { name = "xtool-org/tap/xtool";       greedy = true; }
 ]
