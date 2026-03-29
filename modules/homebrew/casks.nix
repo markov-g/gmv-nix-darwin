@@ -14,8 +14,7 @@ let
     { name = "iterm2";                    greedy = true; }
     { name = "jetbrains-toolbox";         greedy = true; }    
     { name = "jordanbaird-ice";           greedy = true; }
-    { name = "microsoft-edge";            greedy = true; }
-    { name = "multipass";                 greedy = true; }
+    { name = "microsoft-edge";            greedy = true; }    
     { name = "murus";                     greedy = true; }
     { name = "opensc-app";                greedy = true; }
     { name = "openvpn-connect";           greedy = true; }    
@@ -34,7 +33,8 @@ let
     "r1pp3r" = [
       { name = "devonthink";                greedy = true; }
       { name = "github-copilot-for-xcode";  greedy = true; }      
-      # { name = "ledger-wallet";             greedy = true; }            
+      # { name = "ledger-wallet";             greedy = true; }  
+      { name = "multipass";                 greedy = true; }          
       { name = "path-finder";               greedy = true; }
       { name = "proton-mail-bridge";        greedy = true; }
       { name = "replit";                    greedy = true; }
@@ -54,7 +54,7 @@ let
     ];
 
     "SE1FXHLQH3MTP" = [
-      # { name = "jetbrains-toolbox";         greedy = true; }      
+      { name = "multipass";                 greedy = true; }    
     ];
 
     "minidevbox" = [
@@ -66,6 +66,7 @@ let
       { name = "github";                    greedy = true; }
       # { name = "ledger-wallet";             greedy = true; }
       { name = "lm-studio";                 greedy = true; }
+      { name = "multipass";                 greedy = true; }
 
       # ── Security & Privacy (Objective-See + others) — on every machine ──────
       { name = "blockblock";                greedy = true; }   # persistence monitor
@@ -81,6 +82,28 @@ let
 
     "minidevboxvm" = [
       # lightweight — no heavy GUI apps in a VM
+    ];
+
+    "openclaw" = [
+      { name = "claude-code";               greedy = true; }
+      { name = "chatgpt";                   greedy = true; }
+      { name = "codex";                     greedy = true; }
+      { name = "freelens";                  greedy = true; }
+      { name = "freetube";                  greedy = true; }      
+      { name = "github";                    greedy = true; }
+      # { name = "ledger-wallet";             greedy = true; }
+      { name = "lm-studio";                 greedy = true; }
+      
+      # ── Security & Privacy (Objective-See + others) — on every machine ──────
+      { name = "blockblock";                greedy = true; }   # persistence monitor
+      { name = "gpg-suite";                 greedy = true; }   # GPG encryption
+      { name = "knockknock";                greedy = true; }   # persistent-software scanner
+      { name = "lulu";                      greedy = true; }   # outgoing firewall
+      { name = "malwarebytes";              greedy = true; }   # on-demand malware scanner
+      { name = "oversight";                 greedy = true; }   # mic/camera alerts
+      { name = "protonvpn";                 greedy = true; }   # VPN
+      { name = "reikey";                    greedy = true; }   # keylogger guard
+      { name = "signal";                    greedy = true; }   # E2EE messaging   
     ];
   };
 
