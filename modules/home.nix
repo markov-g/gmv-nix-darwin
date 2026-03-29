@@ -88,27 +88,15 @@
     ".config/nvim".source = ./dotfiles/macos/.config/nvim;
   };
 
-
-
   # ── Bootstrap activation scripts ─────────────────────────────────────────────
 
   # ── Bootstrap TPM (Tmux Plugin Manager) ──────────────────────────────────────
   home.activation.bootstrapTpm = lib.hm.dag.entryAfter ["writeBoundary"] ''
     TPM_DIR="$HOME/.tmux/plugins/tpm"
-    TMUX_BIN="/run/current-system/sw/bin/tmux"
     if [ ! -d "$TPM_DIR/.git" ]; then
       echo "[bootstrap] Cloning TPM (Tmux Plugin Manager)..."
       $DRY_RUN_CMD /usr/bin/git clone --depth=1 https://github.com/tmux-plugins/tpm "$TPM_DIR"
-      # Headless plugin install — only works if tmux is reachable.
-      # Activation runs in a stripped PATH so we use the absolute Nix store path.
-      if [ -x "$TPM_DIR/bin/install_plugins" ] && [ -x "$TMUX_BIN" ]; then
-        echo "[bootstrap] Installing tmux plugins via TPM (headless)..."
-        $DRY_RUN_CMD env PATH="/run/current-system/sw/bin:$PATH" \
-          "$TPM_DIR/bin/install_plugins"
-      else
-        echo "[bootstrap] tmux not found at $TMUX_BIN — skipping plugin install."
-        echo "[bootstrap] Run manually after first login: $TPM_DIR/bin/install_plugins"
-      fi
+      echo "[bootstrap] TPM cloned. Start tmux and press Ctrl-a I to install plugins."
     fi
   '';
 
