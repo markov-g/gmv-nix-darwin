@@ -73,7 +73,6 @@ in
       echo "[bootstrap] Installing Homebrew formulas (brews only, no casks)..."
       $DRY_RUN_CMD "$BREW_BIN" bundle \
         --file=${brewfile} \
-        --no-lock \
         --no-upgrade
       echo "[bootstrap] Brew bundle complete."
     else
