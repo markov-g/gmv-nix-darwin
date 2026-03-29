@@ -178,6 +178,11 @@
         host = "minidevboxvm";
       };
 
+      "llmautomation@openclaw" = mkHomeUser {
+        user = "llmautomation";
+        host = "openclaw";
+      };
+
       # ── Add future machines here as needed, e.g.:
       # "llmautomation@somenewhostname" = mkHomeUser {
       #   user = "llmautomation";
