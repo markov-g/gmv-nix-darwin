@@ -86,6 +86,11 @@
     # ── Neovim (LazyVim) ──────────────────────────────────────────────────────
     # Config is read-only from the nix store; plugins/data live in ~/.local/share/nvim
     ".config/nvim".source = ./dotfiles/macos/.config/nvim;
+
+    # ── Powerlevel10k prompt config ───────────────────────────────────────────
+    # Generate with: p10k configure → then commit the result:
+    #   cp ~/.p10k.zsh ~/.config/nix-darwin/modules/dotfiles/macos/.p10k.zsh
+    ".p10k.zsh".source = ./dotfiles/macos/.p10k.zsh;
   };
 
   # ── Bootstrap activation scripts ─────────────────────────────────────────────
@@ -118,16 +123,6 @@
       echo "[bootstrap] Public key (add to GitHub/GitLab/etc.):"
       cat "$HOME/.ssh/id_ed25519.pub"
       echo "[bootstrap] Then encrypt it into secrets/secrets.yaml with sops."
-    fi
-  '';
-
-  # Warn if p10k.zsh is missing (powerlevel10k won't render without it).
-  home.activation.checkP10k = lib.hm.dag.entryAfter ["writeBoundary"] ''
-    if [ ! -f "$HOME/.p10k.zsh" ]; then
-      echo "[bootstrap] ~/.p10k.zsh not found."
-      echo "            Run: p10k configure"
-      echo "            Then commit: cp ~/.p10k.zsh ~/.config/nix-darwin/modules/dotfiles/macos/.p10k.zsh"
-      echo "            And add to home.nix: \".p10k.zsh\".source = ./dotfiles/macos/.p10k.zsh;"
     fi
   '';
 
