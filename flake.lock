@@ -235,6 +235,7 @@
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs_2",
         "sdkman-tap": "sdkman-tap",
+        "sops-nix": "sops-nix",
         "swiftbrew-tap": "swiftbrew-tap",
         "xtool-org-tap": "xtool-org-tap"
       }
@@ -269,6 +270,26 @@
       "original": {
         "owner": "sdkman",
         "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774303811,
+        "narHash": "sha256-fhG4JAcLgjKwt+XHbjs8brpWnyKUfU4LikLm3s0Q/ic=",
+        "owner": "Mic92",
+        "repo": "sops-nix",
+        "rev": "614e256310e0a4f8a9ccae3fa80c11844fba7042",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Mic92",
+        "repo": "sops-nix",
         "type": "github"
       }
     },

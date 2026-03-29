@@ -68,8 +68,9 @@ source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 # helm + eksctl completions → source ~/.profile.kubectl
 command -v kubectl >/dev/null && source <(kubectl completion zsh)
 
-# ── 14. fzf (Nix system package — no Homebrew path needed) ───────────────────
-source <(fzf --zsh)
+# ── 14. fzf env vars (Nix system package) ────────────────────────────────────
+# NOTE: source <(fzf --zsh), _fzf_compgen_*, _fzf_comprun, and fzf-git.sh
+# are sourced in .zshrc AFTER antigen apply (compinit). Only env vars here.
 
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="${FZF_DEFAULT_COMMAND}"
@@ -83,22 +84,6 @@ _fzf_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else 
 export FZF_CTRL_T_OPTS="--preview '${_fzf_preview}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 unset _fzf_preview
-
-_fzf_compgen_path() { fd --hidden --exclude .git . "$1"; }
-_fzf_compgen_dir()  { fd --type=d --hidden --exclude .git . "$1"; }
-
-_fzf_comprun() {
-  local command=$1; shift
-  case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo \${}'"  "$@" ;;
-    ssh)          fzf --preview 'dig {}'             "$@" ;;
-    *)            fzf --preview "if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi" "$@" ;;
-  esac
-}
-
-# fzf-git.sh (cloned by home.nix activation at bootstrap)
-[ -f ~/.fzf-git.sh/fzf-git.sh ] && source ~/.fzf-git.sh/fzf-git.sh
 
 # ── 15. Tool aliases (using Nix-managed binaries — no hardcoded paths) ────────
 alias eza='eza --color=always --long --git --icons=always -F'

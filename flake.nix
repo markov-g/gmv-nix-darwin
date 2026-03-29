@@ -88,6 +88,21 @@
         ];
       };
 
+    # ── Helper: standalone Home Manager for standard (non-admin) users ───────
+    # These users get dotfiles + Nix packages + brews-only Homebrew.
+    # No darwin-rebuild needed — activate with:
+    #   home-manager switch --flake .#<user>@<host>
+    # Users & Groups; the other homeConfigurations entry is never activated.
+    mkHomeUser = { user, host, system ? "aarch64-darwin" }:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages.${system};
+        extraSpecialArgs = { inherit inputs user host; };
+        modules = [
+          ./modules/home-standard.nix          # dotfiles + brews-only Homebrew
+          inputs.sops-nix.homeManagerModules.sops
+        ];
+      };
+
   in {
     darwinConfigurations = {
       # Apply:  darwin-rebuild switch --flake .#<host>
@@ -115,17 +130,56 @@
         host   = "minidevboxvm";
         user   = "devel";
         system = "aarch64-darwin";
-      };
+      };      
 
+      "openclaw" = mkDarwin {
+        host   = "openclaw";
+        user   = "r1pp3r";
+        system = "aarch64-darwin";
+      };      
+      
       # Uncomment + fill in to add another machine:      
-
       # "worklaptop" = mkDarwin {
       #   host   = "worklaptop";
       #   user   = "gmarkov";    # different username on work machine
       #   system = "aarch64-darwin";
       # };
+    };
 
+    # ── Standalone Home Manager — standard users (brews only, no casks) ─────
+    # This is a passive registry — nothing is activated unless you explicitly run:
+    #   home-manager switch --flake .#<user>@<host>
+    #
+    # Rules:
+    #   - Only list machines where you actually create a secondary user in macOS
+    #     Users & Groups. Unlisted machines are unaffected.
+    #   - Adding a new machine: create the macOS account, add an entry here,
+    #     then run home-manager switch as that user.
+    homeConfigurations = {
+
+      # ── minidevbox — pick one: llmautomation (AI/automation workloads)
+      #                           devel         (general dev work)
+      "devel@minidevbox" = mkHomeUser {
+        user = "devel";
+        host = "minidevbox";
+      };
+
+      # ── minidevboxvm — devel fits best for VM-based dev environments
+      "devel@minidevboxvm" = mkHomeUser {
+        user = "llmautomation";
+        host = "minidevboxvm";
+      };
       
+      "llmautomation@openclaw" = mkHomeUser {
+        user = "llmautomation";
+        host = "openclaw";
+      };
+
+      # ── Add future machines here as needed, e.g.:
+      # "llmautomation@somenewhostname" = mkHomeUser {
+      #   user = "llmautomation";
+      #   host = "somenewhostname";
+      # };
     };
   };
 }

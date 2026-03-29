@@ -36,6 +36,28 @@ antigen theme romkatv/powerlevel10k
 
 antigen apply
 
+# ── fzf shell integration ─────────────────────────────────────────────────────
+# MUST be after antigen apply — antigen triggers compinit, and fzf's completion.zsh
+# calls compdef to register the ** trigger. compdef only exists post-compinit.
+# The FZF_*_COMMAND / FZF_DEFAULT_OPTS env vars stay in .zprofile (order-independent).
+source <(fzf --zsh)
+
+_fzf_compgen_path() { fd --hidden --exclude .git . "$1"; }
+_fzf_compgen_dir()  { fd --type=d --hidden --exclude .git . "$1"; }
+
+_fzf_comprun() {
+  local command=$1; shift
+  case "$command" in
+    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+    export|unset) fzf --preview "eval 'echo \${{}'"  "$@" ;;
+    ssh)          fzf --preview 'dig {}'             "$@" ;;
+    *)            fzf --preview "if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi" "$@" ;;
+  esac
+}
+
+# fzf-git.sh (cloned by home.nix activation at bootstrap)
+[ -f ~/.fzf-git.sh/fzf-git.sh ] && source ~/.fzf-git.sh/fzf-git.sh
+
 # ── Language / toolchain env ──────────────────────────────────────────────────
 # Note: RUSTUP_HOME, CARGO_HOME, PATH for cargo are in .zshenv (always sourced).
 
@@ -223,25 +245,23 @@ export KEYTIMEOUT=1
 _TMUX_SESSION="${USER}-tmux"
 if [[ -z "$TMUX" ]] && [[ "$TERM" != "screen" ]]; then
   if ! tmux has-session -t "${_TMUX_SESSION}" 2>/dev/null; then
-    tmux new-session -d -s "${_TMUX_SESSION}"
+    tmux new-session -d -s "${_TMUX_SESSION}" -n '~/Desktop'
+    tmux send-keys -t "${_TMUX_SESSION}:1" 'cd ~/Desktop; clear' Enter
 
-    tmux rename-window -t "${_TMUX_SESSION}:0" '~/Desktop'
-    tmux send-keys -t "${_TMUX_SESSION}:0" 'cd ~/Desktop; clear' Enter
+    tmux new-window -t "${_TMUX_SESSION}:2" -n '2: macports'
+    tmux send-keys -t "${_TMUX_SESSION}:2" 'cd ~; source .profile.macports; cd /opt/local; clear' Enter
 
-    tmux new-window -t "${_TMUX_SESSION}:1" -n '1: macports'
-    tmux send-keys -t "${_TMUX_SESSION}:1" 'cd ~; source .profile.macports; cd /opt/local; clear' Enter
+    tmux new-window -t "${_TMUX_SESSION}:3" -n '3: homebrew'
+    tmux send-keys -t "${_TMUX_SESSION}:3" 'cd ~; source .profile.homebrew; cd ~/PACKAGEMGMT/Homebrew; clear' Enter
 
-    tmux new-window -t "${_TMUX_SESSION}:2" -n '2: homebrew'
-    tmux send-keys -t "${_TMUX_SESSION}:2" 'cd ~; source .profile.homebrew; cd ~/PACKAGEMGMT/Homebrew; clear' Enter
-
-    tmux new-window -t "${_TMUX_SESSION}:3" -n '3: nix'
-    tmux send-keys -t "${_TMUX_SESSION}:3" 'cd ~/.config/nix-darwin; clear' Enter
-
-    tmux new-window -t "${_TMUX_SESSION}:4" -n '4: ~'
-    tmux send-keys -t "${_TMUX_SESSION}:4" 'cd ~; clear' Enter
+    tmux new-window -t "${_TMUX_SESSION}:4" -n '4: nix'
+    tmux send-keys -t "${_TMUX_SESSION}:4" 'cd ~/.config/nix-darwin; clear' Enter
 
     tmux new-window -t "${_TMUX_SESSION}:5" -n '5: ~'
     tmux send-keys -t "${_TMUX_SESSION}:5" 'cd ~; clear' Enter
+
+    tmux new-window -t "${_TMUX_SESSION}:6" -n '6: ~'
+    tmux send-keys -t "${_TMUX_SESSION}:6" 'cd ~; clear' Enter
   fi
   tmux attach-session -t "${_TMUX_SESSION}"
 fi
