@@ -43,7 +43,7 @@ nix flake update --flake "${NIX_CONFIG}"
 # Applies updated Nix packages, macOS defaults, Home Manager dotfiles,
 # AND runs brew update + brew upgrade (via homebrew.nix onActivation settings).
 info "Applying configuration: darwin-rebuild switch --flake '${NIX_CONFIG}#${HOSTNAME}'..."
-darwin-rebuild switch --flake "${NIX_CONFIG}#${HOSTNAME}"
+sudo -i darwin-rebuild switch --flake "${NIX_CONFIG}#${HOSTNAME}"
 
 # ── 4. Nix garbage collection ─────────────────────────────────────────────────
 if ! $NO_GC; then

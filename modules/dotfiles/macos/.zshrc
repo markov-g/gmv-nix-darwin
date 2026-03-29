@@ -74,7 +74,7 @@ alias nix-install="nix profile install"
 alias nix-upgrade="nix profile upgrade"
 alias nix-flake-update="nix flake update"
 alias nix-gc="nix-collect-garbage -d"
-alias darwin-re="darwin-rebuild switch --flake ~/.config/nix-darwin"
+alias darwin-re="sudo -i darwin-rebuild switch --flake ~/.config/nix-darwin"
 alias darwin-cfg="code ~/.config/nix-darwin/flake.nix"
 alias hm-cfg="code ~/.config/nix-darwin/modules/home.nix"
 

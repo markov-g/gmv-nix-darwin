@@ -67,6 +67,7 @@ let
       # { name = "ledger-wallet";             greedy = true; }
       { name = "lm-studio";                 greedy = true; }
       { name = "multipass";                 greedy = true; }
+      { name = "proton-mail-bridge";        greedy = true; }
 
       # ── Security & Privacy (Objective-See + others) — on every machine ──────
       { name = "blockblock";                greedy = true; }   # persistence monitor

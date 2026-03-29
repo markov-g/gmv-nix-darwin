@@ -146,7 +146,7 @@ sudo -i nix run github:LnL7/nix-darwin#darwin-rebuild -- \
 ### All subsequent rebuilds
 
 ```bash
-sudo darwin-rebuild switch --flake ~/.config/nix-darwin
+sudo -i darwin-rebuild switch --flake ~/.config/nix-darwin
 # or use the alias:
 darwin-re
 ```
