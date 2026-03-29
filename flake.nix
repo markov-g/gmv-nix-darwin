@@ -37,9 +37,9 @@
     # ── Helper: build a darwinSystem for one machine ─────────────────────────
     # host, user, system are injected into every module via specialArgs.
     # To add a machine: copy a block in darwinConfigurations below.
-    mkDarwin = { host, user, system ? "aarch64-darwin" }:
+    mkDarwin = { host, user, system ? "aarch64-darwin", enableMas ? true }:
       nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit host user inputs; };
+        specialArgs = { inherit host user inputs enableMas; };
 
         modules = [
           # ── Set target platform (replaces deprecated `system` arg) ───────
@@ -121,21 +121,22 @@
       };
 
       "minidevbox" = mkDarwin {
-        host   = "minidevbox";
-        user   = "r1pp3r";
-        system = "aarch64-darwin";
+        host      = "minidevbox";
+        user      = "r1pp3r";
+        system    = "aarch64-darwin";
       };      
 
       "minidevboxvm" = mkDarwin {
-        host   = "minidevboxvm";
-        user   = "devel";
-        system = "aarch64-darwin";
-      };      
+        host      = "minidevboxvm";
+        user      = "devel";
+        system    = "aarch64-darwin";        
+      };
 
       "openclaw" = mkDarwin {
         host   = "openclaw";
         user   = "r1pp3r";
         system = "aarch64-darwin";
+        enableMas = false;   # no Apple ID on this machine
       };      
       
       # Uncomment + fill in to add another machine:      
@@ -143,6 +144,7 @@
       #   host   = "worklaptop";
       #   user   = "gmarkov";    # different username on work machine
       #   system = "aarch64-darwin";
+      #   enableMas = false;   # no Apple ID on this machine
       # };
     };
 
@@ -153,12 +155,18 @@
     # Rules:
     #   - Only list machines where you actually create a secondary user in macOS
     #     Users & Groups. Unlisted machines are unaffected.
+    #   - XOR per machine: create ONE of llmautomation/devel in macOS, activate
+    #     only that entry. The other entry is inert until used.
     #   - Adding a new machine: create the macOS account, add an entry here,
     #     then run home-manager switch as that user.
     homeConfigurations = {
 
       # ── minidevbox — pick one: llmautomation (AI/automation workloads)
       #                           devel         (general dev work)
+      "llmautomation@minidevbox" = mkHomeUser {
+        user = "llmautomation";
+        host = "minidevbox";
+      };
       "devel@minidevbox" = mkHomeUser {
         user = "devel";
         host = "minidevbox";
@@ -166,13 +174,8 @@
 
       # ── minidevboxvm — devel fits best for VM-based dev environments
       "devel@minidevboxvm" = mkHomeUser {
-        user = "llmautomation";
+        user = "devel";
         host = "minidevboxvm";
-      };
-      
-      "llmautomation@openclaw" = mkHomeUser {
-        user = "llmautomation";
-        host = "openclaw";
       };
 
       # ── Add future machines here as needed, e.g.:

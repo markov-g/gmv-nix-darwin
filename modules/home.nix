@@ -12,7 +12,7 @@
   # packages to install
   home.packages = with pkgs; [
     # home-manager binary
-    (inputs.home-manager.packages.${pkgs.system}.home-manager)
+    (inputs.home-manager.packages.${pkgs.stdenv.hostPlatform.system}.home-manager)
     # pkgs is the set of all packages in the default home.nix implementation
     direnv
     nix-direnv
@@ -98,6 +98,12 @@
     if [ ! -d "$TPM_DIR/.git" ]; then
       echo "[bootstrap] Cloning TPM (Tmux Plugin Manager)..."
       $DRY_RUN_CMD /usr/bin/git clone --depth=1 https://github.com/tmux-plugins/tpm "$TPM_DIR"
+    fi
+    # Install plugins headlessly — TPM's install_plugins reads ~/.tmux.conf
+    # and clones @plugin entries without requiring a live tmux session.
+    if [ -x "$TPM_DIR/bin/install_plugins" ]; then
+      echo "[bootstrap] Installing tmux plugins via TPM (headless)..."
+      $DRY_RUN_CMD "$TPM_DIR/bin/install_plugins"
     fi
   '';
 

@@ -46,7 +46,7 @@
   environment.systemPackages = with pkgs; [
     vim
     tmux
-    inputs.fh.packages.${pkgs.system}.default
+    inputs.fh.packages.${pkgs.stdenv.hostPlatform.system}.default
 
     # ── Core CLI replacements (always available, no package-manager sourcing) ──
     bat        # cat with syntax highlighting
