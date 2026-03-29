@@ -218,7 +218,7 @@ repeat-cmd() {
   for ((i=1; i <= max; i++)); do eval "$@"; done
 }
 
-ask() {
+confirm() {
   echo -n "$@ [y/n] "; read ans
   case "$ans" in y*|Y*) return 0 ;; *) return 1 ;; esac
 }
