@@ -55,9 +55,9 @@ in
     if [ ! -x "$BREW_PREFIX/bin/brew" ]; then
       echo "[bootstrap] Installing Homebrew (portable) to $BREW_PREFIX ..."
       $DRY_RUN_CMD mkdir -p "$BREW_PREFIX"
-      $DRY_RUN_CMD curl -fsSL \
+      $DRY_RUN_CMD /usr/bin/curl -fsSL \
         https://github.com/Homebrew/brew/tarball/master \
-        | tar xz --strip-components 1 -C "$BREW_PREFIX"
+        | /usr/bin/tar xz --strip-components 1 -C "$BREW_PREFIX"
       echo "[bootstrap] Homebrew installed."
     else
       echo "[bootstrap] Homebrew already present at $BREW_PREFIX — skipping install."
@@ -68,16 +68,16 @@ in
   # brew bundle --no-lock: don't write a Brewfile.lock (Nix pins inputs instead)
   # brew bundle is idempotent — safe to re-run on every home-manager switch
   home.activation.installBrews = lib.hm.dag.entryAfter [ "bootstrapHomebrew" ] ''
-    BREW_PREFIX="${config.home.homeDirectory}/PACKAGEMGMT/Homebrew"
-    if [ -x "$BREW_PREFIX/bin/brew" ]; then
+    BREW_BIN="${config.home.homeDirectory}/PACKAGEMGMT/Homebrew/bin/brew"
+    if [ -x "$BREW_BIN" ]; then
       echo "[bootstrap] Installing Homebrew formulas (brews only, no casks)..."
-      $DRY_RUN_CMD "$BREW_PREFIX/bin/brew" bundle \
+      $DRY_RUN_CMD "$BREW_BIN" bundle \
         --file=${brewfile} \
         --no-lock \
         --no-upgrade
       echo "[bootstrap] Brew bundle complete."
     else
-      echo "[bootstrap] WARNING: brew not found at $BREW_PREFIX — skipping formula install."
+      echo "[bootstrap] WARNING: brew not found at $BREW_BIN — skipping formula install."
     fi
   '';
 }

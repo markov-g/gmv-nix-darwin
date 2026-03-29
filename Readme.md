@@ -146,7 +146,7 @@ sudo -i nix run github:LnL7/nix-darwin#darwin-rebuild -- \
 ### All subsequent rebuilds
 
 ```bash
-darwin-rebuild switch --flake ~/.config/nix-darwin
+sudo darwin-rebuild switch --flake ~/.config/nix-darwin
 # or use the alias:
 darwin-re
 ```
@@ -179,7 +179,7 @@ cp ~/.config/nix-darwin/modules/dotfiles/macos/.zshenv.seed ~/.zshenv
 
 # Activate — installs dotfiles, Homebrew, and all formulas
 nix run nixpkgs#home-manager -- \
-  switch --flake ~/.config/nix-darwin#devel@minidevbox
+  switch --flake ~/.config/nix-darwin#devel@minidevbox -b hm-backup
 ```
 
 3. All future updates:
