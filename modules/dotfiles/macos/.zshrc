@@ -1,12 +1,25 @@
 # Set TERM only outside tmux — inside tmux, let tmux's default-terminal (tmux-256color) win.
 [[ -z "$TMUX" ]] && export TERM="xterm-256color"
 
+# ── Force compinit to skip the security check ────────────────────────────────
+# antigen bundle brew re-adds /opt/homebrew to fpath during bundle processing.
+# That dir is owned by the admin user — compinit flags it insecure for everyone
+# else. Intercepting compinit and passing -u bypasses the check unconditionally,
+# regardless of what antigen puts in fpath before calling it.
+function compinit() {
+  unfunction compinit
+  autoload -Uz compinit
+  compinit -u "$@"
+}
+
 # ── Plugin manager (antigen) ──────────────────────────────────────────────────
 source ~/PACKAGEMGMT/Homebrew/share/antigen/antigen.zsh
 
 # ── oh-my-zsh via antigen ─────────────────────────────────────────────────────
 # Note: p10k theme is configured via ~/.p10k.zsh (run `p10k configure` to regenerate).
 # POWERLEVEL9K_* vars are NOT read by powerlevel10k — only p9k reads them.
+export ZSH_DISABLE_COMPFIX=true
+
 antigen use oh-my-zsh
 antigen bundle robbyrussell/oh-my-zsh lib/
 
@@ -29,7 +42,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-history-substring-search ./zsh-history-substring-search.zsh
 antigen bundle tarruda/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions
-antigen bundle git@github.com:spwhitt/nix-zsh-completions.git
+antigen bundle https://github.com/spwhitt/nix-zsh-completions.git
 
 # Theme
 antigen theme romkatv/powerlevel10k
@@ -164,8 +177,8 @@ function rm() {
   done
 }
 
-# cd with pwd echo
-cd() { builtin cd "$1" && pwd; }
+# cd with pwd echo — no argument goes to $HOME
+cd() { builtin cd "${1:-$HOME}" && pwd; }
 
 # Extract most archive formats
 extract() {

@@ -7,5 +7,19 @@ export PATH="${CARGO_HOME}/bin:${PATH}"
 # LM Studio CLI
 export PATH="${PATH}:${HOME}/.cache/lm-studio/bin:${HOME}/.lmstudio/bin"
 
-# NOTE: ServBay env vars are intentionally excluded here.
-# This file is managed by nix (read-only symlink); ServBay uses ~/.bash_profile instead.
+# ── compinit security fix ─────────────────────────────────────────────────────
+# macOS /etc/zshrc calls compinit before ~/.zshrc loads, triggering an
+# "insecure directories" prompt when /opt/homebrew (admin's Homebrew) is in
+# fpath. This intercept forces -u (skip security check) on that call.
+# .zshenv loads first in the zsh startup chain — before /etc/zshrc — so
+# this override wins regardless of what any other file puts in fpath.
+# Managed block: home-manager activation keeps this in sync (see home.nix).
+# ── BEGIN compinit-fix ──
+function compinit() {
+  unfunction compinit
+  autoload -Uz compinit
+  compinit -u "$@"
+}
+# ── END compinit-fix ──
+
+# NOTE: ServBay and other tools that inject env vars should use ~/.zprofile.local.

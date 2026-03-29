@@ -26,6 +26,7 @@
     # .zshenv is intentionally NOT managed by Nix — it must remain a regular writable
     # file so that apps like ServBay can inject / rewrite their env blocks.
     # On a new machine, seed it once: cp modules/dotfiles/macos/.zshenv.seed ~/.zshenv
+    # The compinit-fix block is injected automatically by the injectCompInitFix activation.
     ".zprofile".source = ./dotfiles/macos/.zprofile;
 
     # ── Git ─────────────────────────────────────────────────────
@@ -124,6 +125,60 @@
       cat "$HOME/.ssh/id_ed25519.pub"
       echo "[bootstrap] Then encrypt it into secrets/secrets.yaml with sops."
     fi
+  '';
+
+  # ── Inject compinit security fix into ~/.zshenv ───────────────────────────────
+  # macOS /etc/zshrc calls compinit before ~/.zshrc loads. If /opt/homebrew is in
+  # fpath (injected system-wide for all users), compinit fires an interactive
+  # "insecure directories" prompt for any user who doesn't own those dirs.
+  # ~/.zshenv loads before /etc/zshrc in the zsh startup chain, so a compinit
+  # override placed there intercepts the call and forces -u (skip security check).
+  #
+  # ~/.zshenv is intentionally unmanaged (ServBay writes to it), so we inject a
+  # clearly-marked block rather than replacing the whole file. The activation is
+  # idempotent — it checks for the marker before writing.
+  home.activation.injectCompInitFix = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    ZSHENV="$HOME/.zshenv"
+    MARKER="# ── BEGIN compinit-fix"
+
+    # Seed the file from the template if it doesn't exist yet
+    if [ ! -f "$ZSHENV" ]; then
+      echo "[bootstrap] ~/.zshenv not found — seeding from template..."
+      $DRY_RUN_CMD cp "${./dotfiles/macos/.zshenv.seed}" "$ZSHENV"
+    fi
+
+    # Inject the fix block if the marker isn't already present
+    if ! grep -qF "$MARKER" "$ZSHENV" 2>/dev/null; then
+      echo "[bootstrap] Injecting compinit fix into ~/.zshenv..."
+      $DRY_RUN_CMD tee -a "$ZSHENV" > /dev/null << 'ZSHENV_BLOCK'
+
+# ── BEGIN compinit-fix (managed by home-manager — do not edit this block) ────
+# macOS /etc/zshrc calls compinit before ~/.zshrc. This override intercepts
+# that call and forces -u so the "insecure directories" prompt never fires.
+# ~/.zshenv loads first in the zsh startup chain, before /etc/zshrc.
+function compinit() {
+  unfunction compinit
+  autoload -Uz compinit
+  compinit -u "$@"
+}
+# ── END compinit-fix ──────────────────────────────────────────────────────────
+ZSHENV_BLOCK
+      echo "[bootstrap] compinit fix injected."
+    fi
+  '';
+
+  # ── Fix group-writable zsh completion dirs ───────────────────────────────────
+  # brew install/upgrade recreates share/zsh/site-functions/ with 775 (group-writable).
+  # compinit treats any group-writable dir in $fpath as insecure and prompts interactively.
+  # The injectCompInitFix activation above handles the root cause; this fixes underlying
+  # permissions so the dirs are actually secure after every darwin-rebuild / home-manager switch.
+  home.activation.fixCompletionPerms = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    for d in \
+      "${config.home.homeDirectory}/PACKAGEMGMT/Homebrew/share/zsh" \
+      "${config.home.homeDirectory}/.antigen"
+    do
+      [ -d "$d" ] && find "$d" \( -perm -020 -o -perm -002 \) -exec chmod go-w {} \;
+    done
   '';
 
   # ── sleepwatcher launchd agent ────────────────────────────────────────────────
