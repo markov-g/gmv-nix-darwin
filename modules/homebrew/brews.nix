@@ -11,9 +11,10 @@
   "azure-cli"
   "blueutil"            # Bluetooth control (used in ~/.sleep / ~/.wakeup)
   "libxcb"
-  "code-server"
+#  "code-server"
   "colima"
   "cloudflared"
+  "container"           # Apple container runtime (macOS 26+)
   "cpulimit"
   "eksctl"
   "exercism"

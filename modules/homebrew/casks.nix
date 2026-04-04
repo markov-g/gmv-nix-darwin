@@ -6,7 +6,9 @@ let
   # ── Shared casks — installed on every machine ─────────────────────────────
   shared = [
     { name = "brave-browser";             greedy = true; }
-    { name = "claude";                    greedy = true; }    
+    { name = "carbon-copy-cloner";        greedy = true; }
+    { name = "claude";                    greedy = true; }
+    { name = "container";                 greedy = true; }  
     { name = "font-fira-code";            greedy = true; }
     { name = "font-fira-code-nerd-font";  greedy = true; }
     { name = "font-hack-nerd-font";       greedy = true; }
@@ -32,7 +34,7 @@ let
   hostSpecific = {
     "r1pp3r" = [
       { name = "devonthink";                greedy = true; }
-      { name = "github-copilot-for-xcode";  greedy = true; }      
+      # { name = "github-copilot-for-xcode";  greedy = true; }      
       # { name = "ledger-wallet";             greedy = true; }  
       { name = "multipass";                 greedy = true; }          
       { name = "path-finder";               greedy = true; }
