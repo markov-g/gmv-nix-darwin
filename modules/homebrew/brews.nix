@@ -14,7 +14,7 @@
 #  "code-server"
   "colima"
   "cloudflared"
-  "container"           # Apple container runtime (macOS 26+)
+#  "container"           # Apple container runtime (macOS 26+)
   "cpulimit"
   "eksctl"
   "exercism"

@@ -30,6 +30,7 @@ let
         "MoneyWiz 2025 Personal Finance" = 1511185140;
         "Numbers"                        = 409203825;
         "Pages"                          = 409201541;
+        "Quiver"                         = 866773894;
         "Webull"                         = 1334590352;
         # "Nautik"  = 1672838783;  # k8s
     };

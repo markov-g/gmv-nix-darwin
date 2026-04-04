@@ -3,9 +3,10 @@
 
 # ── File & directory ──────────────────────────────────────────────────────────
 alias cat='bat'
-alias ls='eza --color=always --git --no-filesize --icons=always -F'
-alias ll='eza --color=always --long --git --icons=always -F'
-alias la='eza --color=always --long --git --icons=always -Fa'
+alias ls='eza --color=always --git --icons=always -F'
+alias ll='eza --color=always --long --bytes --group --git --icons=always -F'
+alias la='eza --color=always --long --bytes --group --git --icons=always -Fa'
+alias lx='eza --color=always --long --bytes --extended --group --git --icons=always -Fa'
 alias tree='eza --tree --icons=always'
 alias yy='yazi'                          # file manager
 alias du='dust'                          # visual disk usage tree
