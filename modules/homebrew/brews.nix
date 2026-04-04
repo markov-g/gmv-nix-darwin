@@ -57,6 +57,7 @@
   "pixi"
 # "qemu"
   "quartz-wm"           # X11 window manager (XQuartz companion)
+  "rsync"
   "rustup"              # Rust toolchain manager
   "sleepwatcher"        # Triggers ~/.sleep and ~/.wakeup on power events
   "starship"
