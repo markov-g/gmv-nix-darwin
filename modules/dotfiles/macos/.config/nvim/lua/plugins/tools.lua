@@ -1,4 +1,28 @@
 return {
+  -- ── mini.animate: tuned way down for performance ────────────────
+  -- Keeps the plugin loaded (so fade transitions still happen) but
+  -- disables the cursor/scroll/resize animations that caused lag.
+  {
+    "echasnovski/mini.animate",
+    event = "VeryLazy",
+    opts = function(_, opts)
+      opts = opts or {}
+      local animate = require("mini.animate")
+      -- Disable the expensive per-step animations
+      opts.cursor = { enable = false }
+      opts.scroll = { enable = false }
+      opts.resize = { enable = false }
+      -- Keep window open/close fade — it's cheap and looks nice
+      opts.open = {
+        timing = animate.gen_timing.linear({ duration = 80, unit = "total" }),
+      }
+      opts.close = {
+        timing = animate.gen_timing.linear({ duration = 80, unit = "total" }),
+      }
+      return opts
+    end,
+  },
+
   -- ── Catppuccin colorscheme ──────────────────────────────────────
   {
     "catppuccin/nvim",

@@ -26,8 +26,8 @@ opt.splitright     = true
 opt.termguicolors  = true
 opt.cursorline     = true
 
--- Treesitter-based folding
-opt.foldmethod     = "expr"
-opt.foldexpr       = "v:lua.vim.treesitter.foldexpr()"
+-- Folding: use manual (fast). Treesitter foldexpr recomputes on every
+-- keystroke/cursor move and is a known performance killer on larger files.
+opt.foldmethod     = "manual"
 opt.foldlevel      = 99
 opt.foldlevelstart = 99

@@ -54,13 +54,15 @@ return {
     },
   },
 
-  -- ── Mason: evict Nix-managed servers from ensure_installed ──────
+  -- ── Mason: evict Nix-managed and skip F# server ─────────────────
   {
     "mason-org/mason-lspconfig.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       opts.ensure_installed = vim.tbl_filter(function(server)
+        -- Skip Nix-managed servers and fsautocomplete (F# — not used)
         return not vim.tbl_contains(nix_managed, server)
+          and server ~= "fsautocomplete"
       end, opts.ensure_installed)
     end,
   },
