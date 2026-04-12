@@ -67,7 +67,7 @@ require("lazy").setup({
     -- ── Local plugin specs ─────────────────────────────────────────
     { import = "plugins" },
   },
-  defaults = { lazy = true, version = false },
+  defaults = { lazy = false, version = false },
   checker  = { enabled = true },
   performance = {
     rtp = {
