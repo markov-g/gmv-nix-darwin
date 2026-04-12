@@ -1,46 +1,44 @@
--- Custom autocmds layered on top of LazyVim defaults
-local function augroup(name)
-  return vim.api.nvim_create_augroup("user_" .. name, { clear = true })
-end
+local autocmd = vim.api.nvim_create_autocmd
+local augroup = vim.api.nvim_create_augroup
 
--- Highlight yanked text briefly
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group    = augroup("highlight_yank"),
-  callback = function() vim.highlight.on_yank({ higroup = "IncSearch", timeout = 150 }) end,
-})
-
--- Resize splits when the terminal window is resized
-vim.api.nvim_create_autocmd("VimResized", {
-  group    = augroup("resize_splits"),
-  callback = function() vim.cmd("tabdo wincmd =") end,
-})
-
--- Auto-close certain filetypes with q
-vim.api.nvim_create_autocmd("FileType", {
-  group   = augroup("close_with_q"),
-  pattern = { "help", "lspinfo", "man", "notify", "qf", "spectre_panel",
-              "startuptime", "tsplayground", "neotest-output", "checkhealth",
-              "neotest-summary", "neotest-output-panel" },
-  callback = function(event)
-    vim.bo[event.buf].buflisted = false
-    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+-- Highlight on yank
+autocmd("TextYankPost", {
+  group = augroup("YankHighlight", { clear = true }),
+  callback = function()
+    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 200 })
   end,
 })
 
--- Wrap + spell in text-heavy files
-vim.api.nvim_create_autocmd("FileType", {
-  group   = augroup("wrap_spell"),
-  pattern = { "gitcommit", "markdown", "text", "rst", "norg" },
+-- Resize splits on terminal resize
+autocmd("VimResized", {
+  group = augroup("ResizeSplits", { clear = true }),
+  callback = function() vim.cmd("tabdo wincmd =") end,
+})
+
+-- Close certain buffers with q
+autocmd("FileType", {
+  group = augroup("CloseWithQ", { clear = true }),
+  pattern = { "help", "qf", "man", "notify", "lspinfo", "checkhealth" },
+  callback = function(event)
+    vim.bo[event.buf].buflisted = false
+    vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = event.buf, silent = true })
+  end,
+})
+
+-- Wrap + spell for prose filetypes
+autocmd("FileType", {
+  group = augroup("ProseSettings", { clear = true }),
+  pattern = { "markdown", "gitcommit", "text" },
   callback = function()
     vim.opt_local.wrap  = true
     vim.opt_local.spell = true
   end,
 })
 
--- Set Nix files to use 2-space indentation
-vim.api.nvim_create_autocmd("FileType", {
-  group    = augroup("nix_indent"),
-  pattern  = "nix",
+-- 2-space indent for Nix files
+autocmd("FileType", {
+  group = augroup("NixIndent", { clear = true }),
+  pattern = { "nix" },
   callback = function()
     vim.opt_local.tabstop    = 2
     vim.opt_local.shiftwidth = 2

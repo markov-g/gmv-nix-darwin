@@ -1,45 +1,33 @@
--- Custom options layered on top of LazyVim defaults
--- https://www.lazyvim.org/configuration/general
 local opt = vim.opt
 
--- ── Editor feel ───────────────────────────────────────────────────────────────
-opt.relativenumber  = true      -- relative line numbers (great for jump motions)
-opt.scrolloff       = 8         -- keep 8 lines above/below cursor
-opt.sidescrolloff   = 8
-opt.wrap            = false     -- don't wrap long lines
-opt.colorcolumn     = "120"     -- soft line-length guide at col 120
-opt.cursorcolumn    = false
+opt.relativenumber = true
+opt.number         = true
+opt.tabstop        = 2
+opt.shiftwidth     = 2
+opt.expandtab      = true
+opt.smartindent    = true
 
--- ── Clipboard ─────────────────────────────────────────────────────────────────
-opt.clipboard = "unnamedplus"   -- always use system clipboard
+opt.wrap           = false
+opt.colorcolumn    = "120"
+opt.scrolloff      = 8
+opt.sidescrolloff  = 8
+opt.signcolumn     = "yes"
 
--- ── Indentation ───────────────────────────────────────────────────────────────
-opt.tabstop    = 2
-opt.shiftwidth = 2
-opt.expandtab  = true
-opt.smartindent = true
+opt.clipboard      = "unnamedplus"
+opt.undofile       = true
+opt.swapfile       = false
 
--- ── Search ────────────────────────────────────────────────────────────────────
-opt.ignorecase = true
-opt.smartcase  = true
-opt.hlsearch   = false
+opt.ignorecase     = true
+opt.smartcase      = true
 
--- ── Splits ────────────────────────────────────────────────────────────────────
-opt.splitright = true
-opt.splitbelow = true
+opt.splitbelow     = true
+opt.splitright     = true
 
--- ── Persistent undo ───────────────────────────────────────────────────────────
-opt.undofile   = true
-opt.undolevels = 10000
+opt.termguicolors  = true
+opt.cursorline     = true
 
--- ── Completion ────────────────────────────────────────────────────────────────
-opt.pumheight = 12              -- max autocomplete popup height
-opt.pumblend  = 10              -- slight transparency on popup
-
--- ── Misc ─────────────────────────────────────────────────────────────────────
-opt.confirm        = true       -- confirm instead of error on unsaved-quit
-opt.virtualedit    = "block"    -- allow cursor anywhere in visual block mode
-opt.smoothscroll   = true       -- smooth scrolling (Neovim 0.10+)
-opt.foldlevel      = 99         -- start with all folds open
+-- Treesitter-based folding
 opt.foldmethod     = "expr"
-opt.foldexpr       = "nvim_treesitter#foldexpr()"
+opt.foldexpr       = "v:lua.vim.treesitter.foldexpr()"
+opt.foldlevel      = 99
+opt.foldlevelstart = 99

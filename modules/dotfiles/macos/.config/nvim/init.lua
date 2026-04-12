@@ -1,3 +1,2 @@
--- LazyVim entry point — https://www.lazyvim.org
--- All config lives in lua/config/ and lua/plugins/
+-- Bootstrap LazyVim
 require("config.lazy")

@@ -1,116 +1,68 @@
--- ─────────────────────────────────────────────────────────────────────────────
---  AI coding assistance
---
---  copilot.lua  — inline ghost completions (Tab)   :Copilot auth on first run
---  avante.nvim  — Claude chat panel                needs ANTHROPIC_API_KEY
---
---  claude-code.nvim removed: crashes on TermClose (nvim_buf_get_name on closed
---  buffer). Re-add when the plugin fixes the upstream bug. Use Claude Code
---  directly in a tmux split in the meantime: Ctrl-a " then run `claude`.
---
---  Keymaps:
---    Tab / C-j / C-l   accept full / word / line  (Copilot)
---    M-] / M-[         next / prev suggestion
---    M-Esc             dismiss
---    <leader>aa/ae/at  Avante ask / edit / toggle
--- ─────────────────────────────────────────────────────────────────────────────
-return {
+-- ╔══════════════════════════════════════════════════════════════════╗
+-- ║  AI plugins — Copilot + Claude Code                             ║
+-- ╚══════════════════════════════════════════════════════════════════╝
 
-  -- ── Copilot ──────────────────────────────────────────────────────────────────
+return {
+  -- ── GitHub Copilot ──────────────────────────────────────────────
   {
     "zbirenbaum/copilot.lua",
-    cmd   = "Copilot",
+    cmd = "Copilot",
+    build = ":Copilot auth",
     event = "InsertEnter",
     opts = {
       suggestion = {
-        enabled      = true,
+        enabled = true,
         auto_trigger = true,
-        debounce     = 75,
         keymap = {
           accept      = "<Tab>",
-          accept_word = "<C-j>",
-          accept_line = "<C-l>",
+          accept_word = "<C-l>",
+          accept_line = "<C-j>",
           next        = "<M-]>",
           prev        = "<M-[>",
-          dismiss     = "<M-Esc>",
+          dismiss     = "<C-]>",
         },
       },
       panel = { enabled = false },
       filetypes = {
-        TelescopePrompt = false,
-        ["neo-tree"]    = false,
-        toggleterm      = false,
-        help            = false,
-        gitcommit       = false,
-        ["*"]           = true,
+        markdown = true,
+        help     = false,
       },
     },
   },
 
-  -- ── Avante — Claude chat panel ────────────────────────────────────────────────
+  -- ── Claude Code (terminal + editor integration) ─────────────────
+  --
+  -- Requires ~/.claude-env with credentials. Create it manually:
+  --   cat > ~/.claude-env << 'EOF'
+  --   export CLAUDE_CODE_USE_FOUNDRY=1
+  --   export ANTHROPIC_FOUNDRY_RESOURCE=YOUR_RESOURCE_NAME
+  --   export ANTHROPIC_FOUNDRY_API_KEY=YOUR_API_KEY
+  --   export ANTHROPIC_DEFAULT_SONNET_MODEL=claude-sonnet-4-6
+  --   export ANTHROPIC_DEFAULT_HAIKU_MODEL=claude-sonnet-4-6
+  --   export ANTHROPIC_DEFAULT_OPUS_MODEL=claude-sonnet-4-6
+  --   EOF
+  --   chmod 600 ~/.claude-env
+  --
   {
-    "yetone/avante.nvim",
-    cmd     = { "AvanteAsk", "AvanteEdit", "AvanteToggle", "AvanteRefresh", "AvanteSwitchProvider" },
-    version = false,
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    config = true,
     opts = {
-      provider = "claude",
-      auto_suggestions_provider = "claude",
-      providers = {
-        claude = {
-          endpoint = "https://api.anthropic.com",
-          model    = "claude-sonnet-4-6",
-          timeout  = 30000,
-          extra_request_body = {
-            temperature = 0,
-            max_tokens  = 8096,
-          },
-        },
+      terminal_cmd = "bash -c 'source ~/.claude-env && claude'",
+      terminal = {
+        split_side = "right",
+        split_width_percentage = 0.40,
       },
-      behaviour = {
-        auto_suggestions             = false,
-        auto_set_highlight_group     = true,
-        auto_set_keymaps             = true,
-        auto_apply_diff_after_generation = false,
-        support_paste_from_clipboard = true,
-      },
-      mappings = {
-        diff    = { ours = "co", theirs = "ct", none = "c0", both = "cb", next = "]x", prev = "[x" },
-        jump    = { next = "]]", prev = "[[" },
-        submit  = { normal = "<CR>", insert = "<C-s>" },
-        ask     = "<leader>aa",
-        edit    = "<leader>ae",
-        refresh = "<leader>ar",
-        toggle  = {
-          default    = "<leader>at",
-          debug      = "<leader>ad",
-          hint       = "<leader>ah",
-          suggestion = "<leader>as",
-        },
-      },
-      hints = { enabled = true },
     },
-    build = "make",
-    dependencies = {
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons",
-      {
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name  = false,
-            drag_and_drop         = { insert_mode = true },
-          },
-        },
-      },
-      {
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = { file_types = { "markdown", "Avante" } },
-        ft   = { "markdown", "Avante" },
-      },
+    keys = {
+      { "<leader>ac", "<cmd>ClaudeCode<cr>",             desc = "Toggle Claude Code" },
+      { "<leader>af", "<cmd>ClaudeCodeFocus<cr>",         desc = "Focus Claude Code" },
+      { "<leader>ar", "<cmd>ClaudeCode --resume<cr>",     desc = "Resume Claude" },
+      { "<leader>aC", "<cmd>ClaudeCode --continue<cr>",   desc = "Continue Claude" },
+      { "<leader>ab", "<cmd>ClaudeCodeAdd %<cr>",         desc = "Add buffer to Claude" },
+      { "<leader>as", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Send selection to Claude" },
+      { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>",    desc = "Accept Claude diff" },
+      { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>",      desc = "Reject Claude diff" },
     },
   },
 }
