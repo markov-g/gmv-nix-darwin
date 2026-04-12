@@ -26,8 +26,9 @@ opt.splitright     = true
 opt.termguicolors  = true
 opt.cursorline     = true
 
--- Folding: use manual (fast). Treesitter foldexpr recomputes on every
--- keystroke/cursor move and is a known performance killer on larger files.
-opt.foldmethod     = "manual"
+-- Folding: treesitter-based via nvim-ufo (async, fast).
+-- ufo sets foldmethod/foldexpr itself; we just set the limits.
+opt.foldcolumn     = "1"
 opt.foldlevel      = 99
 opt.foldlevelstart = 99
+opt.foldenable     = true

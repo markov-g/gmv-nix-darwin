@@ -12,6 +12,13 @@ local nix_managed = {
   "jsonls",
 }
 
+-- Servers/packages that lang.dotnet tries to install via Mason but
+-- we don't want (either unused or fail to install cleanly).
+local skip_mason = {
+  "fsautocomplete",   -- F# LSP — not used
+  "omnisharp",        -- legacy C# LSP — we'll rely on roslyn_ls instead
+}
+
 return {
   -- ── nvim-lspconfig: server definitions ──────────────────────────
   {
@@ -40,6 +47,10 @@ return {
           },
         },
 
+        -- Disable .NET servers we can't / don't want to auto-install
+        fsautocomplete = { enabled = false },
+        omnisharp      = { enabled = false },
+
         -- macOS-specific: Swift LSP (uses Xcode's sourcekit-lsp)
         sourcekit = {
           cmd       = { "sourcekit-lsp" },
@@ -54,15 +65,25 @@ return {
     },
   },
 
-  -- ── Mason: evict Nix-managed and skip F# server ─────────────────
+  -- ── mason.nvim: skip unwanted packages ──────────────────────────
+  {
+    "mason-org/mason.nvim",
+    opts = function(_, opts)
+      opts.ensure_installed = opts.ensure_installed or {}
+      opts.ensure_installed = vim.tbl_filter(function(pkg)
+        return not vim.tbl_contains(skip_mason, pkg)
+      end, opts.ensure_installed)
+    end,
+  },
+
+  -- ── mason-lspconfig: evict Nix-managed + skipped servers ────────
   {
     "mason-org/mason-lspconfig.nvim",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       opts.ensure_installed = vim.tbl_filter(function(server)
-        -- Skip Nix-managed servers and fsautocomplete (F# — not used)
         return not vim.tbl_contains(nix_managed, server)
-          and server ~= "fsautocomplete"
+          and not vim.tbl_contains(skip_mason, server)
       end, opts.ensure_installed)
     end,
   },
