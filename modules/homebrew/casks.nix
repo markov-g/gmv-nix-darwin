@@ -70,6 +70,9 @@ let
       { name = "lm-studio";                 greedy = true; }
       { name = "multipass";                 greedy = true; }
       { name = "proton-mail-bridge";        greedy = true; }
+      { name = "replit";                    greedy = true; }
+      { name = "thinkorswim";               greedy = true; }
+      { name = "tradingview";               greedy = true; }
 
       # ── Security & Privacy (Objective-See + others) — on every machine ──────
       { name = "blockblock";                greedy = true; }   # persistence monitor
