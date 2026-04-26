@@ -258,23 +258,21 @@ export KEYTIMEOUT=1
 _TMUX_SESSION="${USER}-tmux"
 if [[ -z "$TMUX" ]] && [[ "$TERM" != "screen" ]]; then
   if ! tmux has-session -t "${_TMUX_SESSION}" 2>/dev/null; then
-    tmux new-session -d -s "${_TMUX_SESSION}" -n '~/Desktop'
-    tmux send-keys -t "${_TMUX_SESSION}:1" 'cd ~/Desktop; clear' Enter
-
-    tmux new-window -t "${_TMUX_SESSION}:2" -n '2: macports'
-    tmux send-keys -t "${_TMUX_SESSION}:2" 'cd ~; source .profile.macports; cd /opt/local; clear' Enter
-
-    tmux new-window -t "${_TMUX_SESSION}:3" -n '3: homebrew'
-    tmux send-keys -t "${_TMUX_SESSION}:3" 'cd ~; source .profile.homebrew; cd ~/PACKAGEMGMT/Homebrew; clear' Enter
-
-    tmux new-window -t "${_TMUX_SESSION}:4" -n '4: nix'
-    tmux send-keys -t "${_TMUX_SESSION}:4" 'cd ~/.config/nix-darwin; clear' Enter
-
-    tmux new-window -t "${_TMUX_SESSION}:5" -n '5: ~'
-    tmux send-keys -t "${_TMUX_SESSION}:5" 'cd ~; clear' Enter
-
-    tmux new-window -t "${_TMUX_SESSION}:6" -n '6: ~'
-    tmux send-keys -t "${_TMUX_SESSION}:6" 'cd ~; clear' Enter
+    tmux new-session -d -s "${_TMUX_SESSION}"
+    if [[ ! -e "$HOME/.tmux/resurrect/last" ]]; then
+      tmux rename-window -t "${_TMUX_SESSION}:1" '~/Desktop'
+      tmux send-keys -t "${_TMUX_SESSION}:1" 'cd ~/Desktop; clear' Enter
+      tmux new-window -t "${_TMUX_SESSION}:2" -n '2: macports'
+      tmux send-keys -t "${_TMUX_SESSION}:2" 'cd ~; source .profile.macports; cd /opt/local; clear' Enter
+      tmux new-window -t "${_TMUX_SESSION}:3" -n '3: homebrew'
+      tmux send-keys -t "${_TMUX_SESSION}:3" 'cd ~; source .profile.homebrew; cd ~/PACKAGEMGMT/Homebrew; clear' Enter
+      tmux new-window -t "${_TMUX_SESSION}:4" -n '4: nix'
+      tmux send-keys -t "${_TMUX_SESSION}:4" 'cd ~/.config/nix-darwin; clear' Enter
+      tmux new-window -t "${_TMUX_SESSION}:5" -n '5: ~'
+      tmux send-keys -t "${_TMUX_SESSION}:5" 'cd ~; clear' Enter
+      tmux new-window -t "${_TMUX_SESSION}:6" -n '6: ~'
+      tmux send-keys -t "${_TMUX_SESSION}:6" 'cd ~; clear' Enter
+    fi
   fi
   tmux attach-session -t "${_TMUX_SESSION}"
 fi
