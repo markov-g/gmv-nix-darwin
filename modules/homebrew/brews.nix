@@ -21,7 +21,7 @@
   "fail2ban"
   # "fish"
   "gambit"
-  "gemini-cli"
+  # "gemini-cli"
   "git"
   "git-lfs"
 # "glow"               # → Nix (system.nix)
