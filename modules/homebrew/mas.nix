@@ -39,6 +39,19 @@ let
       # work machine — add work-specific MAS apps here
     };
 
+    "SE1L649RJQC4F" = {
+      "Bible Study"                    = 472790630;
+      "Kagi for Safari"                = 1622835804;
+      "Keynote"                        = 361285480;
+      # "Microsoft OneNote"              = 784801555;
+      "MoneyWiz 2025 Personal Finance" = 1511185140;
+      "Numbers"                        = 361304891;
+      "Pages"                          = 361309726;
+      "Quiver"                         = 866773894;
+      "Webull"                         = 1334590352;
+      # "Nautik"  = 1672838783;  # k8s
+    };
+
     "minidevbox" = {
       # dev box — add if needed
     };

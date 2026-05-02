@@ -114,6 +114,12 @@
         system = "aarch64-darwin";
       };
 
+      "SE1L649RJQC4F" = mkDarwin {
+        host   = "SE1L649RJQC4F";
+        user   = "mch12700";    # different username on work machine
+        system = "aarch64-darwin";
+      };
+
       "SE1FXHLQH3MTP" = mkDarwin {
         host   = "SE1FXHLQH3MTP";
         user   = "mch12700";    # different username on work machine

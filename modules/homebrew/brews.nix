@@ -11,7 +11,7 @@
   "azure-cli"
   "blueutil"            # Bluetooth control (used in ~/.sleep / ~/.wakeup)
   "libxcb"
-#  "code-server"
+#  "code-server"  
   "colima"
   "cloudflared"
 #  "container"           # Apple container runtime (macOS 26+)
@@ -21,6 +21,7 @@
   "fail2ban"
   # "fish"
   "gambit"
+  "gemini-cli"
   "git"
   "git-lfs"
 # "glow"               # → Nix (system.nix)
