@@ -92,6 +92,41 @@
     # Generate with: p10k configure → then commit the result:
     #   cp ~/.p10k.zsh ~/.config/nix-darwin/modules/dotfiles/macos/.p10k.zsh
     ".p10k.zsh".source = ./dotfiles/macos/.p10k.zsh;
+
+    # ── Claude Code config ────────────────────────────────────────────────────
+    # Individual files are symlinked so the directory stays writable for
+    # runtime state (session history, cache, logs, plugin data, etc.).
+    ".claude/CLAUDE.md".source         = ./dotfiles/macos/.claude/CLAUDE.md;
+    ".claude/settings.json".source     = ./dotfiles/macos/.claude/settings.json;
+    ".claude/agents/adversary.md".source     = ./dotfiles/macos/.claude/agents/adversary.md;
+    ".claude/agents/diff-reviewer.md".source = ./dotfiles/macos/.claude/agents/diff-reviewer.md;
+    ".claude/hooks/pre-bash-host-isolation.sh" = {
+      source     = ./dotfiles/macos/.claude/hooks/pre-bash-host-isolation.sh;
+      executable = true;
+    };
+    ".claude/skills/diff-self-review/SKILL.md".source    = ./dotfiles/macos/.claude/skills/diff-self-review/SKILL.md;
+    ".claude/skills/reflect/SKILL.md".source             = ./dotfiles/macos/.claude/skills/reflect/SKILL.md;
+    ".claude/skills/verify-in-container/SKILL.md".source = ./dotfiles/macos/.claude/skills/verify-in-container/SKILL.md;
+
+    # ── Codex config ──────────────────────────────────────────────────────────
+    ".codex/AGENTS.md".source   = ./dotfiles/macos/.codex/AGENTS.md;
+    ".codex/config.toml".source = ./dotfiles/macos/.codex/config.toml;
+    ".codex/hooks/pre-bash-host-isolation.sh" = {
+      source     = ./dotfiles/macos/.codex/hooks/pre-bash-host-isolation.sh;
+      executable = true;
+    };
+    ".codex/hooks/pre-shell-host-isolation.sh" = {
+      source     = ./dotfiles/macos/.codex/hooks/pre-shell-host-isolation.sh;
+      executable = true;
+    };
+    # Shared skills: diff-self-review and verify-in-container use the same
+    # nix store source as the .claude versions (replaces the old .codex ->
+    # .claude directory symlinks). Both paths resolve to the same store path.
+    ".codex/skills/diff-self-review/SKILL.md".source    = ./dotfiles/macos/.claude/skills/diff-self-review/SKILL.md;
+    ".codex/skills/verify-in-container/SKILL.md".source = ./dotfiles/macos/.claude/skills/verify-in-container/SKILL.md;
+    # Codex reflect is a separate copy — it references shell-attempts.log
+    # (not bash-attempts.log) and codex-tui.log rather than Claude's logs.
+    ".codex/skills/reflect/SKILL.md".source = ./dotfiles/macos/.codex/skills/reflect/SKILL.md;
   };
 
   # ── Bootstrap activation scripts ─────────────────────────────────────────────

@@ -1,0 +1,182 @@
+# ~/.codex/config.toml
+#
+# Codex user-level configuration. Equivalent of ~/.claude/settings.json.
+# TOML format. Root keys must come before tables.
+#
+# Reference: https://developers.openai.com/codex/config-reference
+
+# ---------------------------------------------------------------------
+# Model selection (Azure AI Foundry)
+# ---------------------------------------------------------------------
+
+model_provider = "azure_foundry"
+model = "gpt-5.4-pro"               # your Azure deployment name
+model_reasoning_effort = "medium"   # low | medium | high | xhigh
+
+# ---------------------------------------------------------------------
+# Approval and sandbox: the enforcement layer
+# ---------------------------------------------------------------------
+
+# When does Codex pause for human approval before running a command?
+#   "untrusted"  - ask before any non-trivial command (matches plan-first)
+#   "on-request" - ask only when Codex thinks it should
+#   "never"      - never ask (use only inside hardened CI sandboxes)
+approval_policy = "untrusted"
+
+# Filesystem and network policy for model-generated commands.
+#   "read-only"          - Codex can read but not write or execute
+#   "workspace-write"    - Codex can change files inside the workspace
+#   "danger-full-access" - no restrictions (do not use)
+#
+# read-only matches the "no host execution, ever" rule from AGENTS.md.
+# All actual code execution happens in podman, run via commands you
+# explicitly approve.
+sandbox_mode = "read-only"
+
+# ---------------------------------------------------------------------
+# Authentication
+# ---------------------------------------------------------------------
+
+# Where to persist CLI login credentials.
+#   "file"    - plaintext at ~/.codex/auth.json (do not commit)
+#   "keyring" - OS keychain (recommended)
+#   "auto"    - keyring if available, file otherwise
+cli_auth_credentials_store = "keyring"
+
+# ---------------------------------------------------------------------
+# Project doc (AGENTS.md) discovery
+# ---------------------------------------------------------------------
+
+# Per-file size limit for AGENTS.md. Default is 32 KiB on older
+# versions, 64 KiB on current. Bump to give yourself headroom.
+project_doc_max_bytes = 65536
+
+# ---------------------------------------------------------------------
+# Commit attribution
+# ---------------------------------------------------------------------
+
+# Empty string disables the automatic "Co-authored-by: Codex" trailer.
+commit_co_author_trailer = ""
+
+# ---------------------------------------------------------------------
+# Web search
+# ---------------------------------------------------------------------
+
+# "cached" is safer (less prompt-injection risk from live pages);
+# "live" fetches fresh; "disabled" turns it off.
+web_search = "cached"
+
+# ---------------------------------------------------------------------
+# Model providers (Azure AI Foundry)
+# ---------------------------------------------------------------------
+
+[model_providers.azure_foundry]
+name = "Azure AI Foundry"
+base_url = "https://demo-building-claude-resource.openai.azure.com/openai/v1"
+wire_api = "responses"
+env_key = "AZURE_OPENAI_API_KEY"
+
+# ---------------------------------------------------------------------
+# Features
+# ---------------------------------------------------------------------
+
+[features]
+# Required for the [hooks] table below to actually run.
+codex_hooks = true
+
+# Other flags worth knowing. Defaults are fine; uncomment to override.
+# shell_snapshot = true        # speeds repeat commands
+# unified_exec = true          # newer streaming exec; some hooks
+                               # do not intercept it yet
+# multi_agent = true           # spawn_agent and friends
+# memories = false             # off by default
+
+# ---------------------------------------------------------------------
+# Hooks: host-isolation enforcement
+# ---------------------------------------------------------------------
+
+# Block forbidden Bash commands before they run. Same approach as the
+# Claude Code PreToolUse hook. The command path must be absolute;
+# Codex does not reliably expand ~ in hook command fields.
+#
+# REPLACE USERNAME below with your actual username, or paste the full
+# path from `realpath ~/.codex/hooks/pre-shell-host-isolation.sh`.
+
+[[hooks.PreToolUse]]
+matcher = "^Bash$"
+
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "~/.codex/hooks/pre-shell-host-isolation.sh"
+timeout = 30
+statusMessage = "Checking host isolation"
+
+# If newer Codex versions register the shell tool under a different
+# name (e.g. with unified_exec), use alternation: "^(Bash|shell)$".
+
+# ---------------------------------------------------------------------
+# Skills
+# ---------------------------------------------------------------------
+
+# These reference skills installed at ~/.codex/skills/<name>/SKILL.md.
+# Either symlink from ~/.claude/skills/ or copy and adapt for Codex.
+# The reflect skill references log paths that differ between Claude
+# (bash-attempts.log) and Codex (shell-attempts.log), so copy-and-adapt
+# rather than symlink for that one.
+
+[skills.reflect]
+enabled = true
+path = "skills/reflect"
+
+[skills.verify-in-container]
+enabled = true
+path = "skills/verify-in-container"
+
+[skills.diff-self-review]
+enabled = true
+path = "skills/diff-self-review"
+
+# ---------------------------------------------------------------------
+# Subagents (commented until role configs exist)
+# ---------------------------------------------------------------------
+
+# Codex subagents are configured here, not as standalone .md files
+# like Claude. Each role points at a separate config file. Uncomment
+# after creating the role configs.
+
+[agents.adversary]
+config = "agents/adversary.toml"
+description = "Read-only devil's-advocate reviewer for plans, diffs, designs."
+
+[agents.diff-reviewer]
+config = "agents/diff-reviewer.toml"
+description = "Senior code reviewer for uncommitted changes against base branch."
+
+multi_agent_max_concurrent = 6
+multi_agent_max_depth = 1
+
+# ---------------------------------------------------------------------
+# Project trust markers
+# ---------------------------------------------------------------------
+
+# Trusted projects skip the "is this codebase trusted?" prompt at
+# session start. Add one entry per project root you have vetted.
+
+[projects."/Users/devel/git-repos/workspace/claude-cs"]
+trust_level = "trusted"
+
+# Add additional trusted projects here as needed:
+# [projects."/Users/devel/git-repos/workspace/other-repo"]
+# trust_level = "trusted"
+
+# ---------------------------------------------------------------------
+# MCP servers (opt-in)
+# ---------------------------------------------------------------------
+
+# Add MCP servers here as needed. Watch for tokens in headers; never
+# commit those to a repo.
+
+# [mcp_servers.example]
+# command = "/path/to/mcp-server"
+# args = ["--flag"]
+# env = { EXAMPLE_VAR = "value" }

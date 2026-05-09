@@ -73,7 +73,8 @@ sudo -i nix run github:LnL7/nix-darwin#darwin-rebuild -- \
 | Flake key | Hostname | User | Note |
 |---|---|---|---|
 | `r1pp3r` | r1pp3r | r1pp3r | Personal laptop |
-| `SE1FXHLQH3MTP` | SE1FXHLQH3MTP | mch12700 | Work laptop |
+| `SE1FXHLQH3MTP` | SE1FXHLQH3MTP | mch12700 | Work laptop (older SIE MBP) |
+| `SE1L649RJQC4F` | SE1L649RJQC4F | mch12700 | Work laptop (new SIE MacBook Pro M5) |
 | `minidevbox` | minidevbox | r1pp3r | Mac mini dev server |
 | `minidevboxvm` | minidevboxvm | devel | VM on the mini |
 | `openclaw` | openclaw | r1pp3r | No Apple ID (`enableMas = false`) |
@@ -107,6 +108,6 @@ Homebrew binaries are deliberately NOT on `$PATH` by default. Activate them per-
 
 ### Nix packages vs Homebrew
 
-`system.nix` (Nix store, all users): neovim, tmux, bat, eza, fzf, fd, ripgrep, delta, jq, lazygit, gitui, atuin, zoxide, bottom, htop, ncdu, yazi, difftastic, k9s, tealdeer, glow, gpg, age, ssh-to-age, gopls, nil (Nix LSP), nodejs, go, statix, fh.
+`system.nix` (Nix store, all users): vim, neovim, tmux, bat, eza, fzf, fd, ripgrep, delta, jq, lazygit, gitui, atuin, zoxide, bottom, htop, ncdu, yazi, difftastic, dust, tokei, xh, jless, hyperfine, procs, k9s, tealdeer, glow, gnupg, age, ssh-to-age, gopls, nil (Nix LSP), nodejs, go, statix, fh.
 
 `homebrew/brews.nix` (Homebrew, primary user): antigen, awscli, azure-cli, colima, eksctl, helm, kubernetes-cli, k8sgpt, lazydocker, lume, mise, nvm, ollama, rustup, uv, pixi, sleepwatcher, and others that require Homebrew-specific installation.
