@@ -40,6 +40,7 @@ else
 
       "SE1FXHLQH3MTP" = {
         # work machine — add work-specific MAS apps here
+        # "Microsoft OneNote"              = 784801555;
       };
 
       "SE1L649RJQC4F" = {

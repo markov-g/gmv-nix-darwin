@@ -57,6 +57,8 @@
   "opensc"
   "pipx"
   "pixi"
+  "podman"
+  "podman-compose"
 # "qemu"
   "quartz-wm"           # X11 window manager (XQuartz companion)
   "rsync"
