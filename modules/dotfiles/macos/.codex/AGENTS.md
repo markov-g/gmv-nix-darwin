@@ -192,6 +192,26 @@ introduced), clean those up. Pre-existing dead code is not your task;
 leave it alone unless I ask. Your mess, your cleanup. Their mess,
 their decision.
 
+### Edit, Don't Rewrite
+
+For existing files, use Edit or MultiEdit to make targeted changes.
+Reserve Write for new files or rewrites where more than ~70% of the
+file is changing.
+
+Heuristic:
+
+- Under 50 lines changed, or scattered small edits: MultiEdit
+- Structural reorganization, or genuinely starting over: Write
+- New file: Write
+
+This is not primarily about tokens; it is about reviewability. A
+targeted diff is auditable in seconds. A full rewrite forces a
+line-by-line comparison to find what actually changed, which is
+where scope creep hides.
+
+If a change feels large enough to want Write, stop and ask first.
+"This will rewrite ~60% of foo.py. Use Write, or break into edits?"
+
 ### Verify Before Declaring Done
 
 Define success criteria upfront, in the plan. "Done" means proven

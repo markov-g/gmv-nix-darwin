@@ -85,6 +85,7 @@ let
     ];
 
     "minidevbox" = [
+      { name = "aionui";		    greedy = true; }
       { name = "claude-code";               greedy = true; }
       { name = "chatgpt";                   greedy = true; }
       { name = "codex";                     greedy = true; }

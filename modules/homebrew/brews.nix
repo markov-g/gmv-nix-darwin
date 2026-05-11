@@ -31,6 +31,7 @@
   "icu4c@76"
   "gradle"
   "helm"
+# "hermes-agent"
 # "htop"               # → Nix (system.nix)
   "huggingface-cli"
   "iproute2mac"
