@@ -110,6 +110,8 @@ them.
 
 ---
 
+## Epistemic Standards
+
 - Prefer stating confidence over asserting certainty.
 - Label inline when speculating or inferring: `[Inference]`,
   `[Speculation]`, `[Unverified]`.

@@ -74,6 +74,7 @@
     "bin/update-fink"                        = { source = ./dotfiles/macos/bin/update-fink;                        executable = true; };
     "bin/update-homebrew"                    = { source = ./dotfiles/macos/bin/update-homebrew;                    executable = true; };
     "bin/update-macports"                    = { source = ./dotfiles/macos/bin/update-macports;                    executable = true; };
+    "bin/claude-init-rules.sh"               = { source = ./dotfiles/macos/bin/claude-init-rules.sh;               executable = true;};
 
     # ── Scaffold directories (created via a .keep placeholder) ──
     "Applications/.keep".text              = "";
@@ -107,14 +108,18 @@
     ".claude/skills/diff-self-review/SKILL.md".source    = ./dotfiles/macos/.claude/skills/diff-self-review/SKILL.md;
     ".claude/skills/reflect/SKILL.md".source             = ./dotfiles/macos/.claude/skills/reflect/SKILL.md;
     ".claude/skills/verify-in-container/SKILL.md".source = ./dotfiles/macos/.claude/skills/verify-in-container/SKILL.md;
+    # ── Path-scoped rule templates (project-level scaffold) ───────────────────
+    # These live at user level so they're version-controlled and synced across
+    # machines via Nix. Project-level path-scoped rules (`.claude/rules/`) are
+    # stamped into each repo via `claude-init-rules.sh` from these templates.
+    ".claude/rules-templates/python.md".source = ./dotfiles/macos/.claude/rules-templates/python.md;
+    ".claude/rules-templates/rust.md".source   = ./dotfiles/macos/.claude/rules-templates/rust.md;
+    ".claude/rules-templates/swift.md".source  = ./dotfiles/macos/.claude/rules-templates/swift.md;
+    ".claude/rules-templates/dotnet.md".source = ./dotfiles/macos/.claude/rules-templates/dotnet.md;
 
     # ── Codex config ──────────────────────────────────────────────────────────
     ".codex/AGENTS.md".source   = ./dotfiles/macos/.codex/AGENTS.md;
     ".codex/config.toml".source = ./dotfiles/macos/.codex/config.toml;
-    ".codex/hooks/pre-bash-host-isolation.sh" = {
-      source     = ./dotfiles/macos/.codex/hooks/pre-bash-host-isolation.sh;
-      executable = true;
-    };
     ".codex/hooks/pre-shell-host-isolation.sh" = {
       source     = ./dotfiles/macos/.codex/hooks/pre-shell-host-isolation.sh;
       executable = true;
