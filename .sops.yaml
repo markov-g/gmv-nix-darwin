@@ -1,7 +1,7 @@
 keys:
   # Generate with: age-keygen -y ~/.config/sops/age/keys.txt
   # (after: ssh-to-age -private-key -i ~/.ssh/id_ed25519 > ~/.config/sops/age/keys.txt)
-  - &r1pp3r_age age1REPLACE_WITH_YOUR_AGE_PUBLIC_KEY
+  - &r1pp3r_age age1ly07adwx8ttujrdxu0hwdwsyy9n63ftgny26rpzy8upclpkntu3q4anmw0
 
 creation_rules:
   - path_regex: secrets/.*\.yaml$

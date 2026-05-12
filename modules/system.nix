@@ -113,6 +113,7 @@
     gnupg      # GPG encryption, signing, key management (`gpg` command)
     age        # modern simple file encryption (also used internally by sops-nix)
     ssh-to-age # derive age key from SSH key — required for sops-nix bootstrap
+    sops       # encrypt/decrypt sops files for nix-managed secrets
   ];
 
   ########################################
