@@ -58,6 +58,17 @@ else
 
       "minidevbox" = {
         # dev box — add if needed
+        "Bible Study"                    = 472790630;
+        "Kagi for Safari"                = 1622835804;
+        "Keynote"                        = 361285480;
+        "Margin Notes 4"                 = 1531657269;
+        "Microsoft OneNote"              = 784801555;
+        "MoneyWiz 2025 Personal Finance" = 1511185140;
+        "Numbers"                        = 361304891;
+        "Pages"                          = 361309726;
+        "Perplexity: Ask Anything"       = 6714467650;
+        "Quiver"                         = 866773894;
+        "Webull"                         = 1334590352;
       };
     };
 
