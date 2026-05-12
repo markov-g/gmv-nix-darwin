@@ -74,6 +74,7 @@
           }; })
 
           ./modules/homebrew.nix
+          ./modules/homebrew/mas-install.nix
 
           # ── Home Manager ───────────────────────────────────────────────────
           home-manager.darwinModules.home-manager
