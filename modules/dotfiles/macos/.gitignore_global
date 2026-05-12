@@ -45,3 +45,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# AI assistant configs and chat history
+CLAUDE.md
+AGENTS.md
+.claude/
+.cursor/
+.aider*
