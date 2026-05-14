@@ -12,6 +12,10 @@ function compinit() {
   compinit -u "$@"
 }
 
+# ── Default editor ───────────────────────────────────────────────────────────
+export EDITOR=nvim
+export VISUAL=nvim
+
 # ── Plugin manager (antigen) ──────────────────────────────────────────────────
 source ~/PACKAGEMGMT/Homebrew/share/antigen/antigen.zsh
 
@@ -73,6 +77,10 @@ _fzf_comprun() {
 
 # ── Language / toolchain env ──────────────────────────────────────────────────
 # Note: RUSTUP_HOME, CARGO_HOME, PATH for cargo are in .zshenv (always sourced).
+
+# Tell sops CLI where the age key lives (sops-nix uses home.nix's keyFile setting
+# for activation; this is only for interactive sops invocations).
+export SOPS_AGE_KEY_FILE="$HOME/.config/sops/age/keys.txt"
 
 ## History format
 export HISTTIMEFORMAT="%d/%m/%y %T "

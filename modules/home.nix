@@ -257,12 +257,23 @@ ZSHENV_BLOCK
     secrets = {
       # Each entry decrypts to a file at the given path, mode 0600.
       # Keys must exist in secrets/secrets.yaml (encrypted with sops).
-      "netrc"           = { path = "${config.home.homeDirectory}/.netrc";                    mode = "0600"; };
-      "aws_credentials" = { path = "${config.home.homeDirectory}/.aws/credentials";          mode = "0600"; };
-      "docker_config"   = { path = "${config.home.homeDirectory}/.docker/config.json";       mode = "0600"; };
-      "kube_config"     = { path = "${config.home.homeDirectory}/.kube/config";              mode = "0600"; };
-      "ssh_private_key" = { path = "${config.home.homeDirectory}/.ssh/id_ed25519";           mode = "0600"; };
-      "ssh_public_key"  = { path = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";       mode = "0644"; };
+      # "netrc"                             = { path = "${config.home.homeDirectory}/.netrc";                                 mode = "0600"; };
+      "aws_credentials"                   = { path = "${config.home.homeDirectory}/.aws/credentials";                       mode = "0600"; };
+      "docker_config"                     = { path = "${config.home.homeDirectory}/.docker/config.json";                    mode = "0600"; };
+      "kube_config"                       = { path = "${config.home.homeDirectory}/.kube/config";                           mode = "0600"; };
+      "ssh_private_key"                   = { path = "${config.home.homeDirectory}/.ssh/id_ed25519";                        mode = "0600"; };
+      "ssh_public_key"                    = { path = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";                    mode = "0644"; };
+      "ssh_code_siemens_com-key"          = { path = "${config.home.homeDirectory}/.ssh/code_siemens_com-key";              mode = "0600"; };
+      "ssh_id_rsa_multipass"              = { path = "${config.home.homeDirectory}/.ssh/id_rsa_multipass";                  mode = "0600"; };
+      "ssh_id_rsa"                        = { path = "${config.home.homeDirectory}/.ssh/id_rsa";                            mode = "0600"; };
+      "ssh_id_rsa.pub"                    = { path = "${config.home.homeDirectory}/.ssh/id_rsa.pub";                        mode = "0644"; };
+      "ssh_id_rsa_code_siemens_com"       = { path = "${config.home.homeDirectory}/.ssh/id_rsa_code_siemens_com";           mode = "0600"; };
+      "ssh_id_rsa_code_siemens_com.pub"   = { path = "${config.home.homeDirectory}/.ssh/id_rsa_code_siemens_com.pub";       mode = "0644"; };
+      "ssh_id_rsa_manassah"               = { path = "${config.home.homeDirectory}/.ssh/id_rsa_manassah";                   mode = "0600"; };
+      "ssh_minidevbox"                    = { path = "${config.home.homeDirectory}/.ssh/minidevbox";                        mode = "0600"; };
+      "ssh_openclaw"                      = { path = "${config.home.homeDirectory}/.ssh/openclaw";                          mode = "0600"; };
+      "ssh_r1pp3r-GitHub"                 = { path = "${config.home.homeDirectory}/.ssh/r1pp3r-GitHub";                     mode = "0600"; };
+      "ssh_r1pp3r-GitHub.pub"             = { path = "${config.home.homeDirectory}/.ssh/r1pp3r-GitHub.pub";                 mode = "0644"; };
     };
   };
 
