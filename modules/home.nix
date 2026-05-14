@@ -260,7 +260,7 @@ ZSHENV_BLOCK
       # "netrc"                             = { path = "${config.home.homeDirectory}/.netrc";                                 mode = "0600"; };
       "aws_credentials"                   = { path = "${config.home.homeDirectory}/.aws/credentials";                       mode = "0600"; };
       "docker_config"                     = { path = "${config.home.homeDirectory}/.docker/config.json";                    mode = "0600"; };
-      "kube_config"                       = { path = "${config.home.homeDirectory}/.kube/config";                           mode = "0600"; };
+      # "kube_config"                       = { path = "${config.home.homeDirectory}/.kube/config";                           mode = "0600"; };
       "ssh_private_key"                   = { path = "${config.home.homeDirectory}/.ssh/id_ed25519";                        mode = "0600"; };
       "ssh_public_key"                    = { path = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";                    mode = "0644"; };
       "ssh_code_siemens_com-key"          = { path = "${config.home.homeDirectory}/.ssh/code_siemens_com-key";              mode = "0600"; };
