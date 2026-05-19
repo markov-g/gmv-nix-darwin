@@ -59,6 +59,10 @@ let
       greedy = true;
     }
     {
+      name = "obsidian";
+      greedy = true;
+    }
+    {
       name = "opensc-app";
       greedy = true;
     }
