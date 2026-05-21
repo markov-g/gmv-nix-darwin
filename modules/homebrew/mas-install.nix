@@ -1,6 +1,12 @@
-# Routes MAS installs/upgrades via mas 4.0+'s sudo flow.
-# We're already root via darwin-rebuild's outer sudo, so we set SUDO_UID/USER/GID
-# manually to mimic `sudo mas install` being run from the user's terminal.
+# Routes MAS installs/upgrades during nix-darwin activation (runs as root).
+#
+# mas 7.0+ uses Spotlight to list installed apps. In the activation environment
+# HOME=/var/root, so Spotlight queries miss the user's app index. Fix: run
+# `mas list` via `launchctl asuser` + `sudo -u <user>` so it executes in the
+# user's session where Spotlight works correctly.
+#
+# `mas install` and `mas upgrade` still run as root (they need /usr/sbin/installer)
+# with SUDO_UID/GID/USER set so mas can reach the user's App Store XPC services.
 { pkgs, lib, config, user, host, enableMas, ... }:
 
 let
@@ -24,24 +30,8 @@ lib.mkIf (enableMas && masApps != {}) {
       export SUDO_UID="$USER_UID"
       export SUDO_GID="$USER_GID"
       export SUDO_USER="${user}"
-      export MAS_NO_AUTO_INDEX=1
 
-      echo "[mas-install] DEBUG whoami=$(whoami)"
-      echo "[mas-install] DEBUG SUDO_UID=$SUDO_UID SUDO_GID=$SUDO_GID SUDO_USER=$SUDO_USER"
-      echo "[mas-install] DEBUG HOME=${"\${HOME:-unset}"} PATH=${"\${PATH:-unset}"}"
-      echo "[mas-install] DEBUG mas version=$(${realMas} version 2>&1 || true)"
-
-      MAS_LIST_OUTPUT=$(${realMas} list 2>&1)
-      MAS_LIST_STATUS=$?
-      echo "[mas-install] DEBUG mas list exit=$MAS_LIST_STATUS"
-      echo "[mas-install] DEBUG mas list output BEGIN"
-      echo "$MAS_LIST_OUTPUT"
-      echo "[mas-install] DEBUG mas list output END"
-
-      INSTALLED=$(printf '%s\n' "$MAS_LIST_OUTPUT" | /usr/bin/awk '/^[[:space:]]*[0-9]+[[:space:]]/ { print $1 }' || true)
-      echo "[mas-install] DEBUG installed ids BEGIN"
-      printf '%s\n' "$INSTALLED"
-      echo "[mas-install] DEBUG installed ids END"
+      INSTALLED=$(/bin/launchctl asuser "$USER_UID" /usr/bin/sudo -u "${user}" "${realMas}" list 2>/dev/null | /usr/bin/awk '{print $1}' || true)
 
       ${lib.concatMapStringsSep "\n" (id: ''
         if echo "$INSTALLED" | /usr/bin/grep -q "^${toString id}$"; then
