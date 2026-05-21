@@ -31,7 +31,12 @@ lib.mkIf (enableMas && masApps != {}) {
       export SUDO_GID="$USER_GID"
       export SUDO_USER="${user}"
 
-      INSTALLED=$(/bin/launchctl asuser "$USER_UID" /usr/bin/sudo -u "${user}" "${realMas}" list 2>/dev/null | /usr/bin/awk '{print $1}' || true)
+      # mas 7+ uses Spotlight to list installed apps. Force a synchronous index
+      # of /Applications before querying so the list reflects current state.
+      echo "[mas-install] indexing /Applications in Spotlight..."
+      /usr/bin/mdimport /Applications 2>/dev/null || true
+
+      INSTALLED=$(${realMas} list 2>/dev/null | /usr/bin/awk '{print $1}' || true)
 
       ${lib.concatMapStringsSep "\n" (id: ''
         if echo "$INSTALLED" | /usr/bin/grep -q "^${toString id}$"; then
