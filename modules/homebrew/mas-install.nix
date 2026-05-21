@@ -72,9 +72,13 @@ lib.mkIf (enableMas && masApps != {}) {
         fi
       '') masEntries}
 
-      echo "[mas-install] upgrading outdated MAS apps..."
-      ${realMas} upgrade 2>&1 \
-        || echo "[mas-install] upgrade pass had errors"
+      if [ -n "$MAS_LIST" ]; then
+        echo "[mas-install] upgrading outdated MAS apps..."
+        ${realMas} upgrade 2>&1 \
+          || echo "[mas-install] upgrade pass had errors"
+      else
+        echo "[mas-install] skipping upgrade — Spotlight unavailable (App Store auto-updates handle this)"
+      fi
     fi
   '';
 }
