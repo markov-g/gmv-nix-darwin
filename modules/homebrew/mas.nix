@@ -18,24 +18,24 @@ else
       # "Texifier"                       = 458866234;
       "UTM" = 1538878817;
       "Windows App" = 1295203466;
-      "Workspaces 2" = 1540284555;
+      "Workspaces" = 1540284555;
       "Xcode" = 497799835;
     };
 
     # ── Per-host extras ────────────────────────────────────────────────────────
     hostSpecific = {
       "r1pp3r" = {
-        "Bible Study" = 472790630;
-        "Kagi for Safari" = 1622835804;
-        "Keynote" = 361285480;
+        "Bible Study"       = 472790630;
+        "Kagi for Safari"   = 1622835804;
+        "Keynote"           = 361285480;
         "Microsoft OneNote" = 784801555;
-        "MoneyWiz 2025 Personal Finance" = 1511185140;
-        "Numbers" = 361304891;
-        "Pages" = 361309726;
-        "Quiver" = 866773894;
-        "Webull" = 1334590352;
-        "Margin Notes 4" = 1531657269;
-        # "Nautik"  = 1672838783;  # k8s
+        "MoneyWiz"          = 1511185140;
+        "Numbers"           = 361304891;
+        "Pages"             = 361309726;
+        "Quiver"            = 866773894;
+        "Webull"            = 1334590352;
+        "MarginNote 4"      = 1531657269;  # exact: dir is MarginNote 4.app not Margin Notes 4
+        # "Nautik"          = 1672838783;  # k8s
       };
 
       "SE1FXHLQH3MTP" = {
@@ -44,31 +44,30 @@ else
       };
 
       "SE1L649RJQC4F" = {
-        "Bible Study" = 472790630;
+        "Bible Study"    = 472790630;
         "Kagi for Safari" = 1622835804;
-        "Keynote" = 361285480;
-        # "Microsoft OneNote"              = 784801555;
-        "MoneyWiz 2025 Personal Finance" = 1511185140;
-        "Numbers" = 361304891;
-        "Pages" = 361309726;
-        "Quiver" = 866773894;
-        "Webull" = 1334590352;
+        "Keynote"  = 361285480;
+        # "Microsoft OneNote" = 784801555;
+        "MoneyWiz" = 1511185140;
+        "Numbers"  = 361304891;
+        "Pages"    = 361309726;
+        "Quiver"   = 866773894;
+        "Webull"   = 1334590352;
         # "Nautik"  = 1672838783;  # k8s
       };
 
       "minidevbox" = {
-        # dev box — add if needed
-        "Bible Study"                    = 472790630;
-        "Kagi for Safari"                = 1622835804;
-        "Keynote"                        = 361285480;
-        "Margin Notes 4"                 = 1531657269;
-        "Microsoft OneNote"              = 784801555;
-        "MoneyWiz 2025 Personal Finance" = 1511185140;
-        "Numbers"                        = 361304891;
-        "Pages"                          = 361309726;
-        "Perplexity: Ask Anything"       = 6714467650;
-        "Quiver"                         = 866773894;
-        "Webull"                         = 1334590352;
+        "Bible Study"       = 472790630;
+        "Kagi for Safari"   = 1622835804;
+        "Keynote"           = 361285480;
+        "MarginNote 4"      = 1531657269;  # exact: dir is MarginNote 4.app not Margin Notes 4
+        "Microsoft OneNote" = 784801555;
+        "MoneyWiz"          = 1511185140;
+        "Numbers"           = 361304891;
+        "Pages"             = 361309726;
+        "Perplexity"        = 6714467650;
+        "Quiver"            = 866773894;
+        "Webull"            = 1334590352;
       };
     };
 
