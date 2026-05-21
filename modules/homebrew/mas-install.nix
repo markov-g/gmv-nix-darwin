@@ -95,10 +95,17 @@ lib.mkIf (enableMas && masApps != {}) {
     elif [ ! -x "${realMas}" ]; then
       echo "[mas-install] ${realMas} not found — skipping"
     else
+      PLIST="/Users/${user}/Library/LaunchAgents/${agentId}.plist"
       echo "[mas-install] kicking agent for ${user} (uid $USER_UID)"
-      echo "[mas-install] monitor: tail -f ${latestLog}"
-      /bin/launchctl kickstart -k "gui/$USER_UID/${agentId}" 2>/dev/null \
-        || echo "[mas-install] agent not loaded yet — will run at next login"
+      # Bootstrap loads the plist into the user's GUI session if not already there.
+      # Safe to call even when already loaded — errors are ignored.
+      /bin/launchctl bootstrap "gui/$USER_UID" "$PLIST" 2>/dev/null || true
+      if /bin/launchctl kickstart -k "gui/$USER_UID/${agentId}" 2>/dev/null; then
+        echo "[mas-install] agent kicked — monitor: tail -f ${latestLog}"
+      else
+        echo "[mas-install] kickstart failed — agent will run at next GUI login"
+        echo "[mas-install] to retry manually: launchctl kickstart -k gui/$USER_UID/${agentId}"
+      fi
     fi
   '';
 }
