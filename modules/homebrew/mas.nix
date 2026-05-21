@@ -27,11 +27,11 @@ else
       "r1pp3r" = {
         "Bible Study" = 472790630;
         "Kagi for Safari" = 1622835804;
-        "Keynote" = 409183694;
+        "Keynote" = 361285480;
         "Microsoft OneNote" = 784801555;
         "MoneyWiz 2025 Personal Finance" = 1511185140;
-        "Numbers" = 409203825;
-        "Pages" = 409201541;
+        "Numbers" = 361304891;
+        "Pages" = 361309726;
         "Quiver" = 866773894;
         "Webull" = 1334590352;
         "Margin Notes 4" = 1531657269;

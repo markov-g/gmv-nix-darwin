@@ -29,7 +29,7 @@
   "go"
   "pkgconf"
   "icu4c@76"
-  "gradle"
+###  "gradle"
   "helm"
 # "hermes-agent"
 # "htop"               # → Nix (system.nix)
@@ -37,8 +37,8 @@
   "iproute2mac"
   "jenv"                # Java version manager
   "k8sgpt"
-  "kotlin"
-  "kotlin-language-server"
+###  "kotlin"
+###  "kotlin-language-server"
   "kubernetes-cli"
   "kubeshark"
   "lazydocker"
@@ -50,7 +50,7 @@
   "mise"                # polyglot version manager (Node, Python, Ruby, Go…)
   "minikube"
 # "ncdu"               # → Nix (system.nix)
-  "neo4j"
+###  "neo4j"
 # "neovim"             # → Nix (system.nix)
   "nvm"                 # Node version manager (alternative to mise for Node)
   "ollama"

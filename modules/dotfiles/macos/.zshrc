@@ -1,3 +1,8 @@
+# Enable Powerlevel10k instant prompt. Must stay at the top of ~/.zshrc.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # Set TERM only outside tmux — inside tmux, let tmux's default-terminal (tmux-256color) win.
 [[ -z "$TMUX" ]] && export TERM="xterm-256color"
 
@@ -44,7 +49,8 @@ antigen bundle vi-mode
 antigen bundle web-search
 antigen bundle zsh-users/zsh-syntax-highlighting
 antigen bundle zsh-users/zsh-history-substring-search ./zsh-history-substring-search.zsh
-antigen bundle tarruda/zsh-autosuggestions
+#antigen bundle tarruda/zsh-autosuggestions
+antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle zsh-users/zsh-completions
 antigen bundle https://github.com/spwhitt/nix-zsh-completions.git
 
