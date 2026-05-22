@@ -155,6 +155,7 @@
   },
 
   "enabledPlugins": {
-    "codex@openai-codex": true
+    "codex@openai-codex": true,
+    "superpowers@claude-plugins-official": true
   }
 }
