@@ -13,7 +13,7 @@ else
   let
     # ── Apps installed on every enableMas machine ─────────────────────────────
     shared = {
-      "1Password 7" = 1333542190;
+      # "1Password 7" = 1333542190;
       "Termius" = 1176074088;
       # "Texifier"                       = 458866234;
       "UTM" = 1538878817;
