@@ -5,6 +5,7 @@
 #   difftastic, dust, tokei, xh, jless, k9s, tealdeer, glow,
 #   hyperfine, procs, jq
 [
+  "1password-cli"
   "antigen"             # zsh plugin manager (sourced from BREW_PREFIX in .zshrc)
   # "aws-shell"
   "awscli"
