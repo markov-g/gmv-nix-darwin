@@ -5,6 +5,8 @@
 let
   # ── Shared casks — installed on every machine ─────────────────────────────
   shared = [
+    { name = "1password-cli"; greedy = true; }
+    { name = "1password"; greedy = true; }
     { name = "brave-browser"; greedy = true; }
     { name = "carbon-copy-cloner"; greedy = true; }
     { name = "claude"; greedy = true; }
