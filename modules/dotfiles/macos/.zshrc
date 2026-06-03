@@ -59,6 +59,16 @@ antigen theme romkatv/powerlevel10k
 
 antigen apply
 
+# ── Paste safety: bracketed paste ─────────────────────────────────────────────
+# Pasted text (incl. multi-line) is inserted as ONE inert buffer. Embedded
+# newlines do NOT execute; you review and hit Enter yourself. This is the fix
+# for the podman-rmi clipboard incident.
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
+
+# If `bindkey | grep bracketed` shows nothing in a fresh shell, also add:
+# bindkey '^[[200~' bracketed-paste
+
 # ── fzf shell integration ─────────────────────────────────────────────────────
 # MUST be after antigen apply — antigen triggers compinit, and fzf's completion.zsh
 # calls compdef to register the ** trigger. compdef only exists post-compinit.
