@@ -11,6 +11,7 @@ let
     { name = "carbon-copy-cloner"; greedy = true; }
     { name = "claude"; greedy = true; }
     { name = "codex"; greedy = true; }
+    { name = "devpod"; greedy = true; }
     # { name = "container"; greedy = true; }
     { name = "font-fira-code"; greedy = true; }
     { name = "font-fira-code-nerd-font"; greedy = true; }
