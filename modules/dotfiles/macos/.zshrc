@@ -281,9 +281,10 @@ export KEYTIMEOUT=1
 # ── Tmux autostart ────────────────────────────────────────────────────────────
 _TMUX_SESSION="${USER}-tmux"
 if [[ -z "$TMUX" ]] && [[ "$TERM" != "screen" ]]; then
+  _tmux_fresh=0
   if ! tmux has-session -t "${_TMUX_SESSION}" 2>/dev/null; then
+    _tmux_fresh=1
     tmux new-session -d -s "${_TMUX_SESSION}"
-    sleep 3
     if [[ ! -e "$HOME/.tmux/resurrect/last" ]]; then
       tmux rename-window -t "${_TMUX_SESSION}:1" '~/Desktop'
       tmux send-keys -t "${_TMUX_SESSION}:1" 'cd ~/Desktop; clear' Enter
@@ -299,6 +300,7 @@ if [[ -z "$TMUX" ]] && [[ "$TERM" != "screen" ]]; then
       tmux send-keys -t "${_TMUX_SESSION}:6" 'cd ~; clear' Enter
     fi
   fi
+  [[ $_tmux_fresh -eq 1 ]] && sleep 3
   tmux attach-session -t "${_TMUX_SESSION}"
 fi
 unset _TMUX_SESSION
