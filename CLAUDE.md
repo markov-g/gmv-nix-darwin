@@ -86,7 +86,7 @@ sudo -i nix run github:LnL7/nix-darwin#darwin-rebuild -- \
 - `modules/homebrew/brews.nix` — shared CLI formula list.
 - `modules/homebrew/casks.nix` — takes `{ host }`; returns shared + per-host GUI apps.
 - `modules/homebrew/mas.nix` — takes `{ host, enableMas }`; returns per-host + shared app attrset; returns `{}` when `enableMas = false`. Declaration only -- no installation logic.
-- `modules/homebrew/mas-install.nix` — custom activation module; forces `homebrew.masApps = lib.mkForce {}` to bypass brew bundle, then installs/upgrades MAS apps via `mas` in `postActivation` using `SUDO_UID/SUDO_GID/SUDO_USER` env shim.
+- `modules/homebrew/mas-install.nix` — custom activation module; forces `homebrew.masApps = lib.mkForce {}` to bypass brew bundle, then installs/upgrades MAS apps via `mas` in `postActivation` using `SUDO_UID/SUDO_GID/SUDO_USER` env shim. Detection is adaptive: uses `mas list` when Spotlight is healthy, falls back to filesystem glob + `_MASReceipt/receipt` check when it is not.
 - `modules/home.nix` — home-manager for the primary user: dotfile symlinks, activation scripts (TPM bootstrap, SSH key generation, compinit fix), sleepwatcher launchd agent, sops secrets decryption.
 - `modules/home-standard.nix` — secondary users: `imports = [ ./home.nix ]` plus activation scripts to bootstrap Homebrew and run `brew bundle` (formulas only, no casks/MAS).
 - `modules/dotfiles/macos/` — all managed dotfiles (zsh chain, git, tmux, Neovim/LazyVim, p10k, `bin/` scripts).
@@ -137,10 +137,45 @@ Tracked upstream as [nix-darwin#1694](https://github.com/nix-darwin/nix-darwin/i
 1. Forces `homebrew.masApps = lib.mkForce {};` so brew bundle has nothing to fail on.
 2. Imports `./mas.nix` directly to get the app list (single source of truth preserved).
 3. Sets `SUDO_UID` / `SUDO_GID` / `SUDO_USER` in the activation environment so mas's zsh wrapper sees the env it expects from a `sudo mas` invocation.
-4. Calls `mas install <id>` for missing apps (idempotent via `mas list` pre-check).
-5. Calls `mas upgrade` to bring outdated apps current.
+4. Probes Spotlight via `mas list`. If it returns app IDs, uses those for detection. If it returns empty (Spotlight broken or unavailable), falls back to filesystem check: glob match on `/Applications/<name>*.app` + presence of `Contents/_MASReceipt/receipt` (proves MAS provenance).
+5. Calls `mas install <id>` for each app not detected as installed.
+6. Calls `mas upgrade` to bring outdated apps current -- only when Spotlight is healthy. When Spotlight is unavailable `mas upgrade` is a no-op and generates noise; App Store auto-updates handle upgrades in that case.
 
 The activation runs in `system.activationScripts.postActivation.text` with `lib.mkAfter`, after brew bundle and home-manager have completed.
+
+### mas 7.0.0: Spotlight detection and the reinstall loop
+
+mas 7.0.0 switched installed-app detection from a direct App Store API call to Spotlight (`mdfind "kMDItemAppStoreAdamID == <id>"`). If Spotlight's index is empty or unavailable, `mas list` returns nothing, every app looks uninstalled, and every `darwin-rebuild switch` triggers a full reinstall of all MAS apps.
+
+This can happen for two independent reasons:
+
+- **Activation environment**: `postActivation` runs as root with `HOME=/var/root`. Spotlight queries in this context can miss the user's app index.
+- **Broken system index**: The Spotlight index on a given machine can be corrupted or stalled (observed on minidevbox after heavy load + repeated mas reinstalls). `mas list` returns empty even in interactive user sessions.
+
+Repeated reinstalls from this bug are **harmless** -- `mas install` on an already-installed app atomically replaces the `.app` bundle with an identical copy. User data in `~/Library/Containers/` and `~/Library/Application Support/` is never touched.
+
+**Approaches tried before the current solution:**
+
+- `MAS_NO_AUTO_INDEX=1` -- disabled mas's own async indexing fallback, making detection worse. Reverted.
+- `mdimport /Applications` before `mas list` -- `mdimport` is asynchronous; returns before the index updates. Did not help.
+- `launchctl asuser $uid` wrapping `mas list` -- same Spotlight dependency, same empty result.
+- LaunchAgent (home-manager `launchd.agents`) -- architecturally correct for session context, but `mas install` as a non-root user calls `sudo` internally for `/usr/sbin/installer` and fails without a TTY. Also, home-manager prefixes LaunchAgent labels with `org.nix-community.home.` -- not `com.<user>.mas-install`. Reverted and cleaned up with `launchctl bootout`.
+
+**Current solution:** adaptive detection. Try `mas list`; if empty, fall back to `_MASReceipt/receipt` + glob check. Keys in `mas.nix` are canonical short names (e.g. `"Keynote"`) -- the glob `Keynote*.app` handles regional variants (`Keynote Creator Studio.app`, `Keynote.app`, etc.). Exception: `MarginNote 4` is exact because `Margin Notes 4` (a plausible typo) would not match `MarginNote 4.app`.
+
+**To repair a broken Spotlight index:**
+```bash
+sudo mdutil -E /
+# wait for indexing to complete -- poll with:
+watch -n 30 'mdfind "kMDItemAppStoreAdamID == 497799835"'
+# returns /Applications/Xcode.app when done
+```
+
+**Policy decisions baked into this approach:**
+
+- Only `/Applications` is checked. MAS apps moved to `~/Applications` or other locations are not detected. This is intentional.
+- If you delete an app via Launchpad or Finder, the next `darwin-rebuild switch` reinstalls it. That is the correct declarative behavior -- to permanently remove an app, remove it from `mas.nix`.
+- `mas upgrade` is skipped when Spotlight is unavailable. App Store auto-updates run independently and handle upgrades.
 
 ### What it does NOT do
 
@@ -182,14 +217,18 @@ If touching this module:
 - Keep `homebrew.masApps = lib.mkForce {};`. Without it, brew bundle re-enters the broken root-mas path.
 - Keep the `export SUDO_UID/SUDO_GID/SUDO_USER` lines before any mas invocation. Without them, mas 4.0+ exits with `Failed to get sudo uid`.
 - The script runs as root from `darwin-rebuild`'s outer sudo. mas internally drops to the user's UID via `SUDO_UID` for App Store ops and re-elevates to root for `/usr/sbin/installer`. This is the same flow as running `sudo mas install <id>` interactively.
+- The `MAS_LIST` variable controls which detection path is used. Do not set `MAS_NO_AUTO_INDEX=1` -- it disables mas's own indexing fallback and makes detection worse when Spotlight is partially healthy.
+- Keys in `mas.nix` drive the filesystem fallback glob. Keep them as canonical short names. Only use an exact longer name when the short name would glob-match an unrelated app or when a spelling difference makes glob useless (e.g. `MarginNote 4` not `Margin Notes 4`).
 - `mas upgrade` can run long when the App Store has updates pending. If activation hangs become a problem, wrap with `${pkgs.coreutils}/bin/timeout 1800 ...` for a 30-minute ceiling.
 
 ### Logs
 
 mas activation output is prefixed with `[mas-install]` and visible in `darwin-rebuild switch` output. Look for:
 
-- `[mas-install]   <id>: already installed` -- idempotent skip
-- `[mas-install]   <id>: installing...` -- fresh install attempt
-- `[mas-install]   <id>: install failed (may need 'Get' from App Store GUI first)` -- not in purchase history; click "Get" once in the store
-- `==> Updated <App>` -- successful upgrade from the upgrade pass
-- `Warning: Found a likely App Store app that is not indexed in Spotlight` -- informational; suppress with `export MAS_NO_AUTO_INDEX=1` in the activation script if noisy.
+- `[mas-install] detection: Spotlight healthy — using mas list` -- normal path; Adam ID match
+- `[mas-install] detection: mas list empty — Spotlight unavailable, using filesystem fallback` -- Spotlight broken; using receipt check
+- `[mas-install]   <name>: already installed` -- idempotent skip
+- `[mas-install]   <name> (<id>): not found — installing...` -- fresh install attempt
+- `[mas-install]   <name>: install failed (may need 'Get' from App Store GUI first)` -- not in purchase history; click "Get" once in the store
+- `[mas-install] skipping upgrade — Spotlight unavailable` -- upgrade deferred to App Store auto-updates
+- `==> Updated <App>` -- successful upgrade from the upgrade pass (Spotlight path only)
