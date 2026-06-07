@@ -279,41 +279,41 @@ export KEYTIMEOUT=1
 [[ -o login ]] || { [[ -e ~/.zprofile ]] && source ~/.zprofile; }
 
 # ── Tmux autostart ────────────────────────────────────────────────────────────
-# Start server with stdio redirected to /dev/null first. The server's internal
-# fork+setsid then has no PTY reference, avoiding "open terminal failed: not a
-# terminal" on macOS Terminal.app restore when the server starts cold.
-# Window setup commands (new-window, send-keys) are control-mode only -- no
-# tty_open() call -- so they are safe after the /dev/null server start.
-# Only the final exec attach-session is a terminal client.
+# Policy:
+#   .zshrc owns the default tmux layout.
+#   tmux-continuum auto-restore must stay OFF in ~/.tmux.conf.
+#
+# Behavior:
+#   - If already inside tmux: do nothing.
+#   - If no real TTY is available: exit cleanly.
+#   - If ${USER}-tmux already exists: attach to it.
+#   - Otherwise: create a fresh deterministic 6-window layout and attach.
+#
+# Important:
+#   Do NOT call `tmux start-server` here. Starting the server early can trigger
+#   plugin startup hooks before this guard logic runs.
 _TMUX_SESSION="${USER}-tmux"
-if [[ -z "$TMUX" ]] && [[ "$TERM" != "screen" ]]; then
-  # Start server with stdio redirected to /dev/null so the server's
-  # fork+setsid has no PTY reference.
-  { tmux start-server; } 0</dev/null 1>/dev/null 2>/dev/null
-  if [[ -t 0 ]]; then
-    if ! tmux has-session -t "${_TMUX_SESSION}" 2>/dev/null; then
-      tmux new-session -d -s "${_TMUX_SESSION}" 2>/dev/null
-      tmux rename-window -t "${_TMUX_SESSION}:1" '~/Desktop'
-      tmux send-keys -t "${_TMUX_SESSION}:1" 'cd ~/Desktop; clear' Enter
-      tmux new-window -t "${_TMUX_SESSION}:2" -n '2: macports' 2>/dev/null
-      tmux send-keys -t "${_TMUX_SESSION}:2" 'cd ~; source .profile.macports 2>/dev/null; cd /opt/local 2>/dev/null || cd ~; clear' Enter
-      tmux new-window -t "${_TMUX_SESSION}:3" -n '3: homebrew' 2>/dev/null
-      tmux send-keys -t "${_TMUX_SESSION}:3" 'cd ~; source .profile.homebrew 2>/dev/null; cd ~/PACKAGEMGMT/Homebrew 2>/dev/null || cd ~; clear' Enter
-      tmux new-window -t "${_TMUX_SESSION}:4" -n '4: nix' 2>/dev/null
-      tmux send-keys -t "${_TMUX_SESSION}:4" 'cd ~/.config/nix-darwin; clear' Enter
-      tmux new-window -t "${_TMUX_SESSION}:5" -n '5: ~' 2>/dev/null
-      tmux send-keys -t "${_TMUX_SESSION}:5" 'cd ~; clear' Enter
-      tmux new-window -t "${_TMUX_SESSION}:6" -n '6: ~' 2>/dev/null
-      tmux send-keys -t "${_TMUX_SESSION}:6" 'cd ~; clear' Enter
-    fi
-    exec tmux attach-session -t "${_TMUX_SESSION}"
-  else
-    # No PTY yet: Terminal.app started this shell before the PTY was ready
-    # (session restore race). Server is started above. Exit cleanly so
-    # Terminal.app restarts the shell with a real PTY, which will create
-    # the session and attach on the next run.
+if [[ -z "${TMUX:-}" ]] && [[ "${TERM:-}" != screen* ]]; then
+  if [[ ! -t 0 ]]; then
     exit 0
   fi
+  if tmux has-session -t "${_TMUX_SESSION}" 2>/dev/null; then
+    exec tmux attach-session -t "${_TMUX_SESSION}"
+  fi
+  tmux new-session -d -s "${_TMUX_SESSION}" -n '~/Desktop' -c "$HOME/Desktop"
+  tmux send-keys -t "${_TMUX_SESSION}:1" 'clear' Enter
+  tmux new-window -t "${_TMUX_SESSION}:2" -n '2: macports' -c "$HOME"
+  tmux send-keys -t "${_TMUX_SESSION}:2" 'source ~/.profile.macports 2>/dev/null; cd /opt/local 2>/dev/null || cd ~; clear' Enter
+  tmux new-window -t "${_TMUX_SESSION}:3" -n '3: homebrew' -c "$HOME"
+  tmux send-keys -t "${_TMUX_SESSION}:3" 'source ~/.profile.homebrew 2>/dev/null; cd ~/PACKAGEMGMT/Homebrew 2>/dev/null || cd ~; clear' Enter
+  tmux new-window -t "${_TMUX_SESSION}:4" -n '4: nix' -c "$HOME/.config/nix-darwin"
+  tmux send-keys -t "${_TMUX_SESSION}:4" 'clear' Enter
+  tmux new-window -t "${_TMUX_SESSION}:5" -n '5: ~' -c "$HOME"
+  tmux send-keys -t "${_TMUX_SESSION}:5" 'clear' Enter
+  tmux new-window -t "${_TMUX_SESSION}:6" -n '6: ~' -c "$HOME"
+  tmux send-keys -t "${_TMUX_SESSION}:6" 'clear' Enter
+  tmux select-window -t "${_TMUX_SESSION}:1"
+  exec tmux attach-session -t "${_TMUX_SESSION}"
 fi
 unset _TMUX_SESSION
 
