@@ -17,6 +17,12 @@
     # Homebrew bootstrap (nix-homebrew)
     ######################################
     nix-homebrew.url   = "github:zhaofengli/nix-homebrew";
+    # NEW: pin brew engine directly so it can't drift behind homebrew-core
+    brew-src = {
+      url = "github:Homebrew/brew";   # tracks latest brew
+      flake = false;
+    };
+    nix-homebrew.inputs.brew-src.follows = "brew-src";
 
     homebrew-core  = { url = "github:homebrew/homebrew-core";  flake = false; };
     homebrew-cask  = { url = "github:homebrew/homebrew-cask";  flake = false; };
