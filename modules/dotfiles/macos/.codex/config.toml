@@ -10,7 +10,7 @@
 # ---------------------------------------------------------------------
 
 model_provider = "azure_foundry"
-model = "gpt-5.4-pro"               # your Azure deployment name
+model = "gpt-5.6-sol"               # your Azure deployment name
 model_reasoning_effort = "medium"   # low | medium | high | xhigh
 
 # ---------------------------------------------------------------------
@@ -135,6 +135,34 @@ path = "skills/verify-in-container"
 [skills.diff-self-review]
 enabled = true
 path = "skills/diff-self-review"
+
+[skills.teach]
+enabled = true
+path = "skills/teach"
+
+[skills.research]
+enabled = true
+path = "skills/research"
+
+[skills.wayfinder]
+enabled = true
+path = "skills/wayfinder"
+
+[skills.grill-me]
+enabled = true
+path = "skills/grill-me"
+
+[skills.handoff]
+enabled = true
+path = "skills/handoff"
+
+[skills.improve-codebase-architecture]
+enabled = true
+path = "skills/improve-codebase-architecture"
+
+[skills.codebase-design]
+enabled = true
+path = "skills/codebase-design"
 
 # ---------------------------------------------------------------------
 # Subagents (commented until role configs exist)

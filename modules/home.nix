@@ -108,6 +108,21 @@
     ".claude/skills/diff-self-review/SKILL.md".source    = ./dotfiles/macos/.claude/skills/diff-self-review/SKILL.md;
     ".claude/skills/reflect/SKILL.md".source             = ./dotfiles/macos/.claude/skills/reflect/SKILL.md;
     ".claude/skills/verify-in-container/SKILL.md".source = ./dotfiles/macos/.claude/skills/verify-in-container/SKILL.md;
+    # Matt Pocock skills
+    ".claude/skills/teach/SKILL.md".source                  = ./dotfiles/macos/.claude/skills/teach/SKILL.md;
+    ".claude/skills/teach/GLOSSARY-FORMAT.md".source        = ./dotfiles/macos/.claude/skills/teach/GLOSSARY-FORMAT.md;
+    ".claude/skills/teach/LEARNING-RECORD-FORMAT.md".source = ./dotfiles/macos/.claude/skills/teach/LEARNING-RECORD-FORMAT.md;
+    ".claude/skills/teach/MISSION-FORMAT.md".source         = ./dotfiles/macos/.claude/skills/teach/MISSION-FORMAT.md;
+    ".claude/skills/teach/RESOURCES-FORMAT.md".source       = ./dotfiles/macos/.claude/skills/teach/RESOURCES-FORMAT.md;
+    ".claude/skills/research/SKILL.md".source               = ./dotfiles/macos/.claude/skills/research/SKILL.md;
+    ".claude/skills/wayfinder/SKILL.md".source              = ./dotfiles/macos/.claude/skills/wayfinder/SKILL.md;
+    ".claude/skills/grill-me/SKILL.md".source               = ./dotfiles/macos/.claude/skills/grill-me/SKILL.md;
+    ".claude/skills/handoff/SKILL.md".source                = ./dotfiles/macos/.claude/skills/handoff/SKILL.md;
+    ".claude/skills/improve-codebase-architecture/SKILL.md".source      = ./dotfiles/macos/.claude/skills/improve-codebase-architecture/SKILL.md;
+    ".claude/skills/improve-codebase-architecture/HTML-REPORT.md".source = ./dotfiles/macos/.claude/skills/improve-codebase-architecture/HTML-REPORT.md;
+    ".claude/skills/codebase-design/SKILL.md".source           = ./dotfiles/macos/.claude/skills/codebase-design/SKILL.md;
+    ".claude/skills/codebase-design/DEEPENING.md".source       = ./dotfiles/macos/.claude/skills/codebase-design/DEEPENING.md;
+    ".claude/skills/codebase-design/DESIGN-IT-TWICE.md".source = ./dotfiles/macos/.claude/skills/codebase-design/DESIGN-IT-TWICE.md;
     # ── Path-scoped rule templates (project-level scaffold) ───────────────────
     # These live at user level so they're version-controlled and synced across
     # machines via Nix. Project-level path-scoped rules (`.claude/rules/`) are
@@ -129,9 +144,24 @@
     # .claude directory symlinks). Both paths resolve to the same store path.
     ".codex/skills/diff-self-review/SKILL.md".source    = ./dotfiles/macos/.claude/skills/diff-self-review/SKILL.md;
     ".codex/skills/verify-in-container/SKILL.md".source = ./dotfiles/macos/.claude/skills/verify-in-container/SKILL.md;
-    # Codex reflect is a separate copy — it references shell-attempts.log
+    # Codex reflect is a separate copy -- it references shell-attempts.log
     # (not bash-attempts.log) and codex-tui.log rather than Claude's logs.
     ".codex/skills/reflect/SKILL.md".source = ./dotfiles/macos/.codex/skills/reflect/SKILL.md;
+    # Matt Pocock skills (shared source with Claude)
+    ".codex/skills/teach/SKILL.md".source                  = ./dotfiles/macos/.claude/skills/teach/SKILL.md;
+    ".codex/skills/teach/GLOSSARY-FORMAT.md".source        = ./dotfiles/macos/.claude/skills/teach/GLOSSARY-FORMAT.md;
+    ".codex/skills/teach/LEARNING-RECORD-FORMAT.md".source = ./dotfiles/macos/.claude/skills/teach/LEARNING-RECORD-FORMAT.md;
+    ".codex/skills/teach/MISSION-FORMAT.md".source         = ./dotfiles/macos/.claude/skills/teach/MISSION-FORMAT.md;
+    ".codex/skills/teach/RESOURCES-FORMAT.md".source       = ./dotfiles/macos/.claude/skills/teach/RESOURCES-FORMAT.md;
+    ".codex/skills/research/SKILL.md".source               = ./dotfiles/macos/.claude/skills/research/SKILL.md;
+    ".codex/skills/wayfinder/SKILL.md".source              = ./dotfiles/macos/.claude/skills/wayfinder/SKILL.md;
+    ".codex/skills/grill-me/SKILL.md".source               = ./dotfiles/macos/.claude/skills/grill-me/SKILL.md;
+    ".codex/skills/handoff/SKILL.md".source                = ./dotfiles/macos/.claude/skills/handoff/SKILL.md;
+    ".codex/skills/improve-codebase-architecture/SKILL.md".source      = ./dotfiles/macos/.claude/skills/improve-codebase-architecture/SKILL.md;
+    ".codex/skills/improve-codebase-architecture/HTML-REPORT.md".source = ./dotfiles/macos/.claude/skills/improve-codebase-architecture/HTML-REPORT.md;
+    ".codex/skills/codebase-design/SKILL.md".source           = ./dotfiles/macos/.claude/skills/codebase-design/SKILL.md;
+    ".codex/skills/codebase-design/DEEPENING.md".source       = ./dotfiles/macos/.claude/skills/codebase-design/DEEPENING.md;
+    ".codex/skills/codebase-design/DESIGN-IT-TWICE.md".source = ./dotfiles/macos/.claude/skills/codebase-design/DESIGN-IT-TWICE.md;
   };
 
   # ── Bootstrap activation scripts ─────────────────────────────────────────────
