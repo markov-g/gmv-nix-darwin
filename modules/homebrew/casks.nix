@@ -9,7 +9,8 @@ let
     { name = "1password"; greedy = true; }
     { name = "brave-browser"; greedy = true; }
     { name = "carbon-copy-cloner"; greedy = true; }
-    { name = "claude"; greedy = true; }
+    { name = "chatgpt"; greedy = true; }
+    { name = "claude"; greedy = true; }    
     { name = "codex"; greedy = true; }
     { name = "devpod"; greedy = true; }
     # { name = "container"; greedy = true; }
@@ -17,6 +18,7 @@ let
     { name = "font-fira-code-nerd-font"; greedy = true; }
     { name = "font-hack-nerd-font"; greedy = true; }
     { name = "font-source-code-pro"; greedy = true; }
+    { name = "google-gemini"; greedy = true; }
     { name = "iterm2"; greedy = true; }
     { name = "jetbrains-toolbox"; greedy = true; }
     { name = "jordanbaird-ice"; greedy = true; }
