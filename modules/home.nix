@@ -118,6 +118,8 @@
     ".claude/skills/wayfinder/SKILL.md".source              = ./dotfiles/macos/.claude/skills/wayfinder/SKILL.md;
     ".claude/skills/grill-me/SKILL.md".source               = ./dotfiles/macos/.claude/skills/grill-me/SKILL.md;
     ".claude/skills/handoff/SKILL.md".source                = ./dotfiles/macos/.claude/skills/handoff/SKILL.md;
+    ".claude/skills/grow/SKILL.md".source    = ./dotfiles/macos/.claude/skills/grow/SKILL.md;
+    ".claude/skills/scholar/SKILL.md".source = ./dotfiles/macos/.claude/skills/scholar/SKILL.md;
     ".claude/skills/improve-codebase-architecture/SKILL.md".source      = ./dotfiles/macos/.claude/skills/improve-codebase-architecture/SKILL.md;
     ".claude/skills/improve-codebase-architecture/HTML-REPORT.md".source = ./dotfiles/macos/.claude/skills/improve-codebase-architecture/HTML-REPORT.md;
     ".claude/skills/codebase-design/SKILL.md".source           = ./dotfiles/macos/.claude/skills/codebase-design/SKILL.md;
@@ -157,6 +159,8 @@
     ".codex/skills/wayfinder/SKILL.md".source              = ./dotfiles/macos/.claude/skills/wayfinder/SKILL.md;
     ".codex/skills/grill-me/SKILL.md".source               = ./dotfiles/macos/.claude/skills/grill-me/SKILL.md;
     ".codex/skills/handoff/SKILL.md".source                = ./dotfiles/macos/.claude/skills/handoff/SKILL.md;
+    ".codex/skills/grow/SKILL.md".source    = ./dotfiles/macos/.claude/skills/grow/SKILL.md;
+    ".codex/skills/scholar/SKILL.md".source = ./dotfiles/macos/.claude/skills/scholar/SKILL.md;
     ".codex/skills/improve-codebase-architecture/SKILL.md".source      = ./dotfiles/macos/.claude/skills/improve-codebase-architecture/SKILL.md;
     ".codex/skills/improve-codebase-architecture/HTML-REPORT.md".source = ./dotfiles/macos/.claude/skills/improve-codebase-architecture/HTML-REPORT.md;
     ".codex/skills/codebase-design/SKILL.md".source           = ./dotfiles/macos/.claude/skills/codebase-design/SKILL.md;

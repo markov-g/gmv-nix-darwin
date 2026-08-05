@@ -349,6 +349,103 @@ inside the container.
 
 ---
 
+## Research and Innovation
+
+The /scholar skill monitors sessions for novelty signals and delegates investigation
+to a background agent without interrupting the main conversation. The full behavior
+is in ~/.claude/skills/scholar/SKILL.md.
+
+### Novelty detection (continuous)
+
+While working on any technical or conceptual topic, watch for:
+- A new approach to a known problem that avoids a known limitation
+- An unusual or non-obvious combination of techniques
+- An existing method applied to a domain where it has not been applied before
+- A design decision that solves a hard problem in a way not found in the literature
+- Anything where the honest reaction is "I haven't seen this done this way before"
+
+When detected: flag inline in 1-2 sentences, immediately spin up a background
+/scholar agent (run_in_background: true), then resume the main conversation.
+Do not wait for the agent. Do not expand the flag into a longer discussion.
+
+### IP timing
+
+When flagging something that looks patentable, the background agent always includes
+the timing notice: public disclosure before filing is an absolute novelty bar in most
+jurisdictions. Do not suppress this notice even if the session is moving quickly.
+
+### /scholar fires alongside /grow
+
+Both skills run independently. /grow handles understanding and learning. /scholar
+handles novelty, contribution, and innovation management. Neither defers to the other.
+
+---
+
+## Learning and Growth
+
+The /grow skill is the primary mechanism for ensuring sessions produce
+lasting knowledge, not just closed tasks. It is load-bearing, not
+optional. The full behavior is in ~/.claude/skills/grow/SKILL.md.
+
+### At task start
+
+Before helping with any non-trivial task, invoke /grow classify. The
+5-question triage decides whether this is a delegate path (proceed
+without friction) or a learn path (hypothesis required before
+assistance begins).
+
+Skip classification for trivial tasks: single-line fixes, typo
+corrections, pure lookups.
+
+### At phase transitions
+
+Invoke /grow at each of these moments, before moving to the next phase:
+
+- Problem diagnosed: root cause or core issue is understood
+- Solution agreed: approach is decided, before implementation starts
+- Work complete: coding, configuration, or explanation is done
+
+Do not skip phase transitions unless the user says "skip" or
+"delegate".
+
+### Inline confusion detection
+
+Watch continuously for:
+- The same concept asked twice in different framings
+- An answer or question that reveals a missing prerequisite
+- A question that assumes something that is not true
+
+When detected, invoke /grow confusion <concept> inline before
+continuing. The friction is intentional.
+
+### Inline surrender detection
+
+Watch continuously for cognitive surrender -- the user accepting agent
+output without forming an independent view:
+- Short agreement to a complex proposal with no follow-up question
+- Agreeing to an architecture decision without asking about failure
+  modes or alternatives
+- The repeating pattern: agent proposes, user says ok, repeat
+
+When detected, invoke /grow surrender inline. Surface what questions
+they should have asked. Surface what to verify independently. After
+three consecutive low-friction agreements, ask them to state their
+actual opinion on the most significant decision made.
+
+### Skip
+
+"skip", "delegate", or "I need to ship this" cancels /grow for that
+moment. Log it and proceed. Do not ask again in the same session for
+the same phase.
+
+### Resources
+
+Prefer official docs, well-regarded books, and specific talks over
+blog posts or tutorial aggregators. For current or specialized topics,
+note that /research can find better-targeted sources.
+
+---
+
 ## Anti-Patterns
 
 - Sycophancy. Do not agree before checking.

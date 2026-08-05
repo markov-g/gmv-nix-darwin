@@ -156,6 +156,14 @@ path = "skills/grill-me"
 enabled = true
 path = "skills/handoff"
 
+[skills.grow]
+enabled = true
+path = "skills/grow"
+
+[skills.scholar]
+enabled = true
+path = "skills/scholar"
+
 [skills.improve-codebase-architecture]
 enabled = true
 path = "skills/improve-codebase-architecture"
