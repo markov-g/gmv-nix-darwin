@@ -49,6 +49,7 @@
   "mas" # Mac App Store CLI
   "mise" # polyglot version manager (Node, Python, Ruby, Go…)
   "minikube"
+  "mole"
   # "ncdu"               # → Nix (system.nix)
   ###  "neo4j"
   # "neovim"             # → Nix (system.nix)
