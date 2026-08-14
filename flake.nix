@@ -26,7 +26,6 @@
 
     homebrew-core  = { url = "github:homebrew/homebrew-core";  flake = false; };
     homebrew-cask  = { url = "github:homebrew/homebrew-cask";  flake = false; };
-    mas-cli-tap    = { url = "github:mas-cli/homebrew-tap";    flake = false; };
     xtool-org-tap  = { url = "github:xtool-org/homebrew-tap";  flake = false; };
 
     # FlakeHub
@@ -71,7 +70,6 @@
               library = "/Users/${user}/PACKAGEMGMT/Homebrew/Library";
               taps = {
                 "kylef/formulae" = inputs.kylef-formulae;
-                "mas-cli/tap"    = inputs.mas-cli-tap;
                 "swiftbrew/tap"  = inputs.swiftbrew-tap;
                 "sdkman/tap"     = inputs.sdkman-tap;
                 "xtool-org/tap"  = inputs.xtool-org-tap;
