@@ -10,7 +10,7 @@
 # ---------------------------------------------------------------------
 
 model_provider = "azure_foundry"
-model = "gpt-5.6-sol"               # your Azure deployment name
+model = "gpt-6-astra"               # your Azure deployment name
 model_reasoning_effort = "medium"   # low | medium | high | xhigh
 
 # ---------------------------------------------------------------------
@@ -31,7 +31,7 @@ approval_policy = "untrusted"
 # read-only matches the "no host execution, ever" rule from AGENTS.md.
 # All actual code execution happens in podman, run via commands you
 # explicitly approve.
-sandbox_mode = "read-only"
+sandbox_mode = "workspace-write"
 
 # ---------------------------------------------------------------------
 # Authentication
