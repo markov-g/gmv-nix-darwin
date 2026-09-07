@@ -55,7 +55,7 @@
   # "neovim"             # → Nix (system.nix)
   "nvm" # Node version manager (alternative to mise for Node)
   "ollama"
-  "opencode"
+  # "opencode"
   "opensc"
   "pipx"
   "pixi"
