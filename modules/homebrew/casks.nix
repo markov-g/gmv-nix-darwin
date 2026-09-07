@@ -25,6 +25,7 @@ let
     { name = "microsoft-edge"; greedy = true; }
     { name = "murus"; greedy = true; }
     { name = "obsidian"; greedy = true; }
+    { name = "opencode-desktop"; greedy = true; }
     { name = "opensc-app"; greedy = true; }
     { name = "openvpn-connect"; greedy = true; }
     { name = "orbstack"; greedy = true; }
