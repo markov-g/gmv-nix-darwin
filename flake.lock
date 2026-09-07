@@ -138,22 +138,6 @@
         "type": "github"
       }
     },
-    "mas-cli-tap": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1777893820,
-        "narHash": "sha256-AdMtl0iH4wCHpuCw2v8gwidOsgtJE+/oOxurDHBFSOo=",
-        "owner": "mas-cli",
-        "repo": "homebrew-tap",
-        "rev": "b968c524838a4cc5a7ff6a224e533e17edd83613",
-        "type": "github"
-      },
-      "original": {
-        "owner": "mas-cli",
-        "repo": "homebrew-tap",
-        "type": "github"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -232,7 +216,6 @@
         "homebrew-cask": "homebrew-cask",
         "homebrew-core": "homebrew-core",
         "kylef-formulae": "kylef-formulae",
-        "mas-cli-tap": "mas-cli-tap",
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
         "nixpkgs": "nixpkgs_2",
