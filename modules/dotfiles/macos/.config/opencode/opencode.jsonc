@@ -1,24 +1,28 @@
 {
   "$schema": "https://opencode.ai/config.json",
 
-  // Default model: Anthropic via Siemens proxy
-  // $ANTHROPIC_DEFAULT_SONNET_MODEL = "claude-sonnet-4-6"
-  "model": "anthropic/claude-sonnet-4-6",
+  // Default model: Claude via Azure AI Foundry (Siemens)
+  // CLAUDE_CODE_USE_FOUNDRY=1 + ANTHROPIC_FOUNDRY_RESOURCE + ANTHROPIC_FOUNDRY_API_KEY
+  // The key is Azure-format (not sk-ant-...), so Claude models must sit under the
+  // azure provider (which sends api-key header) rather than anthropic (x-api-key).
+  "model": "azure/claude-sonnet-4-6",
 
   "provider": {
-    "anthropic": {
-      // Siemens proxy key ($ANTHROPIC_FOUNDRY_API_KEY).
-      // If the proxy also requires a custom base URL, add:
-      //   "options": { "baseURL": "https://<ANTHROPIC_FOUNDRY_RESOURCE>...." }
-      "env": ["ANTHROPIC_FOUNDRY_API_KEY"]
-    },
     "azure": {
-      // Same endpoint as ~/.codex/config.toml
-      "options": {
-        "baseURL": "https://demo-building-claude-resource.openai.azure.com/openai/v1"
-      },
-      "env": ["AZURE_OPENAI_API_KEY"],
+      // Base URL is constructed at runtime from $AZURE_RESOURCE_NAME
+      // (set in ~/.zprofile from $ANTHROPIC_FOUNDRY_RESOURCE -- no URL in this file).
+      "env": ["ANTHROPIC_FOUNDRY_API_KEY", "AZURE_OPENAI_API_KEY"],
       "models": {
+        // Claude models via Siemens Azure AI Foundry
+        "claude-sonnet-4-6": {
+          "id": "claude-sonnet-4-6",
+          "name": "Claude Sonnet 4.6 (Azure Foundry)"
+        },
+        "claude-fable-5": {
+          "id": "claude-fable-5",
+          "name": "Claude Fable 5 (Azure Foundry)"
+        },
+        // GPT model via same Azure resource
         "gpt-6-astra": {
           "id": "gpt-6-astra",
           "name": "GPT-6 Astra (Azure)"
