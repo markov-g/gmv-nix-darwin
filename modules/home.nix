@@ -166,6 +166,32 @@
     ".codex/skills/codebase-design/SKILL.md".source           = ./dotfiles/macos/.claude/skills/codebase-design/SKILL.md;
     ".codex/skills/codebase-design/DEEPENING.md".source       = ./dotfiles/macos/.claude/skills/codebase-design/DEEPENING.md;
     ".codex/skills/codebase-design/DESIGN-IT-TWICE.md".source = ./dotfiles/macos/.claude/skills/codebase-design/DESIGN-IT-TWICE.md;
+
+    # ── opencode config ───────────────────────────────────────────────────────
+    # opencode reads ~/.claude/CLAUDE.md natively -- no symlink needed.
+    # opencode reads project AGENTS.md natively; global AGENTS.md shared with Codex.
+    ".config/opencode/opencode.jsonc".source = ./dotfiles/macos/.config/opencode/opencode.jsonc;
+    ".config/opencode/AGENTS.md".source     = ./dotfiles/macos/.codex/AGENTS.md;
+    # Skills: shared sources from .claude/skills/ (same pattern as Codex).
+    # reflect omitted -- references tool-specific log paths; add separately if needed.
+    ".config/opencode/skills/diff-self-review/SKILL.md".source    = ./dotfiles/macos/.claude/skills/diff-self-review/SKILL.md;
+    ".config/opencode/skills/verify-in-container/SKILL.md".source = ./dotfiles/macos/.claude/skills/verify-in-container/SKILL.md;
+    ".config/opencode/skills/teach/SKILL.md".source                  = ./dotfiles/macos/.claude/skills/teach/SKILL.md;
+    ".config/opencode/skills/teach/GLOSSARY-FORMAT.md".source        = ./dotfiles/macos/.claude/skills/teach/GLOSSARY-FORMAT.md;
+    ".config/opencode/skills/teach/LEARNING-RECORD-FORMAT.md".source = ./dotfiles/macos/.claude/skills/teach/LEARNING-RECORD-FORMAT.md;
+    ".config/opencode/skills/teach/MISSION-FORMAT.md".source         = ./dotfiles/macos/.claude/skills/teach/MISSION-FORMAT.md;
+    ".config/opencode/skills/teach/RESOURCES-FORMAT.md".source       = ./dotfiles/macos/.claude/skills/teach/RESOURCES-FORMAT.md;
+    ".config/opencode/skills/research/SKILL.md".source               = ./dotfiles/macos/.claude/skills/research/SKILL.md;
+    ".config/opencode/skills/wayfinder/SKILL.md".source              = ./dotfiles/macos/.claude/skills/wayfinder/SKILL.md;
+    ".config/opencode/skills/grill-me/SKILL.md".source               = ./dotfiles/macos/.claude/skills/grill-me/SKILL.md;
+    ".config/opencode/skills/handoff/SKILL.md".source                = ./dotfiles/macos/.claude/skills/handoff/SKILL.md;
+    ".config/opencode/skills/grow/SKILL.md".source                   = ./dotfiles/macos/.claude/skills/grow/SKILL.md;
+    ".config/opencode/skills/scholar/SKILL.md".source                = ./dotfiles/macos/.claude/skills/scholar/SKILL.md;
+    ".config/opencode/skills/improve-codebase-architecture/SKILL.md".source      = ./dotfiles/macos/.claude/skills/improve-codebase-architecture/SKILL.md;
+    ".config/opencode/skills/improve-codebase-architecture/HTML-REPORT.md".source = ./dotfiles/macos/.claude/skills/improve-codebase-architecture/HTML-REPORT.md;
+    ".config/opencode/skills/codebase-design/SKILL.md".source           = ./dotfiles/macos/.claude/skills/codebase-design/SKILL.md;
+    ".config/opencode/skills/codebase-design/DEEPENING.md".source       = ./dotfiles/macos/.claude/skills/codebase-design/DEEPENING.md;
+    ".config/opencode/skills/codebase-design/DESIGN-IT-TWICE.md".source = ./dotfiles/macos/.claude/skills/codebase-design/DESIGN-IT-TWICE.md;
   };
 
   # ── Bootstrap activation scripts ─────────────────────────────────────────────
