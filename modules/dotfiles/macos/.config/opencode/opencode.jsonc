@@ -1,28 +1,25 @@
 {
   "$schema": "https://opencode.ai/config.json",
 
-  // Default model: Claude via Azure AI Foundry (Siemens)
-  // CLAUDE_CODE_USE_FOUNDRY=1 + ANTHROPIC_FOUNDRY_RESOURCE + ANTHROPIC_FOUNDRY_API_KEY
-  // The key is Azure-format (not sk-ant-...), so Claude models must sit under the
-  // azure provider (which sends api-key header) rather than anthropic (x-api-key).
-  "model": "azure/claude-sonnet-4-6",
+  // Default model: Claude via Siemens Azure AI Foundry (Anthropic Messages API).
+  // CLAUDE_CODE_USE_FOUNDRY=1 signals that Claude is deployed on Azure, but the
+  // wire format is the Anthropic Messages API -- use the anthropic provider, not azure.
+  // The azure provider sends OpenAI Responses API requests which Claude rejects.
+  "model": "anthropic/claude-sonnet-4-6",
 
   "provider": {
+    "anthropic": {
+      // API key: read from $ANTHROPIC_FOUNDRY_API_KEY (Siemens Azure key).
+      // Base URL: set $ANTHROPIC_BASE_URL in ~/.zprofile.local (git-ignored):
+      //   export ANTHROPIC_BASE_URL="https://${ANTHROPIC_FOUNDRY_RESOURCE}.openai.azure.com/"
+      // opencode's Anthropic SDK reads ANTHROPIC_BASE_URL automatically.
+      "env": ["ANTHROPIC_FOUNDRY_API_KEY"]
+    },
     "azure": {
-      // Base URL is constructed at runtime from $AZURE_RESOURCE_NAME
-      // (set in ~/.zprofile from $ANTHROPIC_FOUNDRY_RESOURCE -- no URL in this file).
-      "env": ["ANTHROPIC_FOUNDRY_API_KEY", "AZURE_OPENAI_API_KEY"],
+      // GPT model via same Azure resource (OpenAI Responses API -- correct here).
+      // Base URL constructed from $AZURE_RESOURCE_NAME (set externally).
+      "env": ["AZURE_OPENAI_API_KEY"],
       "models": {
-        // Claude models via Siemens Azure AI Foundry
-        "claude-sonnet-4-6": {
-          "id": "claude-sonnet-4-6",
-          "name": "Claude Sonnet 4.6 (Azure Foundry)"
-        },
-        "claude-fable-5": {
-          "id": "claude-fable-5",
-          "name": "Claude Fable 5 (Azure Foundry)"
-        },
-        // GPT model via same Azure resource
         "gpt-6-astra": {
           "id": "gpt-6-astra",
           "name": "GPT-6 Astra (Azure)"
