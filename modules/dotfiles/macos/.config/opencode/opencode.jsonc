@@ -10,10 +10,11 @@
   "provider": {
     "anthropic": {
       // API key: read from $ANTHROPIC_FOUNDRY_API_KEY (Siemens Azure key).
-      // Base URL: set $ANTHROPIC_BASE_URL in ~/.zprofile.local (git-ignored):
-      //   export ANTHROPIC_BASE_URL="https://${ANTHROPIC_FOUNDRY_RESOURCE}.openai.azure.com/"
-      // opencode's Anthropic SDK reads ANTHROPIC_BASE_URL automatically.
-      "env": ["ANTHROPIC_FOUNDRY_API_KEY"]
+      "env": ["ANTHROPIC_FOUNDRY_API_KEY"],
+      "options": {
+        "baseURL": "https://{env:ANTHROPIC_FOUNDRY_RESOURCE}.services.ai.azure.com/anthropic/v1",
+        "apiKey": "{env:ANTHROPIC_FOUNDRY_API_KEY}"
+      }
     },
     "azure": {
       // GPT model via same Azure resource (OpenAI Responses API -- correct here).
@@ -23,6 +24,10 @@
         "gpt-6-astra": {
           "id": "gpt-6-astra",
           "name": "GPT-6 Astra (Azure)"
+        },
+        "grok-4.6": {
+          "id": "grok-4.6",
+          "name": "Grok 4.6 (Azure)"
         }
       }
     }
