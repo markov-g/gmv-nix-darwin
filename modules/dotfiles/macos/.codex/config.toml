@@ -111,6 +111,12 @@ command = "~/.codex/hooks/pre-shell-host-isolation.sh"
 timeout = 30
 statusMessage = "Checking host isolation"
 
+[[hooks.PreToolUse.hooks]]
+type = "command"
+command = "~/.codex/hooks/rtk-if-available.sh"
+timeout = 10
+statusMessage = "RTK compression (if installed)"
+
 # If newer Codex versions register the shell tool under a different
 # name (e.g. with unified_exec), use alternation: "^(Bash|shell)$".
 

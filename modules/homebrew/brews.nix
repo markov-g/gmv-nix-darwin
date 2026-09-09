@@ -31,6 +31,7 @@
   "icu4c@76"
   ###  "gradle"
   "helm"
+  "herdr" # AI-aware terminal multiplexer (tmux replacement candidate)
   # "hermes-agent"
   # "htop"               # → Nix (system.nix)
   "huggingface-cli"

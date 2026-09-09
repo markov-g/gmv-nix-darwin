@@ -1,0 +1,20 @@
+{
+  // DCP (Dynamic Context Pruning) -- opencode plugin config.
+  // Install: opencode plugin @tarquinen/opencode-dcp --global
+  // Deduplicates context, purges error turns, auto-compacts between 35-70% fill.
+  "enabled": true,
+  "autoUpdate": false,
+  "pruneNotification": "minimal",
+  "commands": { "enabled": true },
+  "experimental": { "allowSubAgents": true },
+  "compress": {
+    "permission": "allow",
+    "maxContextLimit": "70%",
+    "minContextLimit": "35%",
+    "nudgeForce": "soft"
+  },
+  "strategies": {
+    "deduplication": { "enabled": true },
+    "purgeErrors": { "enabled": true, "turns": 4 }
+  }
+}

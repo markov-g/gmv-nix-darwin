@@ -113,6 +113,20 @@ them.
 
 ---
 
+## Anti-Hallucination
+
+- Never guess file paths, APIs, config values, or library behavior. Verify with
+  tools first.
+- Never invent definitions for abbreviations, internal terms, domain jargon, or
+  organization-specific concepts. Ask instead.
+- When writing documentation: do not fabricate process descriptions, tool names,
+  team structures, or compliance references. Ask for source material.
+- When uncertain about a design choice, present 2-3 options with trade-offs
+  instead of picking silently.
+- Cite the file and line when referencing existing code.
+
+---
+
 ## Epistemic Standards
 
 - Prefer stating confidence over asserting certainty.
@@ -156,6 +170,14 @@ If a step fails, an assumption proves wrong, or the codebase looks
 different than expected: stop. Re-plan. Do not push forward on a broken
 assumption. Do not paper over a failure with a workaround.
 
+### Clarification Protocol
+
+- Batch all clarifying questions into ONE message at the start. Never drip-feed.
+- Before large refactors (5+ files): confirm scope, boundaries, and approach.
+- Before writing docs or specs: ask for preferred structure, audience, and scope.
+- If the request has a reasonable default interpretation, state the assumption and
+  proceed. Surface non-obvious tradeoffs before writing code, not after.
+
 ### Use Subagents Liberally
 
 For research, exploration, parallel analysis, or any task that would
@@ -165,6 +187,11 @@ the user's task. Subagents are configured in `~/.codex/config.toml`
 under the `[agents]` table, with role config files referenced from
 there. When in doubt: more compute via subagents beats overloading the
 main thread.
+
+Before solving any multi-step task: identify which parts can be delegated
+to parallel subagents. If a task touches 3+ unrelated areas, split into
+parallel subtasks rather than handling sequentially. Delegate first, merge
+results, then solve remaining parts.
 
 ### Autonomous Bug Fixing (with Plan-First Caveat)
 
@@ -214,9 +241,9 @@ If a change feels large enough to want Write, stop and ask first.
 
 ### Verify Before Declaring Done
 
-Define success criteria upfront, in the plan. "Done" means proven
-inside the container against those criteria: tests pass, output
-verified, diff reviewed. Show the proof.
+Never report success without evidence: clean diagnostics, passing tests,
+or confirmed output. Define success criteria upfront, in the plan. "Done"
+means proven inside the container against those criteria. Show the proof.
 
 Loop on the implementation until the criteria pass. The agent's job
 is to keep iterating against the success criteria, not to call back

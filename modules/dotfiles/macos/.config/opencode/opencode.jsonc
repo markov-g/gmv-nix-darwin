@@ -7,18 +7,61 @@
   // The azure provider sends OpenAI Responses API requests which Claude rejects.
   "model": "anthropic/claude-sonnet-4-6",
 
+  // Siemens brand dark theme (navy + teal accent palette).
+  "theme": "siemens-brand",
+
+  // ── Safety posture ──────────────────────────────────────────────────────────
+  // Mirrors Codex: sandbox_mode=workspace-write, approval_policy=untrusted.
+  "permissions": {
+    "edit": "allow",
+    "bash": "ask",
+    "webfetch": "ask",
+    "websearch": "ask",
+    "external_directory": { "*": "ask" }
+  },
+
+  "autoupdate": false,
+  "share": "disabled",
+
+  // ── Context management ──────────────────────────────────────────────────────
+  // Compact early; keep 8k reserved for final response assembly.
+  "compaction": {
+    "auto": true,
+    "prune": true,
+    "reserved": 8000
+  },
+
+  "experimental": {
+    "preemptive_compaction_threshold": 0.92,
+    "truncate_all_tool_outputs": true,
+    "aggressive_truncation": true,
+    "auto_resume": true,
+    "task_system": true
+  },
+
+  // ── Plugins ─────────────────────────────────────────────────────────────────
+  // oh-my-openagent: named model agents with fallback chains (our own remapping,
+  // no github-copilot dependency). Config: oh-my-openagent.json.
+  // DCP: dynamic context pruning -- deduplication, error purge, auto-compact.
+  // Config: dcp.jsonc. Install once: opencode plugin @tarquinen/opencode-dcp --global
+  "plugins": [
+    "oh-my-openagent",
+    "@tarquinen/opencode-dcp@3.1.14"
+  ],
+
+  // ── Providers ───────────────────────────────────────────────────────────────
   "provider": {
+    // Primary: Claude via Siemens Azure AI Foundry (Anthropic Messages API).
     "anthropic": {
-      // API key: read from $ANTHROPIC_FOUNDRY_API_KEY (Siemens Azure key).
       "env": ["ANTHROPIC_FOUNDRY_API_KEY"],
       "options": {
         "baseURL": "https://{env:ANTHROPIC_FOUNDRY_RESOURCE}.services.ai.azure.com/anthropic/v1",
         "apiKey": "{env:ANTHROPIC_FOUNDRY_API_KEY}"
       }
     },
+
+    // Primary: GPT + Grok via same Azure AI Foundry resource (OpenAI Responses API).
     "azure": {
-      // GPT model via same Azure resource (OpenAI Responses API -- correct here).
-      // Base URL constructed from $AZURE_RESOURCE_NAME (set externally).
       "env": ["AZURE_OPENAI_API_KEY"],
       "models": {
         "gpt-6-astra": {
@@ -29,6 +72,98 @@
           "id": "grok-4.6",
           "name": "Grok 4.6 (Azure)"
         }
+      }
+    },
+
+    // Fallback: Siemens SDC LLM gateway (OpenAI-compatible).
+    // Used as last-resort in oh-my-openagent fallback chains.
+    // Costs are unknown for Siemens-specific models (deepseek, qwen, glm-5).
+    "siemens": {
+      "npm": "@ai-sdk/openai-compatible",
+      "env": ["SIEMENS_API_KEY"],
+      "options": {
+        "baseURL": "https://api.siemens.com/llm/v1",
+        "apiKey": "{env:SIEMENS_API_KEY}"
+      },
+      "models": {
+        "deepseek-v4-flash": {
+          "id": "deepseek-v4-flash",
+          "name": "DeepSeek V4 Flash (SDC)",
+          "limit": { "context": 1048576, "output": 1048576 }
+        },
+        "gpt-oss-120b": {
+          "id": "gpt-oss-120b",
+          "name": "GPT OSS 120B (SDC)",
+          "limit": { "context": 1024000, "output": 1024000 }
+        },
+        "qwen-3.6-27b": {
+          "id": "qwen-3.6-27b",
+          "name": "Qwen 3.6 27B (SDC)",
+          "limit": { "context": 262144, "output": 262144 }
+        },
+        "ministral-3-14b-instruct-2512": {
+          "id": "ministral-3-14b-instruct-2512",
+          "name": "Ministral 3 14B (SDC)",
+          "limit": { "context": 256000, "output": 256000 }
+        },
+        "glm-5-preview": {
+          "id": "glm-5-preview",
+          "name": "GLM-5 Preview (SDC)",
+          "limit": { "context": 1000000, "output": 1000000 }
+        }
+      }
+    }
+  },
+
+  // ── MCP servers ─────────────────────────────────────────────────────────────
+  // All disabled by default. Enable by setting the env var and "enabled": true.
+  // Tokens are never committed to this file -- they come from the environment.
+  "mcp": {
+    "polarion": {
+      "type": "sse",
+      "url": "https://mcp.mobility.siemens.com/polarion",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer {env:POLARION_TOKEN}",
+        "X-Polarion-REST-API-URL": "{env:POLARION_URL}"
+      }
+    },
+    "gitlab": {
+      "type": "sse",
+      "url": "https://mcp.mobility.siemens.com/gitlab",
+      "enabled": false,
+      "headers": {
+        "PRIVATE-TOKEN": "{env:GITLAB_TOKEN}"
+      }
+    },
+    "firecrawl": {
+      "type": "sse",
+      "url": "https://mcp.mobility.siemens.com/firecrawl",
+      "enabled": false
+    },
+    "atlassian": {
+      "type": "sse",
+      "url": "https://mcp.mobility.siemens.com/daai-atlassian/",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer {env:JIRA_TOKEN}"
+      }
+    },
+    "grafana": {
+      "type": "sse",
+      "url": "https://mcp.mobility.siemens.com/grafana",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer {env:GRAFANA_TOKEN}",
+        "X-Grafana-URL": "{env:GRAFANA_URL}"
+      }
+    },
+    "sonarqube": {
+      "type": "sse",
+      "url": "https://mcp.mobility.siemens.com/sonarqube",
+      "enabled": false,
+      "headers": {
+        "Authorization": "Bearer {env:SONARQUBE_TOKEN}"
       }
     }
   }

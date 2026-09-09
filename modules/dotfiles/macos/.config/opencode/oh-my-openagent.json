@@ -1,0 +1,186 @@
+{
+  "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/dev/assets/oh-my-opencode.schema.json",
+
+  // oh-my-openagent -- named model agents remapped to our providers.
+  // Primary:  Azure AI Foundry (anthropic/ and azure/ providers).
+  // Fallback: Siemens SDC gateway (siemens/ provider).
+  // No github-copilot dependency.
+
+  "agents": {
+    // Heavy agentic work. Claude primary with Ultraworker delegation behavior.
+    "sisyphus": {
+      "model": "anthropic/claude-sonnet-4-6",
+      "fallback_models": [
+        "azure/gpt-6-astra",
+        "siemens/deepseek-v4-flash"
+      ],
+      "compaction": {
+        "model": "siemens/ministral-3-14b-instruct-2512"
+      },
+      "_prompt_append": "# Ultraworker Behavior\n\nYou are an ultraworker agent.\n\nYou are highly capable and can solve complex tasks yourself.\nHowever, you MUST actively use subagents to improve speed, quality, and parallelism.\n\n## Core Rules\n\n- Never immediately solve a full non-trivial task alone\n- Always first analyze if parts can be delegated\n- Prefer delegation whenever it improves outcome\n- Use subagents frequently and intentionally\n\n## Definition of Non-Trivial Task\n\nA task is non-trivial if it:\n- has multiple steps\n- requires reasoning\n- involves code\n- requires more than a short answer\n\n## Execution Strategy\n\n1. Analyze the task\n2. Break it into subtasks\n3. Identify which parts can be delegated\n4. Delegate those parts to subagents\n5. Run delegations in parallel when possible\n6. Solve remaining parts yourself\n7. Merge and refine all results\n\n## Delegation Rules\n\n- Always try to use at least one subagent for meaningful tasks\n- Delegate independent parts concurrently\n- Do not over-delegate trivial tasks\n- Do not discard subagent results, refine them\n\n## Mandatory Check\n\nBefore solving any task, ask:\n\n\"Can any part of this be delegated to improve quality or speed?\"\n\nIf yes -> delegate first, then continue."
+    },
+
+    // Max reasoning. GPT-6 Astra primary (high reasoning), Claude fallback.
+    "oracle": {
+      "model": "azure/gpt-6-astra",
+      "reasoningEffort": "high",
+      "fallback_models": [
+        "anthropic/claude-sonnet-4-6",
+        "siemens/gpt-oss-120b"
+      ]
+    },
+
+    // Deep analysis. Claude primary, GPT fallback.
+    "prometheus": {
+      "model": "anthropic/claude-sonnet-4-6",
+      "fallback_models": [
+        "azure/gpt-6-astra",
+        "siemens/deepseek-v4-flash"
+      ]
+    },
+
+    // Writing and long-form text. Claude primary, Grok fallback.
+    "muse": {
+      "model": "anthropic/claude-sonnet-4-6",
+      "fallback_models": [
+        "azure/grok-4.6",
+        "siemens/deepseek-v4-flash"
+      ]
+    },
+
+    // Cheap exploration and file reading. SDC small models.
+    "explore": {
+      "model": "siemens/ministral-3-14b-instruct-2512",
+      "fallback_models": [
+        "siemens/deepseek-v4-flash",
+        "azure/gpt-6-astra"
+      ]
+    },
+
+    // Fast cheap tasks. SDC small models.
+    "quick": {
+      "model": "siemens/ministral-3-14b-instruct-2512",
+      "fallback_models": [
+        "siemens/deepseek-v4-flash"
+      ]
+    },
+
+    // Multimodal / image-capable tasks. Qwen (vision) primary.
+    "visual": {
+      "model": "siemens/qwen-3.6-27b",
+      "fallback_models": [
+        "azure/gpt-6-astra"
+      ]
+    },
+
+    // Long-context tasks (1M+ tokens). DeepSeek or GLM-5.
+    "archivist": {
+      "model": "siemens/deepseek-v4-flash",
+      "fallback_models": [
+        "siemens/glm-5-preview",
+        "anthropic/claude-sonnet-4-6"
+      ]
+    }
+  },
+
+  "categories": {
+    "visual-engineering": {
+      "model": "siemens/qwen-3.6-27b",
+      "fallback_models": [
+        "azure/gpt-6-astra",
+        "anthropic/claude-sonnet-4-6"
+      ]
+    },
+
+    "ultrabrain": {
+      "model": "azure/gpt-6-astra",
+      "reasoningEffort": "high",
+      "fallback_models": [
+        "anthropic/claude-sonnet-4-6",
+        "siemens/gpt-oss-120b"
+      ]
+    },
+
+    "artistry": {
+      "model": "anthropic/claude-sonnet-4-6",
+      "fallback_models": [
+        "azure/gpt-6-astra",
+        "siemens/deepseek-v4-flash"
+      ]
+    },
+
+    "deep": {
+      "model": "anthropic/claude-sonnet-4-6",
+      "fallback_models": [
+        "azure/gpt-6-astra",
+        "siemens/deepseek-v4-flash"
+      ]
+    },
+
+    "quick": {
+      "model": "siemens/ministral-3-14b-instruct-2512",
+      "fallback_models": [
+        "siemens/deepseek-v4-flash"
+      ]
+    },
+
+    "unspecified-low": {
+      "model": "siemens/ministral-3-14b-instruct-2512",
+      "fallback_models": [
+        "siemens/deepseek-v4-flash"
+      ]
+    },
+
+    "unspecified-high": {
+      "model": "anthropic/claude-sonnet-4-6",
+      "fallback_models": [
+        "azure/gpt-6-astra",
+        "siemens/deepseek-v4-flash"
+      ]
+    },
+
+    "writing": {
+      "model": "anthropic/claude-sonnet-4-6",
+      "fallback_models": [
+        "azure/grok-4.6",
+        "siemens/deepseek-v4-flash"
+      ]
+    }
+  },
+
+  "background_task": {
+    // 4 concurrent (halved from Siemens' 8; conservative for Azure rate limits).
+    "defaultConcurrency": 4,
+    "staleTimeoutMs": 300000,
+    "providerConcurrency": {
+      "anthropic": 4,
+      "azure": 2,
+      "siemens": 4
+    }
+  },
+
+  "runtime_fallback": {
+    "enabled": true,
+    "retry_on_errors": [400, 429, 503, 529],
+    "max_fallback_attempts": 3,
+    "cooldown_seconds": 30,
+    "timeout_seconds": 0,
+    "notify_on_fallback": true
+  },
+
+  "model_capabilities": {
+    "enabled": true,
+    "auto_refresh_on_start": true,
+    "refresh_timeout_ms": 5000
+  },
+
+  "team_mode": {
+    "enabled": false,
+    "max_parallel_members": 4,
+    "tmux_visualization": true
+  },
+
+  "commit": {
+    "include_co_authored_by": false
+  }
+}

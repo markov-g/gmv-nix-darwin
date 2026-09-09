@@ -134,6 +134,10 @@
           {
             "type": "command",
             "command": "~/.claude/hooks/pre-bash-host-isolation.sh"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/hooks/rtk-if-available.sh"
           }
         ]
       }

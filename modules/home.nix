@@ -97,12 +97,21 @@
     # ── Claude Code config ────────────────────────────────────────────────────
     # Individual files are symlinked so the directory stays writable for
     # runtime state (session history, cache, logs, plugin data, etc.).
+    ".herdr-start.sh" = {
+      source     = ./dotfiles/macos/.herdr-start.sh;
+      executable = true;
+    };
+
     ".claude/CLAUDE.md".source         = ./dotfiles/macos/.claude/CLAUDE.md;
     ".claude/settings.json".source     = ./dotfiles/macos/.claude/settings.json;
     ".claude/agents/adversary.md".source     = ./dotfiles/macos/.claude/agents/adversary.md;
     ".claude/agents/diff-reviewer.md".source = ./dotfiles/macos/.claude/agents/diff-reviewer.md;
     ".claude/hooks/pre-bash-host-isolation.sh" = {
       source     = ./dotfiles/macos/.claude/hooks/pre-bash-host-isolation.sh;
+      executable = true;
+    };
+    ".claude/hooks/rtk-if-available.sh" = {
+      source     = ./dotfiles/macos/.claude/hooks/rtk-if-available.sh;
       executable = true;
     };
     ".claude/skills/diff-self-review/SKILL.md".source    = ./dotfiles/macos/.claude/skills/diff-self-review/SKILL.md;
@@ -141,6 +150,10 @@
       source     = ./dotfiles/macos/.codex/hooks/pre-shell-host-isolation.sh;
       executable = true;
     };
+    ".codex/hooks/rtk-if-available.sh" = {
+      source     = ./dotfiles/macos/.claude/hooks/rtk-if-available.sh;
+      executable = true;
+    };
     # Shared skills: diff-self-review and verify-in-container use the same
     # nix store source as the .claude versions (replaces the old .codex ->
     # .claude directory symlinks). Both paths resolve to the same store path.
@@ -170,8 +183,13 @@
     # ── opencode config ───────────────────────────────────────────────────────
     # opencode reads ~/.claude/CLAUDE.md natively -- no symlink needed.
     # opencode reads project AGENTS.md natively; global AGENTS.md shared with Codex.
-    ".config/opencode/opencode.jsonc".source = ./dotfiles/macos/.config/opencode/opencode.jsonc;
-    ".config/opencode/AGENTS.md".source     = ./dotfiles/macos/.codex/AGENTS.md;
+    ".config/opencode/opencode.jsonc".source     = ./dotfiles/macos/.config/opencode/opencode.jsonc;
+    ".config/opencode/AGENTS.md".source          = ./dotfiles/macos/.codex/AGENTS.md;
+    ".config/opencode/dcp.jsonc".source          = ./dotfiles/macos/.config/opencode/dcp.jsonc;
+    ".config/opencode/oh-my-openagent.json".source = ./dotfiles/macos/.config/opencode/oh-my-openagent.json;
+    ".config/opencode/themes/siemens-brand.json".source = ./dotfiles/macos/.config/opencode/themes/siemens-brand.json;
+    # ── Herdr config ──────────────────────────────────────────────────────────
+    ".config/herdr/config.toml".source               = ./dotfiles/macos/.config/herdr/config.toml;
     # Skills: shared sources from .claude/skills/ (same pattern as Codex).
     # reflect omitted -- references tool-specific log paths; add separately if needed.
     ".config/opencode/skills/diff-self-review/SKILL.md".source    = ./dotfiles/macos/.claude/skills/diff-self-review/SKILL.md;

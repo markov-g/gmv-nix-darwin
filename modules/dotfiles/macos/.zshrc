@@ -312,6 +312,8 @@ if [[ -z "${TMUX:-}" ]] && [[ "${TERM:-}" != screen* ]]; then
   tmux send-keys -t "${_TMUX_SESSION}:5" 'clear' Enter
   tmux new-window -t "${_TMUX_SESSION}:6" -n '6: ~' -c "$HOME"
   tmux send-keys -t "${_TMUX_SESSION}:6" 'clear' Enter
+  tmux new-window -t "${_TMUX_SESSION}:7" -n '7: herdr' -c "$HOME"
+  tmux send-keys -t "${_TMUX_SESSION}:7" '~/.herdr-start.sh' Enter
   tmux select-window -t "${_TMUX_SESSION}:1"
   exec tmux attach-session -t "${_TMUX_SESSION}"
 fi
