@@ -10,16 +10,6 @@
   // Siemens brand dark theme (navy + teal accent palette).
   "theme": "siemens-brand",
 
-  // ── Safety posture ──────────────────────────────────────────────────────────
-  // Mirrors Codex: sandbox_mode=workspace-write, approval_policy=untrusted.
-  "permissions": {
-    "edit": "allow",
-    "bash": "ask",
-    "webfetch": "ask",
-    "websearch": "ask",
-    "external_directory": { "*": "ask" }
-  },
-
   "autoupdate": false,
   "share": "disabled",
 
@@ -38,16 +28,6 @@
     "auto_resume": true,
     "task_system": true
   },
-
-  // ── Plugins ─────────────────────────────────────────────────────────────────
-  // oh-my-openagent: named model agents with fallback chains (our own remapping,
-  // no github-copilot dependency). Config: oh-my-openagent.json.
-  // DCP: dynamic context pruning -- deduplication, error purge, auto-compact.
-  // Config: dcp.jsonc. Install once: opencode plugin @tarquinen/opencode-dcp --global
-  "plugins": [
-    "oh-my-openagent",
-    "@tarquinen/opencode-dcp@3.1.14"
-  ],
 
   // ── Providers ───────────────────────────────────────────────────────────────
   "provider": {
@@ -115,56 +95,4 @@
     }
   },
 
-  // ── MCP servers ─────────────────────────────────────────────────────────────
-  // All disabled by default. Enable by setting the env var and "enabled": true.
-  // Tokens are never committed to this file -- they come from the environment.
-  "mcp": {
-    "polarion": {
-      "type": "sse",
-      "url": "https://mcp.mobility.siemens.com/polarion",
-      "enabled": false,
-      "headers": {
-        "Authorization": "Bearer {env:POLARION_TOKEN}",
-        "X-Polarion-REST-API-URL": "{env:POLARION_URL}"
-      }
-    },
-    "gitlab": {
-      "type": "sse",
-      "url": "https://mcp.mobility.siemens.com/gitlab",
-      "enabled": false,
-      "headers": {
-        "PRIVATE-TOKEN": "{env:GITLAB_TOKEN}"
-      }
-    },
-    "firecrawl": {
-      "type": "sse",
-      "url": "https://mcp.mobility.siemens.com/firecrawl",
-      "enabled": false
-    },
-    "atlassian": {
-      "type": "sse",
-      "url": "https://mcp.mobility.siemens.com/daai-atlassian/",
-      "enabled": false,
-      "headers": {
-        "Authorization": "Bearer {env:JIRA_TOKEN}"
-      }
-    },
-    "grafana": {
-      "type": "sse",
-      "url": "https://mcp.mobility.siemens.com/grafana",
-      "enabled": false,
-      "headers": {
-        "Authorization": "Bearer {env:GRAFANA_TOKEN}",
-        "X-Grafana-URL": "{env:GRAFANA_URL}"
-      }
-    },
-    "sonarqube": {
-      "type": "sse",
-      "url": "https://mcp.mobility.siemens.com/sonarqube",
-      "enabled": false,
-      "headers": {
-        "Authorization": "Bearer {env:SONARQUBE_TOKEN}"
-      }
-    }
-  }
 }
