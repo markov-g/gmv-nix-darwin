@@ -8,16 +8,17 @@
   // Supersedes: oh-my-openagent.json (oh-my-openagent@4.15.1, never activated).
   "plugin": ["oh-my-opencode-slim"],
 
-  // Default model: Grok 4.6 via Azure AI Foundry (OpenAI Responses API).
-  // Cheaper than Claude Sonnet 4.6. For Claude, switch with /model or use a
-  // preset that sets orchestrator to anthropic/claude-opus-4-6.
+  // Default model: GPT-5.6 Luna via Azure AI Foundry (OpenAI Responses API).
+  // Short context: $0.20/M input, $1.20/M output (Global).
+  // For Claude, switch with /model or use a preset that sets orchestrator
+  // to anthropic/claude-opus-4-6.
   // Note: azure provider uses OpenAI Responses API; anthropic provider uses
   // Anthropic Messages API -- do not mix them.
-  "model": "azure/grok-4.6",
+  "model": "azure/gpt-5.6-luna",
 
   // Plan mode is a separate primary agent. Top-level "model" only covers build.
   "agent": {
-    "plan": { "model": "azure/grok-4.6" }
+    "plan": { "model": "azure/gpt-5.6-luna" }
   },
 
   // Siemens brand dark theme (navy + teal accent palette).
@@ -53,7 +54,7 @@
       }
     },
 
-    // Primary: GPT + Grok via same Azure AI Foundry resource (OpenAI Responses API).
+    // Primary: GPT + Luna via same Azure AI Foundry resource (OpenAI Responses API).
     "azure": {
       "env": ["AZURE_OPENAI_API_KEY"],
       "models": {
@@ -61,9 +62,10 @@
           "id": "gpt-6-astra",
           "name": "GPT-6 Astra (Azure)"
         },
-        "grok-4.6": {
-          "id": "grok-4.6",
-          "name": "Grok 4.6 (Azure)"
+        // Default model. Short context: $0.20/M in, $1.20/M out (Global).
+        "gpt-5.6-luna": {
+          "id": "gpt-5.6-luna",
+          "name": "GPT-5.6 Luna (Azure)"
         },
         // Cheap fast model for explorer/librarian/designer in the azure preset.
         "gpt-5.4-mini": {

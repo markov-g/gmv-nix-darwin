@@ -74,7 +74,8 @@
     "bin/update-fink"                        = { source = ./dotfiles/macos/bin/update-fink;                        executable = true; };
     "bin/update-homebrew"                    = { source = ./dotfiles/macos/bin/update-homebrew;                    executable = true; };
     "bin/update-macports"                    = { source = ./dotfiles/macos/bin/update-macports;                    executable = true; };
-    "bin/claude-init-rules.sh"               = { source = ./dotfiles/macos/bin/claude-init-rules.sh;               executable = true;};
+     "bin/claude-init-rules.sh"               = { source = ./dotfiles/macos/bin/claude-init-rules.sh;               executable = true; };
+     "bin/omos"                               = { source = ./dotfiles/macos/bin/omos;                               executable = true; };
 
     # ── Scaffold directories (created via a .keep placeholder) ──
     "Applications/.keep".text              = "";

@@ -24,8 +24,8 @@
       "explorer":  { "model": "siemens/deepseek-v4-flash" },
       // Vision-capable for UI/visual tasks -- SDC gateway.
       "designer":  { "model": "siemens/qwen-3.6-27b" },
-      // Bounded implementation. Grok: cheaper than Claude, reliable for scoped work.
-      "fixer":     { "model": "azure/grok-4.6" },
+      // Bounded implementation.
+      "fixer":     { "model": "azure/gpt-5.6-luna" },
       // Council synthesizer: Opus -- must be smarter than the councillors it judges.
       "council":   { "model": "anthropic/claude-opus-4-6" }
     },
@@ -43,16 +43,16 @@
       "librarian": { "model": "azure/gpt-5.4-mini" },
       "explorer":  { "model": "azure/gpt-5.4-mini" },
       "designer":  { "model": "azure/gpt-5.4-mini" },
-      "fixer":     { "model": "azure/grok-4.6" },
+      "fixer":     { "model": "azure/gpt-5.6-luna" },
       "council":   { "model": "anthropic/claude-opus-4-6" }
     }
 
   },
 
   // ── Council ────────────────────────────────────────────────────────────────
-  // Three councillors from three model families for genuine diversity.
+  // Two councillors from two model families.
   // Invoke manually with @council -- auto-delegation is intentionally rare
-  // (council is the highest-cost path: three parallel model calls + synthesis).
+  // (council is the highest-cost path: parallel model calls + synthesis).
   "council": {
     "default_preset": "default",
     "presets": {
@@ -64,10 +64,6 @@
         "astra": {
           "model": "azure/gpt-6-astra",
           "prompt": "Focus on architecture, maintainability, and long-term design trade-offs."
-        },
-        "grok": {
-          "model": "azure/grok-4.6",
-          "prompt": "Focus on pragmatism, implementation feasibility, and operational concerns."
         }
       }
     }

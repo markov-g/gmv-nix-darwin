@@ -46,11 +46,11 @@
       ]
     },
 
-    // Writing and long-form text. Claude primary, Grok fallback.
+    // Writing and long-form text. Claude primary, Luna fallback.
     "muse": {
       "model": "anthropic/claude-sonnet-4-6",
       "fallback_models": [
-        "azure/grok-4.6",
+        "azure/gpt-5.6-luna",
         "siemens/deepseek-v4-flash"
       ]
     },
@@ -149,7 +149,7 @@
     "writing": {
       "model": "anthropic/claude-sonnet-4-6",
       "fallback_models": [
-        "azure/grok-4.6",
+        "azure/gpt-5.6-luna",
         "siemens/deepseek-v4-flash"
       ]
     }

@@ -1,0 +1,51 @@
+#!/usr/bin/env zsh
+# omos -- launch opencode with an explicit port for herdr multiplexer pane support.
+#
+# Finds a free port (starting at 4096), exports OPENCODE_PORT, and passes
+# --port to opencode so the oh-my-opencode-slim plugin can attach subagent
+# sessions to herdr panes automatically.
+#
+# All arguments are forwarded to opencode unchanged, so flags like -c,
+# --session, --model, --fork, etc. work as normal.
+#
+# Usage:
+#   omos                        # start new session
+#   omos -c                     # continue last session
+#   omos --port 5000            # use specific port (skips port discovery)
+#   omos --model azure/grok-4.6 # override model
+
+local port arg
+
+# Check for explicit --port=N
+for arg in "$@"; do
+  if [[ "$arg" == --port=* ]]; then
+    port="${arg#--port=}"
+    break
+  fi
+done
+
+# Check for explicit --port N (space-separated)
+if [[ -z "$port" ]]; then
+  local -a args=("$@")
+  local -i index
+  for ((index = 1; index <= ${#args}; index++)); do
+    if [[ "${args[index]}" == --port ]]; then
+      port="${args[index + 1]}"
+      break
+    fi
+  done
+fi
+
+# If port already specified, just export and forward
+if [[ -n "$port" ]]; then
+  OPENCODE_PORT="$port" command opencode "$@"
+  return
+fi
+
+# Find a free port starting at 4096
+port=4096
+while nc -z 127.0.0.1 $port 2>/dev/null; do
+  ((port++))
+done
+
+OPENCODE_PORT="$port" command opencode --port "$port" "$@"
