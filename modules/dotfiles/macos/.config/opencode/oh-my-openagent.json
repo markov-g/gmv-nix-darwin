@@ -1,4 +1,11 @@
 {
+  // SUPERSEDED -- kept as reference only. Not deployed (home.nix no longer
+  // symlinks this file). oh-my-openagent@4.15.1 is not registered in
+  // opencode.jsonc. Replaced by oh-my-opencode-slim.jsonc which provides
+  // the same specialist agent pattern plus council + herdr multiplexer panes.
+  // The ultraworker prompt from sisyphus._prompt_append has been carried over
+  // into oh-my-opencode-slim.jsonc as the orchestrator prompt override.
+
   "$schema": "https://raw.githubusercontent.com/code-yeongyu/oh-my-opencode/dev/assets/oh-my-opencode.schema.json",
 
   // oh-my-openagent -- named model agents remapped to our providers.

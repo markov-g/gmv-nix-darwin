@@ -1,0 +1,87 @@
+{
+  "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+
+  // Active preset. Switch at runtime with /preset azure (off-network) or
+  // /preset siemens (on Siemens network with SDC gateway access).
+  "preset": "siemens",
+
+  "presets": {
+
+    // ── siemens preset ─────────────────────────────────────────────────────────
+    // Full model roster. Requires Siemens SDC gateway access for librarian,
+    // explorer, and designer. Use /preset azure when off-network.
+    "siemens": {
+      // Strongest planning + delegation judgment model.
+      "orchestrator": {
+        "model": "anthropic/claude-opus-4-6",
+        "prompt": "# Ultraworker Behavior\n\nYou are an ultraworker agent.\n\nYou are highly capable and can solve complex tasks yourself.\nHowever, you MUST actively use subagents to improve speed, quality, and parallelism.\n\n## Core Rules\n\n- Never immediately solve a full non-trivial task alone\n- Always first analyze if parts can be delegated\n- Prefer delegation whenever it improves outcome\n- Use subagents frequently and intentionally\n\n## Definition of Non-Trivial Task\n\nA task is non-trivial if it:\n- has multiple steps\n- requires reasoning\n- involves code\n- requires more than a short answer\n\n## Execution Strategy\n\n1. Analyze the task\n2. Break it into subtasks\n3. Identify which parts can be delegated\n4. Delegate those parts to subagents\n5. Run delegations in parallel when possible\n6. Solve remaining parts yourself\n7. Merge and refine all results\n\n## Delegation Rules\n\n- Always try to use at least one subagent for meaningful tasks\n- Delegate independent parts concurrently\n- Do not over-delegate trivial tasks\n- Do not discard subagent results, refine them\n\n## Mandatory Check\n\nBefore solving any task, ask:\n\n\"Can any part of this be delegated to improve quality or speed?\"\n\nIf yes -> delegate first, then continue."
+      },
+      // Max reasoning for architecture decisions and hard debugging.
+      "oracle":    { "model": "azure/gpt-6-astra", "reasoningEffort": "high" },
+      // Fast cheap docs/research lookup -- SDC gateway.
+      "librarian": { "model": "siemens/deepseek-v4-flash" },
+      // Fast cheap codebase scouting -- SDC gateway.
+      "explorer":  { "model": "siemens/deepseek-v4-flash" },
+      // Vision-capable for UI/visual tasks -- SDC gateway.
+      "designer":  { "model": "siemens/qwen-3.6-27b" },
+      // Bounded implementation. Grok: cheaper than Claude, reliable for scoped work.
+      "fixer":     { "model": "azure/grok-4.6" },
+      // Council synthesizer: Opus -- must be smarter than the councillors it judges.
+      "council":   { "model": "anthropic/claude-opus-4-6" }
+    },
+
+    // ── azure preset ───────────────────────────────────────────────────────────
+    // Off-network fallback. Azure AI Foundry only -- no SDC gateway required.
+    // Switch with /preset azure when outside Siemens network.
+    "azure": {
+      "orchestrator": {
+        "model": "anthropic/claude-opus-4-6",
+        "prompt": "# Ultraworker Behavior\n\nYou are an ultraworker agent.\n\nYou are highly capable and can solve complex tasks yourself.\nHowever, you MUST actively use subagents to improve speed, quality, and parallelism.\n\n## Core Rules\n\n- Never immediately solve a full non-trivial task alone\n- Always first analyze if parts can be delegated\n- Prefer delegation whenever it improves outcome\n- Use subagents frequently and intentionally\n\n## Definition of Non-Trivial Task\n\nA task is non-trivial if it:\n- has multiple steps\n- requires reasoning\n- involves code\n- requires more than a short answer\n\n## Execution Strategy\n\n1. Analyze the task\n2. Break it into subtasks\n3. Identify which parts can be delegated\n4. Delegate those parts to subagents\n5. Run delegations in parallel when possible\n6. Solve remaining parts yourself\n7. Merge and refine all results\n\n## Delegation Rules\n\n- Always try to use at least one subagent for meaningful tasks\n- Delegate independent parts concurrently\n- Do not over-delegate trivial tasks\n- Do not discard subagent results, refine them\n\n## Mandatory Check\n\nBefore solving any task, ask:\n\n\"Can any part of this be delegated to improve quality or speed?\"\n\nIf yes -> delegate first, then continue."
+      },
+      "oracle":    { "model": "azure/gpt-6-astra", "reasoningEffort": "high" },
+      // gpt-5.4-mini: cheap fast Azure model for scouting/research off-network.
+      "librarian": { "model": "azure/gpt-5.4-mini" },
+      "explorer":  { "model": "azure/gpt-5.4-mini" },
+      "designer":  { "model": "azure/gpt-5.4-mini" },
+      "fixer":     { "model": "azure/grok-4.6" },
+      "council":   { "model": "anthropic/claude-opus-4-6" }
+    }
+
+  },
+
+  // ── Council ────────────────────────────────────────────────────────────────
+  // Three councillors from three model families for genuine diversity.
+  // Invoke manually with @council -- auto-delegation is intentionally rare
+  // (council is the highest-cost path: three parallel model calls + synthesis).
+  "council": {
+    "default_preset": "default",
+    "presets": {
+      "default": {
+        "claude": {
+          "model": "anthropic/claude-sonnet-4-6",
+          "prompt": "Focus on correctness, edge cases, and security implications."
+        },
+        "astra": {
+          "model": "azure/gpt-6-astra",
+          "prompt": "Focus on architecture, maintainability, and long-term design trade-offs."
+        },
+        "grok": {
+          "model": "azure/grok-4.6",
+          "prompt": "Focus on pragmatism, implementation feasibility, and operational concerns."
+        }
+      }
+    }
+  },
+
+  // ── Multiplexer ────────────────────────────────────────────────────────────
+  // Opens each subagent in a live Herdr pane automatically.
+  // Requires opencode launched with an explicit --port. Use the omos() zsh
+  // helper from the multiplexer docs, or set OPENCODE_PORT before launching.
+  "multiplexer": {
+    "type": "herdr",
+    "layout": "main-vertical"
+  },
+
+  // Disable anonymous PostHog telemetry.
+  "telemetry": false
+}

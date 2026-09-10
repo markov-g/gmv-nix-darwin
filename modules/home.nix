@@ -186,7 +186,9 @@
     ".config/opencode/opencode.jsonc".source     = ./dotfiles/macos/.config/opencode/opencode.jsonc;
     ".config/opencode/AGENTS.md".source          = ./dotfiles/macos/.codex/AGENTS.md;
     ".config/opencode/dcp.jsonc".source          = ./dotfiles/macos/.config/opencode/dcp.jsonc;
-    ".config/opencode/oh-my-openagent.json".source = ./dotfiles/macos/.config/opencode/oh-my-openagent.json;
+    # oh-my-openagent.json kept in repo as reference but no longer deployed --
+    # superseded by oh-my-opencode-slim.jsonc (plugin registered in opencode.jsonc).
+    ".config/opencode/oh-my-opencode-slim.jsonc".source = ./dotfiles/macos/.config/opencode/oh-my-opencode-slim.jsonc;
     ".config/opencode/themes/siemens-brand.json".source = ./dotfiles/macos/.config/opencode/themes/siemens-brand.json;
     # ── Herdr config ──────────────────────────────────────────────────────────
     ".config/herdr/config.toml".source               = ./dotfiles/macos/.config/herdr/config.toml;
