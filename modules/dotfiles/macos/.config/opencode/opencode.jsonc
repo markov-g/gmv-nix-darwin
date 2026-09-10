@@ -8,11 +8,12 @@
   // Supersedes: oh-my-openagent.json (oh-my-openagent@4.15.1, never activated).
   "plugin": ["oh-my-opencode-slim"],
 
-  // Default model: Claude via Siemens Azure AI Foundry (Anthropic Messages API).
-  // CLAUDE_CODE_USE_FOUNDRY=1 signals that Claude is deployed on Azure, but the
-  // wire format is the Anthropic Messages API -- use the anthropic provider, not azure.
-  // The azure provider sends OpenAI Responses API requests which Claude rejects.
-  "model": "anthropic/claude-sonnet-4-6",
+  // Default model: Grok 4.6 via Azure AI Foundry (OpenAI Responses API).
+  // Cheaper than Claude Sonnet 4.6. For Claude, switch with /model or use a
+  // preset that sets orchestrator to anthropic/claude-opus-4-6.
+  // Note: azure provider uses OpenAI Responses API; anthropic provider uses
+  // Anthropic Messages API -- do not mix them.
+  "model": "azure/grok-4.6",
 
   // Siemens brand dark theme (navy + teal accent palette).
   "theme": "siemens-brand",
