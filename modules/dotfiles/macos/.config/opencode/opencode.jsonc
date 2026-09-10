@@ -8,10 +8,6 @@
   // Supersedes: oh-my-openagent.json (oh-my-openagent@4.15.1, never activated).
   "plugin": ["oh-my-opencode-slim"],
 
-  // Allow subagents to spawn further subagents (depth 2).
-  // Required for council (a subagent) to dispatch councillors in parallel.
-  "subagent_depth": 2,
-
   // Default model: Claude via Siemens Azure AI Foundry (Anthropic Messages API).
   // CLAUDE_CODE_USE_FOUNDRY=1 signals that Claude is deployed on Azure, but the
   // wire format is the Anthropic Messages API -- use the anthropic provider, not azure.
