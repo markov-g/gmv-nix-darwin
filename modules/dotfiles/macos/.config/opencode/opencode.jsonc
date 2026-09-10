@@ -15,6 +15,11 @@
   // Anthropic Messages API -- do not mix them.
   "model": "azure/grok-4.6",
 
+  // Plan mode is a separate primary agent. Top-level "model" only covers build.
+  "agent": {
+    "plan": { "model": "azure/grok-4.6" }
+  },
+
   // Siemens brand dark theme (navy + teal accent palette).
   "theme": "siemens-brand",
 
