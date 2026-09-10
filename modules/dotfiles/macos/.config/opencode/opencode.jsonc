@@ -8,17 +8,15 @@
   // Supersedes: oh-my-openagent.json (oh-my-openagent@4.15.1, never activated).
   "plugin": ["oh-my-opencode-slim"],
 
-  // Default model: GPT-5.6 Luna via Azure AI Foundry (OpenAI Responses API).
-  // Short context: $0.20/M input, $1.20/M output (Global).
-  // For Claude, switch with /model or use a preset that sets orchestrator
-  // to anthropic/claude-opus-4-6.
+  // Default build model: GPT-5.6 Luna via Azure AI Foundry (OpenAI Responses API).
+  // Short context: $0.20/M input, $1.20/M output (Global). Cheap for implementation.
   // Note: azure provider uses OpenAI Responses API; anthropic provider uses
   // Anthropic Messages API -- do not mix them.
   "model": "azure/gpt-5.6-luna",
 
-  // Plan mode is a separate primary agent. Top-level "model" only covers build.
+  // Plan mode uses a smarter model for reasoning; build uses the cheaper default above.
   "agent": {
-    "plan": { "model": "azure/gpt-5.6-luna" }
+    "plan": { "model": "anthropic/claude-sonnet-4-6" }
   },
 
   // Siemens brand dark theme (navy + teal accent palette).
