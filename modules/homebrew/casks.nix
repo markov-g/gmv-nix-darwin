@@ -157,6 +157,6 @@ shared ++ (hostSpecific.${host} or [ ])
 ++ lib.optionals (omarchy4mac.enable && omarchy4mac.apps.ghostty)
   [ { name = "ghostty"; greedy = true; } ]
 ++ lib.optionals (omarchy4mac.enable && omarchy4mac.desktop.aerospace)
-  [ { name = "aerospace"; greedy = true; } ]
+  [ { name = "nikitabobko/tap/aerospace"; greedy = true; } ]
 ++ lib.optionals (omarchy4mac.enable && omarchy4mac.desktop.hammerspoon)
   [ { name = "hammerspoon"; greedy = true; } ]
