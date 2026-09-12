@@ -42,9 +42,52 @@
     # ── Helper: build a darwinSystem for one machine ─────────────────────────
     # host, user, system are injected into every module via specialArgs.
     # To add a machine: copy a block in darwinConfigurations below.
-    mkDarwin = { host, user, system ? "aarch64-darwin", enableMas ? true }:
+    # Normalize omarchy4mac profile: fill missing keys with disabled defaults
+    normalizeOmarchy = import ./modules/omarchy4mac/defaults.nix;
+
+    omarchy4macDisabled = {
+      enable = false;
+      apps = {
+        raycast = false;
+        fluidvoice = false;
+        bun = false;
+        fastfetch = false;
+        ghostty = false;
+      };
+      desktop = {
+        aerospace = false;
+        borders = false;
+        hammerspoon = false;
+        sketchybar = false;
+      };
+      themes.enable = false;
+      screensaver.enable = false;
+    };
+
+    omarchy4macApproved = {
+      enable = true;
+      apps = {
+        raycast = true;
+        fluidvoice = false;
+        bun = true;
+        fastfetch = true;
+        ghostty = true;
+      };
+      desktop = {
+        aerospace = true;
+        borders = true;
+        hammerspoon = true;
+        sketchybar = true;
+      };
+      themes.enable = false;
+      screensaver.enable = false;
+    };
+
+    mkDarwin = { host, user, system ? "aarch64-darwin", enableMas ? true, omarchy4mac ? {} }:
+      let omarchy4macN = normalizeOmarchy { inherit omarchy4mac; };
+      in
       nix-darwin.lib.darwinSystem {
-        specialArgs = { inherit host user inputs enableMas; };
+        specialArgs = { inherit host user inputs enableMas; omarchy4mac = omarchy4macN; };
 
         modules = [
           # ── Set target platform (replaces deprecated `system` arg) ───────
@@ -86,7 +129,7 @@
             home-manager.useGlobalPkgs   = true;
             home-manager.useUserPackages = true;
             home-manager.backupFileExtension = "hm-backup";
-            home-manager.extraSpecialArgs = { inherit host user inputs; };
+            home-manager.extraSpecialArgs = { inherit host user inputs; omarchy4mac = omarchy4macN; };
             home-manager.sharedModules   = [ inputs.sops-nix.homeManagerModules.sops ];
             home-manager.users.${user}   = import ./modules/home.nix;
           })
@@ -98,10 +141,12 @@
     # No darwin-rebuild needed — activate with:
     #   home-manager switch --flake .#<user>@<host>
     # Users & Groups; the other homeConfigurations entry is never activated.
-    mkHomeUser = { user, host, system ? "aarch64-darwin" }:
+    mkHomeUser = { user, host, system ? "aarch64-darwin", omarchy4mac ? {} }:
+      let omarchy4macN = normalizeOmarchy { inherit omarchy4mac; };
+      in
       home-manager.lib.homeManagerConfiguration {
         pkgs = nixpkgs.legacyPackages.${system};
-        extraSpecialArgs = { inherit inputs user host; };
+        extraSpecialArgs = { inherit inputs user host; omarchy4mac = omarchy4macN; };
         modules = [
           ./modules/home-standard.nix          # dotfiles + brews-only Homebrew
           inputs.sops-nix.homeManagerModules.sops
@@ -135,6 +180,7 @@
         host      = "minidevbox";
         user      = "r1pp3r";
         system    = "aarch64-darwin";
+        omarchy4mac = omarchy4macDisabled;
       };      
 
       "minidevboxvm" = mkDarwin {
@@ -148,6 +194,7 @@
         user   = "r1pp3r";
         system = "aarch64-darwin";
         enableMas = false;   # no Apple ID on this machine
+        omarchy4mac = omarchy4macDisabled;
       };      
       
       # Uncomment + fill in to add another machine:      
@@ -181,6 +228,7 @@
       "devel@minidevbox" = mkHomeUser {
         user = "devel";
         host = "minidevbox";
+        omarchy4mac = omarchy4macDisabled;
       };
 
       # ── minidevboxvm — devel fits best for VM-based dev environments
