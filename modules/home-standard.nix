@@ -27,6 +27,7 @@
 
 let
   allBrews = import ./homebrew/brews.nix { inherit lib omarchy4mac; };
+  allCasks = import ./homebrew/casks.nix { inherit lib host omarchy4mac; };
 
   # Extract "owner/repo" from tap-qualified entries ("owner/repo/formula")
   tapFromEntry = e:
@@ -35,7 +36,8 @@ let
        then "${builtins.elemAt parts 0}/${builtins.elemAt parts 1}"
        else null;
 
-  neededTaps = lib.unique (lib.filter (t: t != null) (map tapFromEntry allBrews));
+  neededTaps = lib.unique (lib.filter (t: t != null)
+    (map tapFromEntry (allBrews ++ (map (cask: cask.name) allCasks))));
 
   # Build a Brewfile in the Nix store -- formulas only, no casks, no mas
   brewfile = pkgs.writeText "Brewfile-standard" (
@@ -116,7 +118,7 @@ in
   home.activation.installOmarchyCasks = lib.hm.dag.entryAfter [ "installBrews" ] ''
     BREW_BIN="${config.home.homeDirectory}/PACKAGEMGMT/Homebrew/bin/brew"
     ${lib.optionalString (omarchy4mac.enable && omarchy4mac.desktop.aerospace)
-      (checkAndInstallCask "aerospace" "AeroSpace")}
+      (checkAndInstallCask "nikitabobko/tap/aerospace" "AeroSpace")}
     ${lib.optionalString (omarchy4mac.enable && omarchy4mac.desktop.hammerspoon)
       (checkAndInstallCask "hammerspoon" "Hammerspoon")}
     ${lib.optionalString (omarchy4mac.enable && omarchy4mac.apps.raycast)
