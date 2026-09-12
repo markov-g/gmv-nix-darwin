@@ -1,5 +1,9 @@
-# Plain Nix list – CLI formulas
-# NOTE: the following are managed by Nix (system.nix) — do NOT add here:
+# Called as: import ./homebrew/brews.nix { inherit lib omarchy4mac; }
+# Returns the merged formula list: shared ++ omarchy4mac conditional
+{ lib, omarchy4mac }:
+
+# Plain Nix list -- CLI formulas
+# NOTE: the following are managed by Nix (system.nix) -- do NOT add here:
 #   bat, eza, fzf, fd, git-delta, ripgrep, tmux, autojump  (original)
 #   neovim, lazygit, gitui, atuin, zoxide, bottom, htop, ncdu, yazi,
 #   difftastic, dust, tokei, xh, jless, k9s, tealdeer, glow,
@@ -24,7 +28,7 @@
   # "gemini-cli"
   "git"
   "git-lfs"
-  # "glow"               # → Nix (system.nix)
+  # "glow"               # -> Nix (system.nix)
   "gnu-tar"
   "go"
   "pkgconf"
@@ -33,7 +37,7 @@
   "helm"
   "herdr" # AI-aware terminal multiplexer (tmux replacement candidate)
   # "hermes-agent"
-  # "htop"               # → Nix (system.nix)
+  # "htop"               # -> Nix (system.nix)
   "huggingface-cli"
   "iproute2mac"
   "jenv" # Java version manager
@@ -48,12 +52,12 @@
   "lume"
   "m-cli" # macOS CLI utilities
   "mas" # Mac App Store CLI
-  "mise" # polyglot version manager (Node, Python, Ruby, Go…)
+  "mise" # polyglot version manager (Node, Python, Ruby, Go...)
   "minikube"
   "mole"
-  # "ncdu"               # → Nix (system.nix)
+  # "ncdu"               # -> Nix (system.nix)
   ###  "neo4j"
-  # "neovim"             # → Nix (system.nix)
+  # "neovim"             # -> Nix (system.nix)
   "nvm" # Node version manager (alternative to mise for Node)
   "ollama"
   # "opencode"
@@ -72,7 +76,7 @@
   "uv" # Fast Python package manager
   "vapor" # Swift web framework CLI
   "whalebrew"
-  # "yazi"               # → Nix (system.nix)
+  # "yazi"               # -> Nix (system.nix)
 
   # tap-qualified formulas
   "kylef/formulae/swiftenv"
@@ -80,3 +84,8 @@
   "swiftbrew/tap/swiftbrew"
   # "mas-cli/tap/mas"
 ]
+# ── Omarchy4Mac conditional formulas ─────────────────────────────────────────
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.apps.bun)         [ "bun" ]
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.apps.fastfetch)   [ "fastfetch" ]
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.desktop.sketchybar) [ "sketchybar" ]
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.desktop.borders)  [ "borders" ]

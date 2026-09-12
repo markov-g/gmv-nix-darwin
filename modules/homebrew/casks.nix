@@ -1,9 +1,9 @@
-# Called as: import ./homebrew/casks.nix { inherit host; }
-# Returns the merged cask list for that machine: shared ++ hostSpecific
-{ host }:
+# Called as: import ./homebrew/casks.nix { inherit lib host omarchy4mac; }
+# Returns the merged cask list for that machine: shared ++ hostSpecific ++ omarchy4mac
+{ lib, host, omarchy4mac }:
 
 let
-  # ── Shared casks — installed on every machine ─────────────────────────────
+  # ── Shared casks -- installed on every machine ─────────────────────────────
   shared = [
     { name = "1password-cli"; greedy = true; }
     { name = "1password"; greedy = true; }
@@ -36,9 +36,9 @@ let
     { name = "xtool-org/tap/xtool"; greedy = true; }
   ];
 
-  # ── Per-host casks — merged with shared above ─────────────────────────────
+  # ── Per-host casks -- merged with shared above ─────────────────────────────
   # Add a new host key when you add a machine to darwinConfigurations.
-  # Omitting a host key is fine — it gets shared only.
+  # Omitting a host key is fine -- it gets shared only.
   hostSpecific = {
     "r1pp3r" = [
       { name = "devonthink"; greedy = true; }
@@ -51,7 +51,7 @@ let
       { name = "thinkorswim"; greedy = true; }
       { name = "tradingview"; greedy = true; }
 
-      # ── Security & Privacy (Objective-See + others) — on every machine ──────
+      # ── Security & Privacy (Objective-See + others) ────────────────────────
       { name = "blockblock"; greedy = true; } # persistence monitor
       { name = "gpg-suite"; greedy = true; } # GPG encryption
       { name = "knockknock"; greedy = true; } # persistent-software scanner
@@ -108,7 +108,7 @@ let
       { name = "thinkorswim"; greedy = true; }
       { name = "tradingview"; greedy = true; }
 
-      # ── Security & Privacy (Objective-See + others) — on every machine ──────
+      # ── Security & Privacy (Objective-See + others) ────────────────────────
       { name = "blockblock"; greedy = true; } # persistence monitor
       { name = "gpg-suite"; greedy = true; } # GPG encryption
       { name = "knockknock"; greedy = true; } # persistent-software scanner
@@ -121,7 +121,7 @@ let
     ];
 
     "minidevboxvm" = [
-      # lightweight — no heavy GUI apps in a VM
+      # lightweight -- no heavy GUI apps in a VM
     ];
 
     "openclaw" = [
@@ -134,7 +134,7 @@ let
       # { name = "ledger-wallet"; greedy = true; }
       { name = "lm-studio"; greedy = true; }
 
-      # ── Security & Privacy (Objective-See + others) — on every machine ──────
+      # ── Security & Privacy (Objective-See + others) ────────────────────────
       { name = "blockblock"; greedy = true; } # persistence monitor
       { name = "gpg-suite"; greedy = true; } # GPG encryption
       { name = "knockknock"; greedy = true; } # persistent-software scanner
@@ -149,3 +149,14 @@ let
 
 in
 shared ++ (hostSpecific.${host} or [ ])
+# ── Omarchy4Mac conditional casks ──────────────────────────────────────────
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.apps.raycast)
+  [ { name = "raycast"; greedy = true; } ]
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.apps.fluidvoice)
+  [ { name = "fluidvoice"; greedy = true; } ]
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.apps.ghostty)
+  [ { name = "ghostty"; greedy = true; } ]
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.desktop.aerospace)
+  [ { name = "aerospace"; greedy = true; } ]
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.desktop.hammerspoon)
+  [ { name = "hammerspoon"; greedy = true; } ]

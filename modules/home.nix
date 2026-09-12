@@ -1,4 +1,16 @@
-{ config, lib, pkgs, inputs, user, host, ... }:
+{ config, lib, pkgs, inputs, user, host, omarchy4mac ? {
+  enable = false;
+  apps = { raycast = false; fluidvoice = false; bun = false; fastfetch = false; ghostty = false; };
+  desktop = { aerospace = false; borders = false; hammerspoon = false; sketchybar = false; };
+  themes = { enable = false; };
+  screensaver = { enable = false; };
+}, ... }:
+
+let
+  omarchyKeybindings = import ./omarchy4mac/keybindings.nix { inherit lib; };
+  aerospaceTemplate = builtins.readFile ./dotfiles/macos/.config/aerospace/aerospace.toml;
+  hammerspoonKeybindingsTemplate = builtins.readFile ./dotfiles/macos/.hammerspoon/keybindings.lua;
+in
 
 {
   # Let Home Manager install and manage itself.
@@ -213,6 +225,74 @@
     ".config/opencode/skills/codebase-design/SKILL.md".source           = ./dotfiles/macos/.claude/skills/codebase-design/SKILL.md;
     ".config/opencode/skills/codebase-design/DEEPENING.md".source       = ./dotfiles/macos/.claude/skills/codebase-design/DEEPENING.md;
     ".config/opencode/skills/codebase-design/DESIGN-IT-TWICE.md".source = ./dotfiles/macos/.claude/skills/codebase-design/DESIGN-IT-TWICE.md;
+  }
+  # ── Omarchy4Mac conditional dotfiles ─────────────────────────────────────────
+  // lib.optionalAttrs (omarchy4mac.enable && omarchy4mac.desktop.borders) {
+    ".config/borders/bordersrc" = {
+      source     = ./dotfiles/macos/.config/borders/bordersrc;
+      executable = true;
+    };
+  }
+  // lib.optionalAttrs (omarchy4mac.enable && omarchy4mac.desktop.aerospace) {
+    ".config/aerospace/aerospace.toml".text = builtins.replaceStrings
+      [ "# @OMARCHY_AEROSPACE_BINDINGS@" ]
+      [ omarchyKeybindings.aerospace ]
+      aerospaceTemplate;
+  }
+  // lib.optionalAttrs (omarchy4mac.enable && omarchy4mac.desktop.hammerspoon) {
+    ".hammerspoon/init.lua".source        = ./dotfiles/macos/.hammerspoon/init.lua;
+    ".hammerspoon/keybindings.lua".text = builtins.replaceStrings
+      [ "  -- @OMARCHY_HAMMERSPOON_BINDINGS@" ]
+      [ omarchyKeybindings.hammerspoon ]
+      hammerspoonKeybindingsTemplate;
+    ".hammerspoon/caffeine.lua".source     = ./dotfiles/macos/.hammerspoon/caffeine.lua;
+  }
+  // lib.optionalAttrs (omarchy4mac.enable && omarchy4mac.desktop.sketchybar) {
+    ".config/sketchybar/sketchybarrc" = {
+      source     = ./dotfiles/macos/.config/sketchybar/sketchybarrc;
+      executable = true;
+    };
+    ".config/sketchybar/plugins/front_app.sh" = {
+      source     = ./dotfiles/macos/.config/sketchybar/plugins/front_app.sh;
+      executable = true;
+    };
+    ".config/sketchybar/plugins/clock.sh" = {
+      source     = ./dotfiles/macos/.config/sketchybar/plugins/clock.sh;
+      executable = true;
+    };
+    ".config/sketchybar/plugins/battery.sh" = {
+      source     = ./dotfiles/macos/.config/sketchybar/plugins/battery.sh;
+      executable = true;
+    };
+    ".config/sketchybar/plugins/network.sh" = {
+      source     = ./dotfiles/macos/.config/sketchybar/plugins/network.sh;
+      executable = true;
+    };
+  };
+
+  # Start optional desktop services only when their profile flags are enabled.
+  launchd.agents."janky-borders" = lib.mkIf
+    (omarchy4mac.enable && omarchy4mac.desktop.borders) {
+    enable = true;
+    config = {
+      Label = "com.${user}.janky-borders";
+      ProgramArguments = [
+        "${config.home.homeDirectory}/PACKAGEMGMT/Homebrew/bin/borders"
+      ];
+      RunAtLoad = true;
+    };
+  };
+
+  launchd.agents.sketchybar = lib.mkIf
+    (omarchy4mac.enable && omarchy4mac.desktop.sketchybar) {
+    enable = true;
+    config = {
+      Label = "com.${user}.sketchybar";
+      ProgramArguments = [
+        "${config.home.homeDirectory}/PACKAGEMGMT/Homebrew/bin/sketchybar"
+      ];
+      RunAtLoad = true;
+    };
   };
 
   # ── Bootstrap activation scripts ─────────────────────────────────────────────
