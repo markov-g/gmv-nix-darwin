@@ -69,8 +69,8 @@
       apps = {
         raycast = true;
         fluidvoice = false;
-        bun = true;
-        fastfetch = true;
+        bun = false;
+        fastfetch = false;
         ghostty = true;
       };
       desktop = {
