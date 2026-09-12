@@ -34,7 +34,7 @@ let
     { mode = "resize"; key = "down"; action = "resize height +50"; label = "Down"; description = "Resize height +50"; }
     { mode = "resize"; key = "up"; action = "resize height -50"; label = "Up"; description = "Resize height -50"; }
     { mode = "resize"; key = "right"; action = "resize width +50"; label = "Right"; description = "Resize width +50"; }
-    { mode = "resize"; key = "escape"; action = "mode main"; label = "Escape"; description = "Return to main mode"; }
+    { mode = "resize"; key = "esc"; action = "mode main"; label = "Escape"; description = "Return to main mode"; }
     { mode = "resize"; key = "enter"; action = "mode main"; label = "Enter"; description = "Return to main mode"; }
     { mode = "resize"; key = "ctrl-alt-tab"; action = "focus-monitor next"; label = "Ctrl+Alt+Tab"; description = "Focus next monitor"; }
     { mode = "resize"; key = "ctrl-alt-shift-tab"; action = "focus-monitor prev"; label = "Ctrl+Alt+Shift+Tab"; description = "Focus previous monitor"; }
