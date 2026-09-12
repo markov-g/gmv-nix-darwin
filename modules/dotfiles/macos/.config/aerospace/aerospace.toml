@@ -1,0 +1,43 @@
+# AeroSpace tiling window manager configuration
+# Uses ctrl+alt as the modifier family to avoid conflicts with:
+#   tmux (ctrl+a), Herdr (ctrl+b), Neovim (space leader, alt+j/k),
+#   macOS (cmd+arrow, cmd+space), and shell (Meta keys).
+
+# Start AeroSpace at login
+start-at-login = true
+
+# Normalizations
+enable-normalization-flatten-containers = true
+enable-normalization-opposite-orientation-for-nested-containers = true
+
+# Mouse follows focus
+on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
+on-focus-changed = ['move-mouse window-lazy-center']
+
+# Gaps
+[gaps]
+inner.horizontal = 10
+inner.vertical = 10
+outer.left = 10
+outer.right = 10
+outer.bottom = 10
+outer.top = 10
+
+# Default layout
+default-root-container-layout = 'tiles'
+default-root-container-orientation = 'auto'
+
+# @OMARCHY_AEROSPACE_BINDINGS@
+
+# ── Floating rules ───────────────────────────────────────────────────────────
+[[on-window-detected]]
+if.app-name-regex-substring = 'System Settings'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'Calculator'
+run = 'layout floating'
+
+[[on-window-detected]]
+if.app-name-regex-substring = 'Archive Utility'
+run = 'layout floating'

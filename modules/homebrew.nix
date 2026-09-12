@@ -1,8 +1,8 @@
-{ config, lib, inputs, user, host, enableMas, ... }:
+{ config, lib, inputs, user, host, enableMas, omarchy4mac, ... }:
 
 let
-  brews = import ./homebrew/brews.nix;
-  casks = import ./homebrew/casks.nix { inherit host; };
+  brews = import ./homebrew/brews.nix { inherit lib omarchy4mac; };
+  casks = import ./homebrew/casks.nix { inherit lib host omarchy4mac; };
   masApps = import ./homebrew/mas.nix   { inherit host enableMas; };
 in
 {
