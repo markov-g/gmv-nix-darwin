@@ -83,7 +83,7 @@
       screensaver.enable = false;
     };
 
-    mkDarwin = { host, user, system ? "aarch64-darwin", enableMas ? true, omarchy4mac ? {} }:
+    mkDarwin = { host, user, system ? "aarch64-darwin", enableMas ? true, omarchy4mac ? omarchy4macDisabled }:
       let omarchy4macN = normalizeOmarchy { inherit omarchy4mac; };
       in
       nix-darwin.lib.darwinSystem {
@@ -141,7 +141,7 @@
     # No darwin-rebuild needed — activate with:
     #   home-manager switch --flake .#<user>@<host>
     # Users & Groups; the other homeConfigurations entry is never activated.
-    mkHomeUser = { user, host, system ? "aarch64-darwin", omarchy4mac ? {} }:
+    mkHomeUser = { user, host, system ? "aarch64-darwin", omarchy4mac ? omarchy4macDisabled }:
       let omarchy4macN = normalizeOmarchy { inherit omarchy4mac; };
       in
       home-manager.lib.homeManagerConfiguration {
@@ -162,18 +162,21 @@
         host   = "r1pp3r";
         user   = "r1pp3r"; 
         system = "aarch64-darwin";
+        omarchy4mac = omarchy4macDisabled;
       };
 
       "SE1L649RJQC4F" = mkDarwin {
         host   = "SE1L649RJQC4F";
         user   = "mch12700";    # different username on work machine
         system = "aarch64-darwin";
+        omarchy4mac = omarchy4macDisabled;
       };
 
       "SE1FXHLQH3MTP" = mkDarwin {
         host   = "SE1FXHLQH3MTP";
         user   = "mch12700";    # different username on work machine
         system = "aarch64-darwin";
+        omarchy4mac = omarchy4macDisabled;
       };
 
       "minidevbox" = mkDarwin {
@@ -187,6 +190,7 @@
         host      = "minidevboxvm";
         user      = "devel";
         system    = "aarch64-darwin";        
+        omarchy4mac = omarchy4macDisabled;
       };
 
       "openclaw" = mkDarwin {
@@ -224,6 +228,7 @@
       "llmautomation@minidevbox" = mkHomeUser {
         user = "llmautomation";
         host = "minidevbox";
+        omarchy4mac = omarchy4macDisabled;
       };
       "devel@minidevbox" = mkHomeUser {
         user = "devel";
@@ -235,11 +240,13 @@
       "devel@minidevboxvm" = mkHomeUser {
         user = "devel";
         host = "minidevboxvm";
+        omarchy4mac = omarchy4macDisabled;
       };
 
       "llmautomation@openclaw" = mkHomeUser {
         user = "llmautomation";
         host = "openclaw";
+        omarchy4mac = omarchy4macDisabled;
       };
 
       # ── Add future machines here as needed, e.g.:

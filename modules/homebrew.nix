@@ -8,7 +8,10 @@ in
 {
   homebrew = {
     enable                  = true;
-    taps                    = builtins.attrNames config.nix-homebrew.prefixes."/Users/${user}/PACKAGEMGMT/Homebrew".taps;
+    taps                    = builtins.attrNames config.nix-homebrew.prefixes."/Users/${user}/PACKAGEMGMT/Homebrew".taps
+      ++ lib.optional (omarchy4mac.enable &&
+        (omarchy4mac.desktop.borders || omarchy4mac.desktop.sketchybar))
+        "FelixKratz/formulae";
     prefix                  = "/Users/${user}/PACKAGEMGMT/Homebrew";
     brews                   = brews;
     casks                   = casks;

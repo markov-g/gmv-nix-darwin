@@ -87,5 +87,7 @@
 # ── Omarchy4Mac conditional formulas ─────────────────────────────────────────
 ++ lib.optionals (omarchy4mac.enable && omarchy4mac.apps.bun)         [ "bun" ]
 ++ lib.optionals (omarchy4mac.enable && omarchy4mac.apps.fastfetch)   [ "fastfetch" ]
-++ lib.optionals (omarchy4mac.enable && omarchy4mac.desktop.sketchybar) [ "sketchybar" ]
-++ lib.optionals (omarchy4mac.enable && omarchy4mac.desktop.borders)  [ "borders" ]
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.desktop.sketchybar)
+  [ "FelixKratz/formulae/sketchybar" ]
+++ lib.optionals (omarchy4mac.enable && omarchy4mac.desktop.borders)
+  [ "FelixKratz/formulae/borders" ]
