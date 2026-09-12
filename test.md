@@ -37,33 +37,32 @@ Before starting:
 
 ## Part 1 — Create and Boot the VM
 
-### 1.1 Pull a macOS image
+### 1.1 Create a VM instance
 
-lume uses OCI images. Pull the latest vanilla Sequoia image (~10–15 GB):
-
-```bash
-lume pull ghcr.io/trycombined/macos-sequoia-vanilla:latest
-```
-
-> This can take 15–30 min depending on your connection. Run it once and reuse
-> the image for multiple test runs.
-
-### 1.2 Create a VM instance
+Current Lume releases create macOS VMs directly from an Apple restore image.
+The `--disk` option from older instructions has been replaced by
+`--disk-size`, and memory values require a unit.
 
 ```bash
 lume create test-bootstrap \
   --os macos \
-  # --image ghcr.io/trycombined/macos-sequoia-vanilla:latest \
-  --disk 80    \
-  --memory 8
+  --ipsw latest \
+  --cpu 4 \
+  --memory 8GB \
+  --disk-size 80GB
 ```
 
 | Flag | Value | Notes |
 |------|-------|-------|
-| `--disk` | 80 GB | nix store + Homebrew need ~30 GB minimum |
-| `--memory` | 8 GB | 4 GB works but 8 GB is smoother |
+| `--disk-size` | 80GB | nix store + Homebrew need ~30 GB minimum |
+| `--memory` | 8GB | 4GB works but 8GB is smoother |
 
-### 1.3 Start the VM
+Do not use `--unattended` for this repository's `openclaw` test target. The
+unattended preset creates a `lume` guest user, while the target expects the
+short username `r1pp3r`. Complete Setup Assistant manually and create the
+`r1pp3r` account.
+
+### 1.2 Start the VM
 
 ```bash
 lume run test-bootstrap
