@@ -68,6 +68,7 @@
   "rustup" # Rust toolchain manager
   "sleepwatcher" # Triggers ~/.sleep and ~/.wakeup on power events
   "starship"
+  "superfile"
   # "subversion"
   "uv" # Fast Python package manager
   "vapor" # Swift web framework CLI
