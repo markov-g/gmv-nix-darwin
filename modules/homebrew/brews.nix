@@ -70,6 +70,7 @@
   "starship"
   "superfile"
   # "subversion"
+  "tdf"
   "uv" # Fast Python package manager
   "vapor" # Swift web framework CLI
   "whalebrew"
