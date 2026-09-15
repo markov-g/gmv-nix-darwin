@@ -19,7 +19,7 @@ return {
         }) do
           local value = vim.env[name]
           if value and value ~= "" then
-            resolved[name] = value
+            resolved["input:" .. name] = value
           end
         end
         return resolved
