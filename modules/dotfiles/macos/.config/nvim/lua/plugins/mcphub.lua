@@ -9,6 +9,11 @@ return {
     opts = {
       use_bundled_binary = true,
       config = vim.fn.expand("~/.config/mcphub/servers.json"),
+      global_env = {
+        "POLARION_API_TOKEN",
+        "ATLASSIAN_TOKEN",
+        "GITLAB_PERSONAL_ACCESS_TOKEN",
+      },
       auto_approve = false,
       auto_toggle_mcp_servers = false,
       workspace = {
