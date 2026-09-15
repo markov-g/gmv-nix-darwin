@@ -19,6 +19,14 @@ local skip_mason = {
   "fsautocomplete",   -- F# LSP — not used
 }
 
+local function buffer_path(buf_or_path)
+  local path = buf_or_path
+  if type(buf_or_path) == "number" then
+    path = vim.api.nvim_buf_get_name(buf_or_path)
+  end
+  return path ~= "" and path or nil
+end
+
 return {
   -- ── nvim-lspconfig: server definitions ──────────────────────────
   {
@@ -51,6 +59,10 @@ return {
           cmd = { "kotlin-language-server" },
           filetypes = { "kotlin" },
           root_dir = function(fname)
+            fname = buffer_path(fname)
+            if not fname then
+              return nil
+            end
             local util = require("lspconfig.util")
             return util.root_pattern(
               "settings.gradle", "settings.gradle.kts",
@@ -69,6 +81,10 @@ return {
           cmd       = { "sourcekit-lsp" },
           filetypes = { "swift", "objective-c", "objective-cpp" },
           root_dir  = function(fname)
+            fname = buffer_path(fname)
+            if not fname then
+              return nil
+            end
             local util = require("lspconfig.util")
             return util.root_pattern("Package.swift", "*.xcodeproj", "*.xcworkspace")(fname)
               or util.find_git_ancestor(fname)
