@@ -558,13 +558,15 @@ Uses vim-dadbod-ui. Supports PostgreSQL, MySQL, SQLite, SQL Server, and more.
 - `<leader>ca` → "Fix" to apply Swift compiler suggestions
 
 ### .NET / C#
-- LSP: **OmniSharp** (install: `:MasonInstall omnisharp`)
+- LSP: **OmniSharp** (managed by the LazyVim .NET extra)
+- Runtime: Nix-managed .NET SDK 8
 - Works with `.sln` and `.csproj` files
 - `<leader>ca` → Roslyn code actions (generate constructor, implement interface…)
 - NuGet completion via omnisharp
 
 ### Python
 - LSP: **pyright** (type checking) + **ruff** (linting/formatting)
+- Runtime/tools: Nix-managed Python 3 and Ruff
 - DAP: `pip install debugpy` in your venv
 - Virtual env detection: activate your venv before opening nvim, or:
   ```
@@ -572,7 +574,7 @@ Uses vim-dadbod-ui. Supports PostgreSQL, MySQL, SQLite, SQL Server, and more.
   ```
 
 ### Rust
-- LSP: **rust-analyzer** (installed automatically by LazyVim Rust extra)
+- LSP: **rust-analyzer** (Nix-managed; Rustup still supplies the Rust toolchain)
 - Cargo integration: `<leader>ca` shows Cargo actions
 - `C-Space` in `Cargo.toml` for version completion
 
@@ -582,8 +584,19 @@ Uses vim-dadbod-ui. Supports PostgreSQL, MySQL, SQLite, SQL Server, and more.
 - `<leader>ca` → organise imports, add struct tags
 
 ### Zig
-- LSP: **zls** (install: `:MasonInstall zls`)
+- LSP: **zls** (Nix-managed)
 - Tree-sitter: ✓ (syntax highlighting, textobjects)
+
+### Kotlin
+- LSP: **kotlin-language-server** (Nix-managed)
+- Runtime: Nix-managed JDK 21
+- Project roots: `settings.gradle(.kts)`, `build.gradle(.kts)`, `pom.xml`, or Git
+
+### Java / Spring Boot
+- LSP: **jdtls** through the LazyVim Java extra and Mason
+- Runtime: Nix-managed JDK 21
+- Project roots: Maven or Gradle build files, with project-aware JDTLS workspaces
+- Spring Boot support comes from the project build and Java LSP metadata; no separate Neovim plugin is required
 
 ### Mojo 🔥
 - LSP: `mojo-lsp` (install: `modular install mojo`)

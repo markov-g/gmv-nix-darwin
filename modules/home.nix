@@ -89,6 +89,7 @@
     # ── Neovim (LazyVim) ──────────────────────────────────────────────────────
     # Config is read-only from the nix store; plugins/data live in ~/.local/share/nvim
     ".config/nvim".source = ./dotfiles/macos/.config/nvim;
+    ".config/mcphub/servers.json".source = ./dotfiles/macos/.config/mcphub/servers.json;
 
     # ── Powerlevel10k prompt config ───────────────────────────────────────────
     # Generate with: p10k configure → then commit the result:

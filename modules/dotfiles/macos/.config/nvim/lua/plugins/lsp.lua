@@ -10,6 +10,7 @@ local nix_managed = {
   "ts_ls",
   "yamlls",
   "jsonls",
+  "kotlin_language_server",
 }
 
 -- Servers/packages that lang.dotnet tries to install via Mason but
@@ -45,12 +46,26 @@ return {
             },
           },
         },
+        kotlin_language_server = {
+          mason = false,
+          cmd = { "kotlin-language-server" },
+          filetypes = { "kotlin" },
+          root_dir = function(fname)
+            local util = require("lspconfig.util")
+            return util.root_pattern(
+              "settings.gradle", "settings.gradle.kts",
+              "build.gradle", "build.gradle.kts",
+              "pom.xml", ".git"
+            )(fname)
+          end,
+        },
 
         -- Disable F# LSP (not used)
         fsautocomplete = { enabled = false },
 
         -- macOS-specific: Swift LSP (uses Xcode's sourcekit-lsp)
         sourcekit = {
+          mason     = false,
           cmd       = { "sourcekit-lsp" },
           filetypes = { "swift", "objective-c", "objective-cpp" },
           root_dir  = function(fname)
@@ -93,7 +108,7 @@ return {
       ensure_installed = {
         "bash", "c", "css", "diff", "dockerfile",
         "go", "gomod", "gosum", "html", "javascript",
-        "json", "lua", "luadoc", "markdown", "markdown_inline",
+        "java", "json", "kotlin", "lua", "luadoc", "markdown", "markdown_inline",
         "nix", "python", "query", "regex", "rust",
         "scala", "sql", "terraform", "toml", "tsx",
         "typescript", "vim", "vimdoc", "xml", "yaml",
