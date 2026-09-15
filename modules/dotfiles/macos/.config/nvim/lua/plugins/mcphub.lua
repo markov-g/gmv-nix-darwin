@@ -10,20 +10,6 @@ return {
       use_bundled_binary = true,
       config = vim.fn.expand("~/.config/mcphub/servers.json"),
       shutdown_delay = 0,
-      global_env = function()
-        local resolved = {}
-        for _, name in ipairs({
-          "POLARION_API_TOKEN",
-          "ATLASSIAN_TOKEN",
-          "GITLAB_PERSONAL_ACCESS_TOKEN",
-        }) do
-          local value = vim.env[name]
-          if value and value ~= "" then
-            resolved["input:" .. name] = value
-          end
-        end
-        return resolved
-      end,
       auto_approve = false,
       auto_toggle_mcp_servers = false,
       workspace = {

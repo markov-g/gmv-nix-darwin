@@ -4,7 +4,7 @@
       "type": "http",
       "url": "https://mcp.mobility.siemens.com/polarion",
       "headers": {
-        "Authorization": "Bearer ${input:POLARION_API_TOKEN}",
+        "Authorization": "Bearer ${POLARION_API_TOKEN}",
         "X-Polarion-URL": "https://polarion.ri.mobility.siemens.cloud/polarion",
         "X-Polarion-Enabled-Tools": "health_check,get_projects,get_project,get_workitems,get_workitem,get_workitem_comments,get_workitem_attachments,get_linked_workitems,get_teststeps,get_documents,get_document,get_document_comments,get_pages,get_page,get_testruns,get_testrun,get_testrecords,get_revisions,view_document_approvals,view_testrun_summary,view_traceability_matrix"
       }
@@ -13,7 +13,7 @@
       "transport": "streamable_http",
       "url": "https://mcp.mobility.siemens.com/daai-atlassian/",
       "headers": {
-        "Authorization": "Bearer ${input:ATLASSIAN_TOKEN}",
+        "Authorization": "Bearer ${ATLASSIAN_TOKEN}",
         "X-Enabled-Tools": "jira_get_issue,jira_search,confluence_search,confluence_get_page,confluence_get_page_children,confluence_get_comments,confluence_get_labels,confluence_search_user,confluence_get_attachments,confluence_download_attachment,confluence_download_content_attachments,confluence_get_page_diff,confluence_get_page_history,confluence_get_page_views,confluence_get_page_images,confluence_get_space_page_tree,confluence_get_inline_comments,confluence_list_page_templates,confluence_get_page_template,confluence_check_content_permissions,confluence_get_space_permissions"
       }
     },
@@ -21,7 +21,7 @@
       "type": "http",
       "url": "https://api.siemens.com/mcp/gitlab-read",
       "headers": {
-        "Private-Token": "${input:GITLAB_PERSONAL_ACCESS_TOKEN}"
+        "Private-Token": "${GITLAB_PERSONAL_ACCESS_TOKEN}"
       }
     },
     "playwright": {
