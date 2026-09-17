@@ -22,7 +22,7 @@ map("n", "N", "Nzzzv")
 map("x", "<leader>p", [["_dP]], { desc = "Paste without yank" })
 
 -- Delete without yanking
-map({ "n", "v" }, "<leader>d", [["_d]], { desc = "Delete without yank" })
+map({ "n", "v" }, "<A-d>", [["_d]], { desc = "Delete without yank" })
 
 -- Quick save
 map("n", "<leader>w", "<cmd>w<CR>", { desc = "Save file" })

@@ -38,7 +38,6 @@ return {
         mason      = true,
         native_lsp = { enabled = true },
         notify     = true,
-        telescope  = true,
         treesitter = true,
         which_key  = true,
       },

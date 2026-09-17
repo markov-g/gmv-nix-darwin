@@ -1,5 +1,7 @@
 local opt = vim.opt
 
+vim.g.lazyvim_picker = "fzf"
+
 opt.relativenumber = true
 opt.number         = true
 opt.tabstop        = 2

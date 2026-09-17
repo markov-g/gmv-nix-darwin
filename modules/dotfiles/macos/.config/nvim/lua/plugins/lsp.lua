@@ -8,6 +8,7 @@ local nix_managed = {
   "bashls",
   "lua_ls",
   "ts_ls",
+  "roslyn",
   "yamlls",
   "jsonls",
   "kotlin_language_server",
@@ -80,14 +81,22 @@ return {
           mason     = false,
           cmd       = { "sourcekit-lsp" },
           filetypes = { "swift", "objective-c", "objective-cpp" },
-          root_dir  = function(fname)
-            fname = buffer_path(fname)
+          root_dir  = function(bufnr, on_dir)
+            local fname = buffer_path(bufnr)
             if not fname then
-              return nil
+              return
             end
             local util = require("lspconfig.util")
-            return util.root_pattern("Package.swift", "*.xcodeproj", "*.xcworkspace")(fname)
-              or util.find_git_ancestor(fname)
+            local root = util.root_pattern(
+              "Package.swift",
+              "buildServer.json",
+              "*.xcodeproj",
+              "*.xcworkspace",
+              ".git"
+            )(fname) or util.find_git_ancestor(fname)
+            if root then
+              on_dir(root)
+            end
           end,
         },
       },
