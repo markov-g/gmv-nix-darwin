@@ -32,7 +32,7 @@ return {
 
       if command == "" then
         vim.notify(
-          "Roslyn language server is not on PATH. Enter the shellnix direnv environment and restart Neovim.",
+          "Roslyn language server is not on PATH. Launch Neovim from the shellnix direnv environment and restart it.",
           vim.log.levels.ERROR
         )
         return

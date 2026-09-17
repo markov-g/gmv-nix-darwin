@@ -138,7 +138,7 @@ return {
       local python = vim.env.NVIM_DEBUGPY_PYTHON
       if not python or vim.fn.executable(python) ~= 1 then
         vim.notify(
-          "NVIM_DEBUGPY_PYTHON is missing; enter the shellnix direnv environment before starting Neovim",
+          "NVIM_DEBUGPY_PYTHON is missing; launch Neovim from the shellnix direnv environment",
           vim.log.levels.WARN
         )
         return
