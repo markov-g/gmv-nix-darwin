@@ -34,7 +34,10 @@ return {
       local dap = require("dap")
       local pick_process = require("dap.utils").pick_process
 
-      local netcoredbg = executable("netcoredbg")
+      local netcoredbg = vim.env.NVIM_NETCOREDBG
+      if not netcoredbg or vim.fn.executable(netcoredbg) ~= 1 then
+        netcoredbg = executable("netcoredbg")
+      end
       if netcoredbg then
         dap.adapters.coreclr = {
           type = "executable",
@@ -63,7 +66,10 @@ return {
         vim.notify("netcoredbg is not on PATH; C# DAP is unavailable", vim.log.levels.WARN)
       end
 
-      local lldb_dap = executable("lldb-dap") or executable("lldb-vscode")
+      local lldb_dap = vim.env.NVIM_LLDB_DAP
+      if not lldb_dap or vim.fn.executable(lldb_dap) ~= 1 then
+        lldb_dap = executable("lldb-dap") or executable("lldb-vscode")
+      end
       if lldb_dap then
         dap.adapters.lldb = {
           type = "executable",

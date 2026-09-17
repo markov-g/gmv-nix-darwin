@@ -22,7 +22,10 @@ return {
       filewatching = "roslyn",
     },
     config = function(_, opts)
-      local command = vim.fn.exepath("Microsoft.CodeAnalysis.LanguageServer")
+      local command = vim.env.NVIM_ROSLYN_LS
+      if not command or vim.fn.executable(command) ~= 1 then
+        command = vim.fn.exepath("Microsoft.CodeAnalysis.LanguageServer")
+      end
       if command == "" then
         command = vim.fn.exepath("roslyn-language-server")
       end
