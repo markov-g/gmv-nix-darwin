@@ -30,6 +30,13 @@ return {
     priority = 1000,
     opts = {
       flavour = "mocha",
+      custom_highlights = {
+        Cursor = { fg = "#1e1e2e", bg = "#fab387" },
+        lCursor = { fg = "#1e1e2e", bg = "#fab387" },
+        CursorIM = { fg = "#1e1e2e", bg = "#fab387" },
+        TermCursor = { fg = "#1e1e2e", bg = "#fab387" },
+        TermCursorNC = { fg = "#1e1e2e", bg = "#fab387" },
+      },
       integrations = {
         aerial     = true,
         cmp        = true,
