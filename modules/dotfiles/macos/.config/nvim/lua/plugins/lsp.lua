@@ -9,6 +9,7 @@ local nix_managed = {
   "lua_ls",
   "ts_ls",
   "roslyn",
+  "sourcekit",
   "yamlls",
   "jsonls",
   "kotlin_language_server",
@@ -79,7 +80,7 @@ return {
         -- macOS-specific: Swift LSP (uses Xcode's sourcekit-lsp)
         sourcekit = {
           mason     = false,
-          cmd       = { "sourcekit-lsp" },
+          cmd       = { "/usr/bin/xcrun", "sourcekit-lsp" },
           filetypes = { "swift", "objective-c", "objective-cpp" },
           root_dir  = function(bufnr, on_dir)
             local fname = buffer_path(bufnr)
