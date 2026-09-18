@@ -50,19 +50,20 @@ return {
         roslyn = {
           mason = false,
           cmd = roslyn_cmd,
+          filetypes = { "cs", "razor" },
         },
       },
     },
   },
   {
     "seblyng/roslyn.nvim",
-    -- Nix currently provides roslyn-ls 5.7.x. Keep the plugin on the
+    -- Nix currently provides roslyn-ls 5.6.x. Keep the plugin on the
     -- compatible pre-5.12 server integration until the Nix package catches up.
     commit = "de9a98d61ed3fd01b5016eea5fe9e32f1a4c7cfb",
     ft = { "cs", "razor" },
     opts = {
       broad_search = true,
-      -- Roslyn 5.7 can recurse in its FileSystemWatcher on macOS and abort.
+      -- Roslyn 5.6/5.7 can recurse in its FileSystemWatcher on macOS and abort.
       filewatching = "off",
     },
     config = function(_, opts)
