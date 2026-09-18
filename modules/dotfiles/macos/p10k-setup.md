@@ -121,6 +121,21 @@ silence a specific warning:
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet   # add near top of .p10k.zsh
 ```
 
+## Troubleshooting
+
+### p10k does not load
+
+If the prompt falls back to a plain zsh prompt or p10k stops loading after an
+Antigen update, remove Antigen's generated cache files and restart the shell.
+Run this from your home directory:
+
+```bash
+rm -f .antigen/init.zsh ~/.antigen/.resources
+exec zsh
+```
+
+Antigen regenerates the files on the next shell startup.
+
 ---
 
 ## Useful segments to enable

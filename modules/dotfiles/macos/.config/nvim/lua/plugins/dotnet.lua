@@ -16,33 +16,62 @@ return {
   },
   {
     "seblyng/roslyn.nvim",
+    -- Nix currently provides roslyn-ls 5.7.x. Keep the plugin on the
+    -- compatible pre-5.12 server integration until the Nix package catches up.
+    commit = "90d43d35f0ebb5ecf1df734194cb568a162de4cb",
     ft = { "cs", "razor" },
     opts = {
       broad_search = true,
       filewatching = "roslyn",
     },
     config = function(_, opts)
-      local command = vim.env.NVIM_ROSLYN_LS
-      if not command or vim.fn.executable(command) ~= 1 then
-        command = vim.fn.exepath("Microsoft.CodeAnalysis.LanguageServer")
-      end
-      if command == "" then
-        command = vim.fn.exepath("roslyn-language-server")
-      end
-      if command == "" then
-        command = vim.fn.exepath("roslyn-ls")
+      local function resolve_command()
+        local configured = vim.env.NVIM_ROSLYN_LS
+        if configured and vim.fn.executable(configured) == 1 then
+          return configured
+        end
+
+        -- roslyn-ls from Nix exposes the Microsoft.CodeAnalysis.LanguageServer
+        -- executable. Keep the other names as compatibility fallbacks.
+        for _, name in ipairs({
+          "Microsoft.CodeAnalysis.LanguageServer",
+          "roslyn-language-server",
+          "roslyn-ls",
+        }) do
+          local command = vim.fn.exepath(name)
+          if command ~= "" then
+            return command
+          end
+        end
       end
 
-      if command == "" then
+      local function command_args(command)
+        return {
+          command,
+          "--logLevel=Information",
+          "--extensionLogDirectory=" .. vim.fs.dirname(vim.lsp.log.get_filename()),
+          "--stdio",
+        }
+      end
+
+      local command = resolve_command()
+
+      if not command then
         vim.notify(
-          "Roslyn language server is not on PATH. Launch Neovim from the shellnix direnv environment and restart it.",
+          "Roslyn language server is not on PATH. Launch Neovim from the project direnv environment and restart it.",
           vim.log.levels.ERROR
         )
         return
       end
 
       vim.lsp.config("roslyn", {
-        cmd = { command, "--stdio" },
+        cmd = command_args(command),
+        on_new_config = function(new_config)
+          local current = resolve_command()
+          if current then
+            new_config.cmd = command_args(current)
+          end
+        end,
       })
       require("roslyn").setup(opts)
     end,
