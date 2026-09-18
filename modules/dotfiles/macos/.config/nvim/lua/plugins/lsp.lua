@@ -82,6 +82,11 @@ return {
           mason     = false,
           cmd       = { "/usr/bin/xcrun", "sourcekit-lsp" },
           filetypes = { "swift", "objective-c", "objective-cpp" },
+          on_init  = function(client)
+            -- Xcode SourceKit currently fails its variable-type inlay hints
+            -- request for some Swift documents.
+            client.server_capabilities.inlayHintProvider = false
+          end,
           root_dir  = function(bufnr, on_dir)
             local fname = buffer_path(bufnr)
             if not fname then
