@@ -100,9 +100,7 @@ return {
               "*.xcworkspace",
               ".git"
             )(fname) or util.find_git_ancestor(fname)
-            if root then
-              on_dir(root)
-            end
+            on_dir(root or vim.fs.dirname(fname))
           end,
         },
       },
