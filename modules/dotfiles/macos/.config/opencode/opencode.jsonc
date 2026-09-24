@@ -12,11 +12,11 @@
   // Short context: $0.20/M input, $1.20/M output (Global). Cheap for implementation.
   // Note: azure provider uses OpenAI Responses API; anthropic provider uses
   // Anthropic Messages API -- do not mix them.
-  "model": "azure/gpt-5.6-luna",
+  "model": "azure/gpt-6-luna",
 
   // Plan mode uses a smarter model for reasoning; build uses the cheaper default above.
   "agent": {
-    "plan": { "model": "anthropic/claude-sonnet-4-6" }
+    "plan": { "model": "anthropic/claude-sonnet-5" }
   },
 
   // Siemens brand dark theme (navy + teal accent palette).
@@ -62,8 +62,8 @@
         },
         // Default model. Short context: $0.20/M in, $1.20/M out (Global).
         "gpt-5.6-luna": {
-          "id": "gpt-5.6-luna",
-          "name": "GPT-5.6 Luna (Azure)"
+          "id": "gpt-6-luna",
+          "name": "GPT-6 Luna (Azure)"
         },
       }
     },
