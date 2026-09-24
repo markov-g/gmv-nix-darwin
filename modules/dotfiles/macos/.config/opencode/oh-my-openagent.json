@@ -16,7 +16,7 @@
   "agents": {
     // Heavy agentic work. Claude primary with Ultraworker delegation behavior.
     "sisyphus": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
         "azure/gpt-6-astra",
         "siemens/deepseek-v4-flash"
@@ -32,14 +32,14 @@
       "model": "azure/gpt-6-astra",
       "reasoningEffort": "high",
       "fallback_models": [
-        "anthropic/claude-sonnet-4-6",
+        "anthropic/claude-sonnet-5",
         "siemens/gpt-oss-120b"
       ]
     },
 
     // Deep analysis. Claude primary, GPT fallback.
     "prometheus": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
         "azure/gpt-6-astra",
         "siemens/deepseek-v4-flash"
@@ -48,9 +48,9 @@
 
     // Writing and long-form text. Claude primary, Luna fallback.
     "muse": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
-        "azure/gpt-5.6-luna",
+        "azure/gpt-6-luna",
         "siemens/deepseek-v4-flash"
       ]
     },
@@ -85,7 +85,7 @@
       "model": "siemens/deepseek-v4-flash",
       "fallback_models": [
         "siemens/glm-5-preview",
-        "anthropic/claude-sonnet-4-6"
+        "anthropic/claude-sonnet-5"
       ]
     }
   },
@@ -95,7 +95,7 @@
       "model": "siemens/qwen-3.6-27b",
       "fallback_models": [
         "azure/gpt-6-astra",
-        "anthropic/claude-sonnet-4-6"
+        "anthropic/claude-sonnet-5"
       ]
     },
 
@@ -103,13 +103,13 @@
       "model": "azure/gpt-6-astra",
       "reasoningEffort": "high",
       "fallback_models": [
-        "anthropic/claude-sonnet-4-6",
+        "anthropic/claude-sonnet-5",
         "siemens/gpt-oss-120b"
       ]
     },
 
     "artistry": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
         "azure/gpt-6-astra",
         "siemens/deepseek-v4-flash"
@@ -117,7 +117,7 @@
     },
 
     "deep": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
         "azure/gpt-6-astra",
         "siemens/deepseek-v4-flash"
@@ -139,7 +139,7 @@
     },
 
     "unspecified-high": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
         "azure/gpt-6-astra",
         "siemens/deepseek-v4-flash"
@@ -147,9 +147,9 @@
     },
 
     "writing": {
-      "model": "anthropic/claude-sonnet-4-6",
+      "model": "anthropic/claude-sonnet-5",
       "fallback_models": [
-        "azure/gpt-5.6-luna",
+        "azure/gpt-6-luna",
         "siemens/deepseek-v4-flash"
       ]
     }

@@ -8,13 +8,12 @@
   // Supersedes: oh-my-openagent.json (oh-my-openagent@4.15.1, never activated).
   "plugin": ["oh-my-opencode-slim"],
 
-  // Default build model: GPT-5.6 Luna via Azure AI Foundry (OpenAI Responses API).
-  // Short context: $0.20/M input, $1.20/M output (Global). Cheap for implementation.
+  // Default build model: GPT-6 Luna via Azure AI Foundry at max reasoning effort.
   // Note: azure provider uses OpenAI Responses API; anthropic provider uses
   // Anthropic Messages API -- do not mix them.
   "model": "azure/gpt-6-luna",
 
-  // Plan mode uses a smarter model for reasoning; build uses the cheaper default above.
+  // Plan mode uses Sonnet 5; build work uses the Luna workhorse above.
   "agent": {
     "plan": { "model": "anthropic/claude-sonnet-5" }
   },
@@ -46,13 +45,16 @@
     // Primary: Claude via Siemens Azure AI Foundry (Anthropic Messages API).
     "anthropic": {
       "env": ["ANTHROPIC_FOUNDRY_API_KEY"],
+      // Azure Foundry rates per MTok (input/output): Sonnet 5 $2/$10; Opus 5.5 $4/$20.
+      // Cache hits per MTok: Sonnet 5 $0.20; Opus 5.5 omitted (supplied $0.40/$0.20 conflict).
+      // Cache writes per MTok: Sonnet 5 $2.50 (5m) / $4 (1h); Opus 5.5 $5/$8 (duration labels conflict).
       "options": {
         "baseURL": "https://{env:ANTHROPIC_FOUNDRY_RESOURCE}.services.ai.azure.com/anthropic/v1",
         "apiKey": "{env:ANTHROPIC_FOUNDRY_API_KEY}"
       }
     },
 
-    // Primary: GPT + Luna via same Azure AI Foundry resource (OpenAI Responses API).
+    // Primary: GPT models via Azure AI Foundry (OpenAI Responses API).
     "azure": {
       "env": ["AZURE_OPENAI_API_KEY"],
       "models": {
@@ -60,16 +62,27 @@
           "id": "gpt-6-astra",
           "name": "GPT-6 Astra (Azure)"
         },
-        // Default model. Short context: $0.20/M in, $1.20/M out (Global).
-        "gpt-5.6-luna": {
+        "gpt-6-sol": {
+          "id": "gpt-6-sol",
+          "name": "GPT-6 Sol (Azure)",
+          "options": { "reasoningEffort": "high" }
+        },
+        // Azure rates per MTok (input/output): $2/$10.
+        // Default workhorse model. Use maximum reasoning effort.
+        "gpt-6-luna": {
           "id": "gpt-6-luna",
-          "name": "GPT-6 Luna (Azure)"
+          "name": "GPT-6 Luna (Azure)",
+          // Azure rates per MTok (input/output): $0.10/$0.50.
+          "options": { "reasoningEffort": "max" },
+          "variants": {
+            "max": { "reasoningEffort": "max" }
+          }
         },
       }
     },
 
     // Fallback: Siemens SDC LLM gateway (OpenAI-compatible).
-    // Used as last-resort in oh-my-openagent fallback chains.
+    // Available to specialist agents in the Siemens preset.
     // Costs are unknown for Siemens-specific models (deepseek, qwen, glm-5).
     "siemens": {
       "npm": "@ai-sdk/openai-compatible",
