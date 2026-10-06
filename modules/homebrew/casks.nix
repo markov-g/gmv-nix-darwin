@@ -34,6 +34,10 @@ let
     { name = "visual-studio-code"; greedy = true; }
     { name = "xquartz"; greedy = true; }
     { name = "xtool-org/tap/xtool"; greedy = true; }
+    # Terminal for agent-driven development. Human-interactive use only --
+    # NOT wired into oh-my-opencode-slim's multiplexer config (Herdr stays
+    # the subagent-pane backend). See opencode.jsonc/oh-my-opencode-slim.jsonc.
+    { name = "zentty"; greedy = true; }
   ];
 
   # ── Per-host casks — merged with shared above ─────────────────────────────

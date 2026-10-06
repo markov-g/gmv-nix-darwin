@@ -32,6 +32,31 @@ map("n", "<leader>gg", function()
   Snacks.terminal("lazygit", { cwd = LazyVim.root(), esc_esc = false, ctrl_hjkl = false })
 end, { desc = "Lazygit (root)" })
 
+-- Dev Containers via the official CLI and Podman
+local function devcontainer_terminal(subcommand, command)
+  local root = LazyVim.root() or vim.fn.getcwd()
+  local args = {
+    "devcontainer",
+    subcommand,
+    "--docker-path",
+    "podman",
+    "--workspace-folder",
+    root,
+  }
+  vim.list_extend(args, command or {})
+  Snacks.terminal(args, { cwd = root, auto_close = false })
+end
+
+map("n", "<leader>cdu", function()
+  devcontainer_terminal("up")
+end, { desc = "Dev Container: start" })
+map("n", "<leader>cdb", function()
+  devcontainer_terminal("build")
+end, { desc = "Dev Container: build" })
+map("n", "<leader>cde", function()
+  devcontainer_terminal("exec", { "sh" })
+end, { desc = "Dev Container: shell" })
+
 -- Undotree
 map("n", "<leader>U", "<cmd>UndotreeToggle<CR>", { desc = "Undotree" })
 

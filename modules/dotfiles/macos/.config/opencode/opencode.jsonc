@@ -6,7 +6,33 @@
   // explorer, librarian, designer, fixer, council) + herdr multiplexer panes.
   // Config: ~/.config/opencode/oh-my-opencode-slim.jsonc
   // Supersedes: oh-my-openagent.json (oh-my-openagent@4.15.1, never activated).
-  "plugin": ["oh-my-opencode-slim"],
+  //
+  // Pinned (not floating on "latest"): single-maintainer project, fast-moving
+  // config schema (the preset shape already changed once between versions).
+  // autoUpdate would silently break agent-model overrides on a schema bump.
+  // Renewal reminder: ~/bin/nix-update-all.sh checks this pin against npm's
+  // latest dist-tag on every run (the update ritual you already do regularly)
+  // and warns when it's stale -- no separate habit to remember. Before
+  // bumping: diff oh-my-opencode-slim.schema.json against the pinned version,
+  // then update this line AND the $schema line in oh-my-opencode-slim.jsonc.
+  //
+  // opencode-history-search (joeyism, MIT): read-only full-text/fuzzy/regex
+  // search over OpenCode's own existing local session DB
+  // (~/.local/share/opencode/opencode.db). Zero writes, zero network --
+  // does not compete with Engram's curated memory (below); this is raw
+  // conversation-history grep, a different category.
+  //
+  // opencode-direnv (simonwjackson, MIT): auto-loads .envrc env vars into the
+  // OpenCode session at startup via `direnv export json`. direnv + nix-direnv
+  // are already Nix-managed (home.nix) and hooked into every interactive
+  // shell (.zprofile) -- this extends a trust boundary you've already
+  // accepted, it does not introduce a new one. Graceful no-op if no .envrc
+  // exists in the project. Note: .envrc is executable config -- `direnv
+  // allow` approves arbitrary shell code to run on cd, and once loaded,
+  // those env vars (potentially including secrets) become available to this
+  // OpenCode session's MCP tools and subagents, same as any env var already
+  // exported into an interactive shell today.
+  "plugin": ["oh-my-opencode-slim@3.0.3", "opencode-history-search", "opencode-direnv"],
 
   // Default build model: GPT-6 Luna via Azure AI Foundry at max reasoning effort.
   // Note: azure provider uses OpenAI Responses API; anthropic provider uses
@@ -25,7 +51,21 @@
   "share": "disabled",
 
   // ── Context management ──────────────────────────────────────────────────────
-  // Compact early; keep 8k reserved for final response assembly.
+  // Two coordinated pruning layers, not one "sole owner" -- documented honestly:
+  //   1. DCP (dcp.jsonc): early, surgical -- dedup + purge-error-turns, triggers
+  //      in the 35-70% context-fill window. First line of defense.
+  //   2. Native compaction below: late, blanket fallback -- triggers at 92%
+  //      fill if DCP's earlier pruning wasn't enough. Safety net, not the
+  //      primary mechanism.
+  // aggressive_truncation / truncate_all_tool_outputs were REMOVED (previously
+  // enabled here): they truncated every tool output unconditionally, on every
+  // call, regardless of context-fill position -- independent of and
+  // uncoordinated with DCP's own dedup logic, which assumes it sees full
+  // untruncated output to correctly identify duplicates. Running both meant
+  // the same content could be lost twice via two mechanisms with no shared
+  // log to attribute which one did it. Removing them closes that lossy
+  // double-pruning path; DCP and native compaction's own budgets (35-70% /
+  // 92%) are the two remaining, intentional layers.
   "compaction": {
     "auto": true,
     "prune": true,
@@ -34,8 +74,6 @@
 
   "experimental": {
     "preemptive_compaction_threshold": 0.92,
-    "truncate_all_tool_outputs": true,
-    "aggressive_truncation": true,
     "auto_resume": true,
     "task_system": true
   },
@@ -121,4 +159,66 @@
     }
   },
 
+  // ── MCP servers ──────────────────────────────────────────────────────────────
+  "mcp": {
+    // Library/framework documentation lookup. Zero install -- remote, URL-only,
+    // from OpenCode's own official docs examples.
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp"
+    },
+
+    // GitHub-wide code-pattern search via Vercel's grep.app. Zero install.
+    "gh_grep": {
+      "type": "remote",
+      "url": "https://mcp.grep.app"
+    },
+
+    // Engram: local-only persistent memory (Gentleman-Programming/engram).
+    // Installed via Nix-pinned Homebrew tap -- see flake.nix + brews.nix.
+    //
+    // This is Engram's documented "manual MCP-only" path, not its
+    // `engram setup opencode` command. That command would imperatively copy a
+    // plugin file into ~/.config/opencode/plugins/ and rewrite this very file
+    // at runtime -- exactly the kind of out-of-band mutation this repo's
+    // declarative-Nix model rules out. Writing the block below ourselves
+    // gets the same MCP tool access with zero imperative steps.
+    //
+    // Deliberately NOT running `engram serve`: confirmed from Engram's own
+    // docs that `engram mcp` (stdio) works standalone -- `serve` is a
+    // separate HTTP/dashboard runtime, only needed by the imperative plugin
+    // path we're not using. No local HTTP listener here means no reason to
+    // set ENGRAM_HTTP_TOKEN either (that token authenticates one HTTP admin
+    // route on `serve`, unrelated to cloud -- moot when `serve` never runs).
+    //
+    // Absolute path, not bare "engram": this repo deliberately keeps
+    // Homebrew off PATH by default (see .profile.homebrew) so bare "engram"
+    // would not resolve inside OpenCode's own process environment.
+    //
+    // Scope of "local-only": the memory STORE never syncs or leaves this
+    // machine (no ENGRAM_CLOUD_*/autosync vars set, anywhere -- Cloud and
+    // Git-Sync are both opt-in features this config never enables). Recalled
+    // memory CONTENT is not further restricted -- a Siemens/Azure/Claude
+    // session can still see memories in its context the same as any other
+    // file you'd let that session read today. If stricter content isolation
+    // for the Ollama "local" preset's sessions is wanted later, that needs
+    // explicit scoping (e.g. a project/scope split), not assumed from this
+    // block alone.
+    //
+    // Concurrency: Engram's SQLite layer uses WAL mode + 5000ms busy_timeout
+    // + synchronous NORMAL (confirmed in its own DOCS.md) -- designed for
+    // multiple concurrent process writers. Still worth a live verification
+    // once deployed: open sessions in 2-3 harnesses against the same
+    // project, write a distinct memory from each, confirm nothing is lost
+    // (`engram doctor` after).
+    "engram": {
+      "type": "local",
+      "command": [
+        "{env:HOME}/PACKAGEMGMT/Homebrew/bin/engram",
+        "mcp",
+        "--tools=agent"
+      ],
+      "enabled": true
+    }
+  }
 }

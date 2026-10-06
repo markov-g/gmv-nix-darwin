@@ -91,6 +91,12 @@ sudo -i nix run github:LnL7/nix-darwin#darwin-rebuild -- \
 - `modules/home-standard.nix` — secondary users: `imports = [ ./home.nix ]` plus activation scripts to bootstrap Homebrew and run `brew bundle` (formulas only, no casks/MAS).
 - `modules/dotfiles/macos/` — all managed dotfiles (zsh chain, git, tmux, Neovim/LazyVim, p10k, `bin/` scripts).
 
+### Source files vs. linked files
+
+The checked-in files under this repository are the source of truth for managed configuration. For example, Neovim sources live at `modules/dotfiles/macos/.config/nvim/`; paths such as `~/.config/nvim` are Home Manager links into the Nix store, not the files to inspect or edit. When investigating or changing managed dotfiles, work from the repository paths and do not search the home directory for their linked copies.
+
+**This extends to all of `~`, not just dotfile symlinks.** Do not read, list, or search anywhere under the home directory -- including runtime state such as application logs (`~/.local/share/*/log`), caches (`~/.cache/*`), sqlite/state DBs, plugin install caches (`~/.cache/opencode/node_modules`, etc.), or Nix store paths reached through a home-directory symlink -- without asking first. This repo's job is to describe *declared* configuration; runtime/installed state on the live machine is out of scope for investigation unless explicitly requested. If a task seems to require inspecting live runtime state to make progress, stop and ask before reading anything under `~`.
+
 ### Secrets (sops-nix)
 
 SSH key → `ssh-to-age` → age private key at `~/.config/sops/age/keys.txt` → decrypts `secrets/secrets.yaml` at activation → plaintext files at runtime. The entire `sops` block in `home.nix` is guarded with `lib.mkIf (builtins.pathExists ../secrets/secrets.yaml)` so the config builds cleanly before secrets exist. `.sops.yaml` contains a placeholder age public key that must be replaced on each new machine.

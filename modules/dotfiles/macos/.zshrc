@@ -285,6 +285,7 @@ export KEYTIMEOUT=1
 #
 # Behavior:
 #   - If already inside tmux: do nothing.
+#   - If inside a Herdr pane: do nothing (see below).
 #   - If no real TTY is available: exit cleanly.
 #   - If ${USER}-tmux already exists: attach to it.
 #   - Otherwise: create a fresh deterministic 6-window layout and attach.
@@ -292,8 +293,17 @@ export KEYTIMEOUT=1
 # Important:
 #   Do NOT call `tmux start-server` here. Starting the server early can trigger
 #   plugin startup hooks before this guard logic runs.
+#
+# Herdr guard (required — see https://herdr.dev/docs/agents/#vms-and-sandbox-wrappers):
+#   Window 7 launches herdr via ~/.herdr-start.sh. On a brand-new machine with
+#   no session.json, Herdr's first default pane is a blank login shell with
+#   $TMUX unset (a fresh pane PTY is not itself a tmux pane), so without this
+#   check that pane's .zshrc would re-run this whole autostart block, spawning
+#   its own window 7 -> another herdr -> another blank pane -> recursively
+#   forever. $HERDR_ENV=1 is set on every process Herdr spawns in a pane, so
+#   checking it (independent of $TMUX) blocks the recursion at its source.
 _TMUX_SESSION="${USER}-tmux"
-if [[ -z "${TMUX:-}" ]] && [[ "${TERM:-}" != screen* ]]; then
+if [[ -z "${TMUX:-}" ]] && [[ "${TERM:-}" != screen* ]] && [[ "${HERDR_ENV:-}" != "1" ]]; then
   if [[ ! -t 0 ]]; then
     exit 0
   fi

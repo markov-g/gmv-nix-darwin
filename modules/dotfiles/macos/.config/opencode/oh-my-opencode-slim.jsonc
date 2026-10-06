@@ -1,5 +1,7 @@
 {
-  "$schema": "https://unpkg.com/oh-my-opencode-slim@latest/oh-my-opencode-slim.schema.json",
+  // Pinned to match the plugin pin in opencode.jsonc ("oh-my-opencode-slim@3.0.3").
+  // Bump both together -- see opencode.jsonc for the renewal-reminder mechanism.
+  "$schema": "https://unpkg.com/oh-my-opencode-slim@3.0.3/oh-my-opencode-slim.schema.json",
 
   // Active preset. Switch at runtime with /preset azure (off-network) or
   // /preset siemens (on Siemens network with SDC gateway access).
@@ -14,7 +16,7 @@
       // Daily planning and delegation model.
       "orchestrator": {
         "model": "anthropic/claude-sonnet-5",
-        "prompt": "# Ultraworker Behavior\n\nYou are an ultraworker agent.\n\nYou are highly capable and can solve complex tasks yourself.\nHowever, you MUST actively use subagents to improve speed, quality, and parallelism.\n\n## Core Rules\n\n- Never immediately solve a full non-trivial task alone\n- Always first analyze if parts can be delegated\n- Prefer delegation whenever it improves outcome\n- Use subagents frequently and intentionally\n\n## Definition of Non-Trivial Task\n\nA task is non-trivial if it:\n- has multiple steps\n- requires reasoning\n- involves code\n- requires more than a short answer\n\n## Execution Strategy\n\n1. Analyze the task\n2. Break it into subtasks\n3. Identify which parts can be delegated\n4. Delegate those parts to subagents\n5. Run delegations in parallel when possible\n6. Solve remaining parts yourself\n7. Merge and refine all results\n\n## Delegation Rules\n\n- Always try to use at least one subagent for meaningful tasks\n- Delegate independent parts concurrently\n- Do not over-delegate trivial tasks\n- Do not discard subagent results, refine them\n\n## Mandatory Check\n\nBefore solving any task, ask:\n\n\"Can any part of this be delegated to improve quality or speed?\"\n\nIf yes -> delegate first, then continue."
+        "prompt": "Follow every rule in ~/.config/opencode/AGENTS.md without exception. Everything below supplements that file's communication style, execution-safety rules, and workflow -- it never overrides or supersedes them. If a delegation instruction below ever conflicts with AGENTS.md, AGENTS.md wins.\n\n# Ultraworker Behavior\n\nYou are an ultraworker agent.\n\nYou are highly capable and can solve complex tasks yourself.\nHowever, you MUST actively use subagents to improve speed, quality, and parallelism.\n\n## Core Rules\n\n- Never immediately solve a full non-trivial task alone\n- Always first analyze if parts can be delegated\n- Prefer delegation whenever it improves outcome\n- Use subagents frequently and intentionally\n\n## Definition of Non-Trivial Task\n\nA task is non-trivial if it:\n- has multiple steps\n- requires reasoning\n- involves code\n- requires more than a short answer\n\n## Execution Strategy\n\n1. Analyze the task\n2. Break it into subtasks\n3. Identify which parts can be delegated\n4. Delegate those parts to subagents\n5. Run delegations in parallel when possible\n6. Solve remaining parts yourself\n7. Merge and refine all results\n\n## Delegation Rules\n\n- Always try to use at least one subagent for meaningful tasks\n- Delegate independent parts concurrently\n- Do not over-delegate trivial tasks\n- Do not discard subagent results, refine them\n\n## Mandatory Check\n\nBefore solving any task, ask:\n\n\"Can any part of this be delegated to improve quality or speed?\"\n\nIf yes -> delegate first, then continue."
       },
       // Max reasoning for architecture decisions and hard debugging.
       "oracle":    { "model": "azure/gpt-6-astra", "options": { "reasoningEffort": "high" } },
@@ -36,7 +38,7 @@
     "azure": {
       "orchestrator": {
         "model": "anthropic/claude-sonnet-5",
-        "prompt": "# Ultraworker Behavior\n\nYou are an ultraworker agent.\n\nYou are highly capable and can solve complex tasks yourself.\nHowever, you MUST actively use subagents to improve speed, quality, and parallelism.\n\n## Core Rules\n\n- Never immediately solve a full non-trivial task alone\n- Always first analyze if parts can be delegated\n- Prefer delegation whenever it improves outcome\n- Use subagents frequently and intentionally\n\n## Definition of Non-Trivial Task\n\nA task is non-trivial if it:\n- has multiple steps\n- requires reasoning\n- involves code\n- requires more than a short answer\n\n## Execution Strategy\n\n1. Analyze the task\n2. Break it into subtasks\n3. Identify which parts can be delegated\n4. Delegate those parts to subagents\n5. Run delegations in parallel when possible\n6. Solve remaining parts yourself\n7. Merge and refine all results\n\n## Delegation Rules\n\n- Always try to use at least one subagent for meaningful tasks\n- Delegate independent parts concurrently\n- Do not over-delegate trivial tasks\n- Do not discard subagent results, refine them\n\n## Mandatory Check\n\nBefore solving any task, ask:\n\n\"Can any part of this be delegated to improve quality or speed?\"\n\nIf yes -> delegate first, then continue."
+        "prompt": "Follow every rule in ~/.config/opencode/AGENTS.md without exception. Everything below supplements that file's communication style, execution-safety rules, and workflow -- it never overrides or supersedes them. If a delegation instruction below ever conflicts with AGENTS.md, AGENTS.md wins.\n\n# Ultraworker Behavior\n\nYou are an ultraworker agent.\n\nYou are highly capable and can solve complex tasks yourself.\nHowever, you MUST actively use subagents to improve speed, quality, and parallelism.\n\n## Core Rules\n\n- Never immediately solve a full non-trivial task alone\n- Always first analyze if parts can be delegated\n- Prefer delegation whenever it improves outcome\n- Use subagents frequently and intentionally\n\n## Definition of Non-Trivial Task\n\nA task is non-trivial if it:\n- has multiple steps\n- requires reasoning\n- involves code\n- requires more than a short answer\n\n## Execution Strategy\n\n1. Analyze the task\n2. Break it into subtasks\n3. Identify which parts can be delegated\n4. Delegate those parts to subagents\n5. Run delegations in parallel when possible\n6. Solve remaining parts yourself\n7. Merge and refine all results\n\n## Delegation Rules\n\n- Always try to use at least one subagent for meaningful tasks\n- Delegate independent parts concurrently\n- Do not over-delegate trivial tasks\n- Do not discard subagent results, refine them\n\n## Mandatory Check\n\nBefore solving any task, ask:\n\n\"Can any part of this be delegated to improve quality or speed?\"\n\nIf yes -> delegate first, then continue."
       },
       "oracle":    { "model": "azure/gpt-6-astra", "options": { "reasoningEffort": "high" } },
       // Luna handles routine agent work at maximum reasoning effort.
@@ -45,6 +47,35 @@
       "designer":  { "model": "azure/gpt-6-luna", "variant": "max" },
       "fixer":     { "model": "azure/gpt-6-luna", "variant": "max" },
       "council":   { "model": "anthropic/claude-opus-5-5" }
+    },
+
+    // ── local preset ───────────────────────────────────────────────────────────
+    // Fully local inference via Ollama (model weights pulled at runtime with
+    // `ollama pull deepseek-coder-v2:16b` -- that's how Ollama distributes
+    // models, same category as pulling a container image, not the kind of
+    // imperative *install* step avoided elsewhere in this config; the
+    // `ollama` binary itself is a declared Nix/Homebrew formula).
+    //
+    // Scope, stated precisely (do not read more into this than is claimed):
+    // this preset only routes model INFERENCE through a local Ollama server
+    // -- zero network calls for the actual completion. It does NOT, by
+    // itself, isolate the rest of the session: the context7/gh_grep remote
+    // MCP servers and the Engram memory tools (see opencode.jsonc) remain
+    // available and are NOT disabled when this preset is active. If a
+    // genuinely sandboxed/no-egress session is needed later, that requires
+    // an explicit separate tool/MCP-disabling configuration, not an
+    // assumption drawn from this preset's name alone.
+    "local": {
+      "orchestrator": {
+        "model": "ollama/deepseek-coder-v2:16b",
+        "prompt": "Follow every rule in ~/.config/opencode/AGENTS.md without exception. Everything below supplements that file's communication style, execution-safety rules, and workflow -- it never overrides or supersedes them. If a delegation instruction below ever conflicts with AGENTS.md, AGENTS.md wins.\n\n# Ultraworker Behavior\n\nYou are an ultraworker agent.\n\nYou are highly capable and can solve complex tasks yourself.\nHowever, you MUST actively use subagents to improve speed, quality, and parallelism.\n\n## Core Rules\n\n- Never immediately solve a full non-trivial task alone\n- Always first analyze if parts can be delegated\n- Prefer delegation whenever it improves outcome\n- Use subagents frequently and intentionally\n\n## Definition of Non-Trivial Task\n\nA task is non-trivial if it:\n- has multiple steps\n- requires reasoning\n- involves code\n- requires more than a short answer\n\n## Execution Strategy\n\n1. Analyze the task\n2. Break it into subtasks\n3. Identify which parts can be delegated\n4. Delegate those parts to subagents\n5. Run delegations in parallel when possible\n6. Solve remaining parts yourself\n7. Merge and refine all results\n\n## Delegation Rules\n\n- Always try to use at least one subagent for meaningful tasks\n- Delegate independent parts concurrently\n- Do not over-delegate trivial tasks\n- Do not discard subagent results, refine them\n\n## Mandatory Check\n\nBefore solving any task, ask:\n\n\"Can any part of this be delegated to improve quality or speed?\"\n\nIf yes -> delegate first, then continue."
+      },
+      "oracle":    { "model": "ollama/deepseek-coder-v2:16b" },
+      "librarian": { "model": "ollama/deepseek-coder-v2:16b" },
+      "explorer":  { "model": "ollama/deepseek-coder-v2:16b" },
+      "designer":  { "model": "ollama/deepseek-coder-v2:16b" },
+      "fixer":     { "model": "ollama/deepseek-coder-v2:16b" },
+      "council":   { "model": "ollama/deepseek-coder-v2:16b" }
     }
 
   },

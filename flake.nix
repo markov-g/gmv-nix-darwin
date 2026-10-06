@@ -34,6 +34,10 @@
     kylef-formulae = { url = "github:kylef/homebrew-formulae"; flake = false; };
     swiftbrew-tap  = { url = "github:swiftbrew/homebrew-tap";  flake = false; };
     sdkman-tap     = { url = "github:sdkman/homebrew-tap";     flake = false; };
+
+    # Engram (local-only persistent memory MCP server) -- see brews.nix and
+    # opencode.jsonc's "mcp.engram" block.
+    gentleman-programming-tap = { url = "github:Gentleman-Programming/homebrew-tap"; flake = false; };
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, nix-homebrew, ... }@inputs:
@@ -73,6 +77,7 @@
                 "swiftbrew/tap"  = inputs.swiftbrew-tap;
                 "sdkman/tap"     = inputs.sdkman-tap;
                 "xtool-org/tap"  = inputs.xtool-org-tap;
+                "gentleman-programming/tap" = inputs.gentleman-programming-tap;
               };
             };
           }; })

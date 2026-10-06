@@ -1,4 +1,27 @@
+local function preview(method)
+  return function()
+    require("goto-preview")[method]()
+  end
+end
+
 return {
+  -- ── goto-preview: inspect LSP locations in floating windows ─────
+  {
+    "rmagatti/goto-preview",
+    dependencies = { "rmagatti/logger.nvim" },
+    opts = {
+      references = { provider = "fzf_lua" },
+    },
+    keys = {
+      { "<leader>pd", preview("goto_preview_definition"), desc = "Preview definition" },
+      { "<leader>pD", preview("goto_preview_declaration"), desc = "Preview declaration" },
+      { "<leader>pt", preview("goto_preview_type_definition"), desc = "Preview type definition" },
+      { "<leader>pi", preview("goto_preview_implementation"), desc = "Preview implementation" },
+      { "<leader>pr", preview("goto_preview_references"), desc = "Preview references" },
+      { "<leader>pc", preview("close_all_win"), desc = "Close LSP previews" },
+    },
+  },
+
   -- ── mini.animate: tuned way down for performance ────────────────
   -- Keeps the plugin loaded (so fade transitions still happen) but
   -- disables the cursor/scroll/resize animations that caused lag.

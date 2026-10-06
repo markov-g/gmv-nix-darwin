@@ -34,6 +34,28 @@ if command -v determinate-nixd &>/dev/null; then
   sudo determinate-nixd upgrade || warn "determinate-nixd upgrade failed (continuing)"
 fi
 
+# ── 1b. Check the pinned oh-my-opencode-slim plugin version ──────────────────
+# This plugin is deliberately pinned (not "latest") in opencode.jsonc -- see
+# the comment there for why. This check is the renewal reminder: it rides on
+# a ritual you already run, so there's no separate habit to remember.
+OPENCODE_JSONC="${HOME}/.config/opencode/opencode.jsonc"
+if [ -f "${OPENCODE_JSONC}" ] && command -v curl &>/dev/null && command -v jq &>/dev/null; then
+  PINNED="$(grep -o 'oh-my-opencode-slim@[0-9][0-9.]*' "${OPENCODE_JSONC}" | head -1 | cut -d@ -f2)"
+  if [ -n "${PINNED}" ]; then
+    LATEST="$(curl -fsSL --max-time 5 https://registry.npmjs.org/oh-my-opencode-slim 2>/dev/null | jq -r '."dist-tags".latest' 2>/dev/null || true)"
+    if [ -n "${LATEST}" ] && [ "${LATEST}" != "${PINNED}" ]; then
+      warn "oh-my-opencode-slim plugin pin is stale: pinned=${PINNED} latest=${LATEST}"
+      warn "Review the changelog and schema diff, then bump both the plugin pin and \$schema in:"
+      warn "  modules/dotfiles/macos/.config/opencode/opencode.jsonc"
+      warn "  modules/dotfiles/macos/.config/opencode/oh-my-opencode-slim.jsonc"
+    else
+      info "oh-my-opencode-slim plugin pin is current (${PINNED})"
+    fi
+  fi
+else
+  info "Skipping oh-my-opencode-slim pin check (opencode.jsonc, curl, or jq unavailable)"
+fi
+
 # ── 2. Update all flake inputs → flake.lock ───────────────────────────────────
 # This updates nixpkgs, home-manager, nix-darwin, homebrew taps, sops-nix, etc.
 info "Updating flake inputs in ${NIX_CONFIG}..."
