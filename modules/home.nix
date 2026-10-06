@@ -1,5 +1,23 @@
 { config, lib, pkgs, inputs, user, host, ... }:
 
+let
+  # ── opencode.jsonc generation (host-templated) ────────────────────────────
+  # opencode.jsonc's "mcp" object is deliberately left open in the checked-in
+  # file (see the NOTE comment at its end) -- the closing snippet appended
+  # here determines whether the "engram" MCP entry exists in the deployed
+  # file at all, rather than existing-but-disabled everywhere. This keeps
+  # Engram genuinely absent (not just inert) on hosts that haven't accepted
+  # its one-time manual `brew trust` step. See modules/engram-hosts.nix.
+  engramHosts = import ./engram-hosts.nix;
+  engramEnabled = builtins.elem host engramHosts;
+  opencodeJsonc = pkgs.runCommand "opencode.jsonc" { } ''
+    cat ${./dotfiles/macos/.config/opencode/opencode.jsonc} \
+        ${if engramEnabled
+          then ./dotfiles/macos/.config/opencode/opencode-engram-mcp-snippet.jsonc
+          else ./dotfiles/macos/.config/opencode/opencode-no-engram-mcp-snippet.jsonc} \
+        > $out
+  '';
+in
 {
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
@@ -185,7 +203,7 @@
     # ── opencode config ───────────────────────────────────────────────────────
     # opencode reads ~/.claude/CLAUDE.md natively -- no symlink needed.
     # opencode reads project AGENTS.md natively; global AGENTS.md shared with Codex.
-    ".config/opencode/opencode.jsonc".source     = ./dotfiles/macos/.config/opencode/opencode.jsonc;
+    ".config/opencode/opencode.jsonc".source     = opencodeJsonc;
     ".config/opencode/AGENTS.md".source          = ./dotfiles/macos/.codex/AGENTS.md;
     ".config/opencode/dcp.jsonc".source          = ./dotfiles/macos/.config/opencode/dcp.jsonc;
     # oh-my-openagent.json kept in repo as reference but no longer deployed --

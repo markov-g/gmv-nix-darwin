@@ -82,8 +82,7 @@
   "swiftbrew/tap/swiftbrew"
   # "mas-cli/tap/mas"
 
-  # engram: local-only persistent memory for AI coding agents (MCP server).
-  # Single static Go binary, no runtime deps. Tap pinned as a flake input in
-  # flake.nix -- see opencode.jsonc's "mcp.engram" block for how it's wired in.
-  "gentleman-programming/tap/engram"
+  # NOTE: engram (local-only memory MCP server) is NOT listed here.
+  # gentleman-programming/tap distributes it as a CASK, not a formula --
+  # see casks.nix's per-host section, scoped via modules/engram-hosts.nix.
 ]

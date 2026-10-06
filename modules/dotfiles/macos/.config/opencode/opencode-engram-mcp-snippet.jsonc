@@ -1,0 +1,53 @@
+,
+
+    // Engram: local-only persistent memory (Gentleman-Programming/engram).
+    // Installed via Nix-pinned Homebrew tap, gated to hosts listed in
+    // modules/engram-hosts.nix -- see flake.nix + casks.nix for the tap/cask,
+    // and homebrew.nix for the one-time `brew trust` activation reminder
+    // (Homebrew's Tap Trust gate has no declarative/non-interactive bypass).
+    //
+    // This is Engram's documented "manual MCP-only" path, not its
+    // `engram setup opencode` command. That command would imperatively copy a
+    // plugin file into ~/.config/opencode/plugins/ and rewrite this very file
+    // at runtime -- exactly the kind of out-of-band mutation this repo's
+    // declarative-Nix model rules out. Writing the block below ourselves
+    // gets the same MCP tool access with zero imperative steps.
+    //
+    // Deliberately NOT running `engram serve`: confirmed from Engram's own
+    // docs that `engram mcp` (stdio) works standalone -- `serve` is a
+    // separate HTTP/dashboard runtime, only needed by the imperative plugin
+    // path we're not using. No local HTTP listener here means no reason to
+    // set ENGRAM_HTTP_TOKEN either (that token authenticates one HTTP admin
+    // route on `serve`, unrelated to cloud -- moot when `serve` never runs).
+    //
+    // Absolute path, not bare "engram": this repo deliberately keeps
+    // Homebrew off PATH by default (see .profile.homebrew) so bare "engram"
+    // would not resolve inside OpenCode's own process environment.
+    //
+    // Scope of "local-only": the memory STORE never syncs or leaves this
+    // machine (no ENGRAM_CLOUD_*/autosync vars set, anywhere -- Cloud and
+    // Git-Sync are both opt-in features this config never enables). Recalled
+    // memory CONTENT is not further restricted -- a Siemens/Azure/Claude
+    // session can still see memories in its context the same as any other
+    // file you'd let that session read today. If stricter content isolation
+    // for the Ollama "local" preset's sessions is wanted later, that needs
+    // explicit scoping (e.g. a project/scope split), not assumed from this
+    // block alone.
+    //
+    // Concurrency: Engram's SQLite layer uses WAL mode + 5000ms busy_timeout
+    // + synchronous NORMAL (confirmed in its own DOCS.md) -- designed for
+    // multiple concurrent process writers. Still worth a live verification
+    // once deployed: open sessions in 2-3 harnesses against the same
+    // project, write a distinct memory from each, confirm nothing is lost
+    // (`engram doctor` after).
+    "engram": {
+      "type": "local",
+      "command": [
+        "{env:HOME}/PACKAGEMGMT/Homebrew/bin/engram",
+        "mcp",
+        "--tools=agent"
+      ],
+      "enabled": true
+    }
+  }
+}

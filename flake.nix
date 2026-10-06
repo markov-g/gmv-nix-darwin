@@ -77,8 +77,20 @@
                 "swiftbrew/tap"  = inputs.swiftbrew-tap;
                 "sdkman/tap"     = inputs.sdkman-tap;
                 "xtool-org/tap"  = inputs.xtool-org-tap;
+              }
+              # gentleman-programming/tap (Engram): only on hosts listed in
+              # modules/engram-hosts.nix. This tap requires a manual,
+              # interactive `brew trust` per formula/cask on first use
+              # (Homebrew's Tap Trust security gate -- see docs.brew.sh/Taps
+              # -- has no non-interactive/declarative bypass). That one-time
+              # manual step is accepted deliberately on a chosen subset of
+              # machines, not rolled out everywhere. The exact command to run
+              # is printed during darwin-rebuild activation -- see
+              # homebrew.nix. See casks.nix and opencode.jsonc for the
+              # matching host-scoping (same engram-hosts.nix list).
+              // (if builtins.elem host (import ./modules/engram-hosts.nix) then {
                 "gentleman-programming/tap" = inputs.gentleman-programming-tap;
-              };
+              } else {});
             };
           }; })
 

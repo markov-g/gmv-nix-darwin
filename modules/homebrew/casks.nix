@@ -1,8 +1,19 @@
 # Called as: import ./homebrew/casks.nix { inherit host; }
-# Returns the merged cask list for that machine: shared ++ hostSpecific
+# Returns the merged cask list for that machine: shared ++ hostSpecific ++ engram
 { host }:
 
 let
+  # ── Engram (local-only memory MCP server) ─────────────────────────────────
+  # Only on hosts listed in engram-hosts.nix -- see that file for why this is
+  # gated rather than shared. Kept as its own list (not folded into
+  # hostSpecific) so one shared engram-hosts.nix stays the single source of
+  # truth across flake.nix (tap), here (cask), homebrew.nix (trust reminder),
+  # and opencode.jsonc (MCP block) -- add/remove a host in one place only.
+  engramHosts = import ../engram-hosts.nix;
+  engramCasks =
+    if builtins.elem host engramHosts
+    then [ { name = "gentleman-programming/tap/engram"; greedy = true; } ]
+    else [ ];
   # ── Shared casks — installed on every machine ─────────────────────────────
   shared = [
     { name = "1password-cli"; greedy = true; }
@@ -152,4 +163,4 @@ let
   };
 
 in
-shared ++ (hostSpecific.${host} or [ ])
+shared ++ (hostSpecific.${host} or [ ]) ++ engramCasks
