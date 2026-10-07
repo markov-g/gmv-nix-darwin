@@ -156,6 +156,25 @@
           "limit": { "context": 1000000, "output": 1000000 }
         }
       }
+    },
+
+    // Local inference via Ollama -- backs the "local" preset in
+    // oh-my-opencode-slim.jsonc. Requires Ollama itself running
+    // (`ollama serve`, or the app) and the model pulled on disk
+    // (`ollama pull deepseek-coder-v2:16b`) -- neither is Nix-managed;
+    // see the "local" preset's comment for why that's an accepted,
+    // flagged exception rather than an oversight.
+    "ollama": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Ollama (local)",
+      "options": {
+        "baseURL": "http://localhost:11434/v1"
+      },
+      "models": {
+        "deepseek-coder-v2:16b": {
+          "name": "DeepSeek Coder V2 16B (local)"
+        }
+      }
     }
   },
 
