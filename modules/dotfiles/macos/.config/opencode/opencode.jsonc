@@ -178,6 +178,36 @@
     }
   },
 
+  // ── Permissions ──────────────────────────────────────────────────────────────
+  // No permission block existed here before -- confirmed via audit this
+  // session that OpenCode was running on fully permissive defaults (per
+  // OpenCode's own docs: "most permissions default to allow"). This is a
+  // deliberate first pass, not exhaustive -- it covers the one explicit ask
+  // (git push) plus the other git/destructive patterns that pose the same
+  // class of risk, erring toward "ask" (prompt for confirmation) rather
+  // than "deny" (hard block) so routine explicit requests still work.
+  //
+  // Rules are evaluated by pattern match, last match wins (per OpenCode's
+  // docs) -- the catch-all goes first, specific overrides after.
+  "permission": {
+    "bash": {
+      "*": "allow",
+
+      // git push: ask, not deny -- per explicit instruction, this should
+      // still be possible when the user actually asks for it, just never
+      // fire silently/autonomously as part of routine agent work.
+      "git push *": "ask",
+      "git push --force*": "ask",
+      "git push -f*": "ask",
+
+      // Same risk class as an unconfirmed push: destructive by default,
+      // should not happen as a side effect of routine delegated work.
+      "git reset --hard*": "ask",
+      "git clean -f*": "ask",
+      "rm -rf *": "ask"
+    }
+  },
+
   // ── MCP servers ──────────────────────────────────────────────────────────────
   // NOTE: this object is deliberately left OPEN (no closing "}" for "mcp", no
   // final "}" for the file) -- home.nix splices in a closing block here, with

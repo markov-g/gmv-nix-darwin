@@ -210,6 +210,15 @@ in
     # superseded by oh-my-opencode-slim.jsonc (plugin registered in opencode.jsonc).
     ".config/opencode/oh-my-opencode-slim.jsonc".source = ./dotfiles/macos/.config/opencode/oh-my-opencode-slim.jsonc;
     ".config/opencode/themes/siemens-brand.json".source = ./dotfiles/macos/.config/opencode/themes/siemens-brand.json;
+  } // lib.optionalAttrs engramEnabled {
+    # Local OpenCode plugin: a mechanical nudge when a memory save is overdue.
+    # Auto-loaded from this directory at OpenCode startup (no opencode.jsonc
+    # "plugin" array entry needed -- that array is for npm packages only; see
+    # opencode.ai/docs/plugins "From local files"). Gated to the same
+    # engram-hosts.nix list as the MCP block itself -- meaningless without
+    # Engram installed. See the file's own header comment for full rationale.
+    ".config/opencode/plugins/engram-nudge.ts".source = ./dotfiles/macos/.config/opencode/plugins/engram-nudge.ts;
+  } // {
     # ── Herdr config ──────────────────────────────────────────────────────────
     ".config/herdr/config.toml".source               = ./dotfiles/macos/.config/herdr/config.toml;
     # Skills: shared sources from .claude/skills/ (same pattern as Codex).
