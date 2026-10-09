@@ -219,6 +219,18 @@ in
     # Engram installed. See the file's own header comment for full rationale.
     ".config/opencode/plugins/engram-nudge.ts".source = ./dotfiles/macos/.config/opencode/plugins/engram-nudge.ts;
   } // {
+    # Local OpenCode plugin: custom tool wrapping Siemens' Jev SystemOne
+    # structured-decisions API (POST /v1/systemone -- typed noul/choice/score
+    # questions with probabilities, NOT a chat model, so it can't be an
+    # opencode.jsonc "provider" entry). Auto-loaded from this directory at
+    # OpenCode startup, same mechanism as engram-nudge.ts above -- no
+    # opencode.jsonc "plugin" array entry needed. Deployed unconditionally
+    # (not gated like Engram) -- zero install dependency beyond the
+    # CODE_SIEMENS_COM_LLM_API_KEY env var, which the tool itself checks for
+    # and reports clearly if missing rather than failing opaquely.
+    # See the file's own header comment for the full protocol/scope rationale.
+    ".config/opencode/plugins/jev-systemone.ts".source = ./dotfiles/macos/.config/opencode/plugins/jev-systemone.ts;
+
     # ── Herdr config ──────────────────────────────────────────────────────────
     ".config/herdr/config.toml".source               = ./dotfiles/macos/.config/herdr/config.toml;
     # Skills: shared sources from .claude/skills/ (same pattern as Codex).
