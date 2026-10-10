@@ -103,6 +103,7 @@ in
     "git-repos/overleaf.com/.keep".text    = "";
     "git-repos/workspace/.keep".text       = "";
     "kubeconfig/.keep".text                = "";
+    "orgfiles/.keep".text                  = "";
 
     # ── Neovim (LazyVim) ──────────────────────────────────────────────────────
     # Config is read-only from the nix store; plugins/data live in ~/.local/share/nvim
