@@ -106,8 +106,7 @@
 // specifically to make an invented field a schema-validation error the
 // agent sees immediately, rather than a silently-malformed request.
 
-import type { Plugin } from "@opencode-ai/plugin";
-import { z } from "zod";
+import { type Plugin, tool } from "@opencode-ai/plugin";
 
 const SYSTEMONE_URL = "https://api.siemens.com/llm/v1/systemone";
 const MODEL = "diffusiongemma-26b-a4b-it";
@@ -122,31 +121,31 @@ const RETRY_BASE_DELAY_MS = 500;
 // both shapes, not just string, is what the original version of this file
 // was missing -- TypeSafe's own docs call this "probably the most
 // important concept" for building good System One questions.
-const structuredText = z.union([
-  z.string(),
-  z.record(z.string(), z.unknown()),
-  z.array(z.unknown()),
+const structuredText = tool.schema.union([
+  tool.schema.string(),
+  tool.schema.record(tool.schema.string(), tool.schema.unknown()),
+  tool.schema.array(tool.schema.unknown()),
 ]);
 
-const questionSchema = z.record(
-  z.string(),
-  z.union([
-    z.object({
-      type: z.literal("noul"),
+const questionSchema = tool.schema.record(
+  tool.schema.string(),
+  tool.schema.union([
+    tool.schema.object({
+      type: tool.schema.literal("noul"),
       instructions: structuredText,
-      criteria: z
+      criteria: tool.schema
         .object({ true: structuredText.optional(), false: structuredText.optional() })
         .optional(),
     }),
-    z.object({
-      type: z.literal("choice"),
+    tool.schema.object({
+      type: tool.schema.literal("choice"),
       instructions: structuredText,
-      criteria: z.record(z.string(), structuredText.nullable()),
+      criteria: tool.schema.record(tool.schema.string(), structuredText.nullable()),
     }),
-    z.object({
-      type: z.literal("score"),
+    tool.schema.object({
+      type: tool.schema.literal("score"),
       instructions: structuredText,
-      criteria: z.array(structuredText),
+      criteria: tool.schema.array(structuredText),
     }),
   ]),
 );
@@ -158,7 +157,7 @@ function sleep(ms: number) {
 export const JevSystemOnePlugin: Plugin = async () => {
   return {
     tool: {
-      jev_systemone: {
+      jev_systemone: tool({
         description:
           "Ask Siemens' Jev SystemOne (DiffusionGemma 26B, TypeSafe-compatible protocol) " +
           "narrow, atomic, typed questions about a piece of context and get back structured " +
@@ -242,7 +241,7 @@ export const JevSystemOnePlugin: Plugin = async () => {
 
           return `jev_systemone error: ${lastError}`;
         },
-      },
+      }),
     },
   };
 };
