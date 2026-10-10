@@ -42,6 +42,7 @@ let
     { name = "orbstack"; greedy = true; }
     { name = "orion"; greedy = true; }
     { name = "podman-desktop"; greedy = true; }
+    { name = "terminal-browser"; greedy = true; } # zenbu-labs/terminal-browser -- see terminal-browser skill
     { name = "visual-studio-code"; greedy = true; }
     { name = "xquartz"; greedy = true; }
     { name = "xtool-org/tap/xtool"; greedy = true; }

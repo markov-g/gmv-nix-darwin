@@ -154,6 +154,7 @@ in
     ".claude/skills/codebase-design/SKILL.md".source           = ./dotfiles/macos/.claude/skills/codebase-design/SKILL.md;
     ".claude/skills/codebase-design/DEEPENING.md".source       = ./dotfiles/macos/.claude/skills/codebase-design/DEEPENING.md;
     ".claude/skills/codebase-design/DESIGN-IT-TWICE.md".source = ./dotfiles/macos/.claude/skills/codebase-design/DESIGN-IT-TWICE.md;
+    ".claude/skills/terminal-browser/SKILL.md".source          = ./dotfiles/macos/.claude/skills/terminal-browser/SKILL.md;
     # ── Path-scoped rule templates (project-level scaffold) ───────────────────
     # These live at user level so they're version-controlled and synced across
     # machines via Nix. Project-level path-scoped rules (`.claude/rules/`) are
@@ -199,6 +200,7 @@ in
     ".codex/skills/codebase-design/SKILL.md".source           = ./dotfiles/macos/.claude/skills/codebase-design/SKILL.md;
     ".codex/skills/codebase-design/DEEPENING.md".source       = ./dotfiles/macos/.claude/skills/codebase-design/DEEPENING.md;
     ".codex/skills/codebase-design/DESIGN-IT-TWICE.md".source = ./dotfiles/macos/.claude/skills/codebase-design/DESIGN-IT-TWICE.md;
+    ".codex/skills/terminal-browser/SKILL.md".source          = ./dotfiles/macos/.claude/skills/terminal-browser/SKILL.md;
 
     # ── opencode config ───────────────────────────────────────────────────────
     # opencode reads ~/.claude/CLAUDE.md natively -- no symlink needed.
@@ -253,6 +255,7 @@ in
     ".config/opencode/skills/codebase-design/SKILL.md".source           = ./dotfiles/macos/.claude/skills/codebase-design/SKILL.md;
     ".config/opencode/skills/codebase-design/DEEPENING.md".source       = ./dotfiles/macos/.claude/skills/codebase-design/DEEPENING.md;
     ".config/opencode/skills/codebase-design/DESIGN-IT-TWICE.md".source = ./dotfiles/macos/.claude/skills/codebase-design/DESIGN-IT-TWICE.md;
+    ".config/opencode/skills/terminal-browser/SKILL.md".source          = ./dotfiles/macos/.claude/skills/terminal-browser/SKILL.md;
   };
 
   # ── Bootstrap activation scripts ─────────────────────────────────────────────
