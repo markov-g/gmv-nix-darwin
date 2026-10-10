@@ -66,9 +66,16 @@
 // pattern -- this key was NOT added to any of those blocks, since none of
 // them are the right place for a non-chat credential).
 //
-// SCOPE AND LIMITS -- TWO DOCS DISAGREE, DOCUMENTED HONESTLY RATHER THAN
-// PICKING ONE SILENTLY
+// SCOPE AND LIMITS -- NO CLIENT-SIDE SCHEMA, BY DELIBERATE CHOICE
 // -----------------------------------------------------------------------
+// This file has ZERO imports (see note above the plugin export). That means
+// NO request field is validated client-side -- not just the disputed
+// choice/score ceilings (see below), but the entire request shape. An
+// invented or malformed field is not caught locally; it surfaces as a real
+// 422 from Siemens' gateway instead. This was already the design for the
+// numeric ceilings below even when this file used a zod-based schema --
+// going importless just extends the same "let the server be authoritative"
+// philosophy to the whole request instead of only the disputed numbers.
 // - Context limit: Siemens' docs say 8,192 tokens total, including question
 //   instructions and state. TypeSafe's own docs give no fixed token limit,
 //   only "send only relevant context." Treat 8,192 as the binding limit
@@ -79,12 +86,12 @@
 // - Choice/Score option counts: THE TWO DOCS DISAGREE. Siemens' docs say
 //   "between 2 and 26 alternatives" for both choice and score combined.
 //   TypeSafe's own docs say choice allows "a maximum of 255 options" and
-//   score "at least two levels... up to 10." This plugin does NOT enforce
-//   either ceiling client-side -- it passes through to Siemens' gateway and
-//   lets a real 422 response (with the offending-field detail TypeSafe's
-//   error docs promise) be authoritative, rather than guessing which
-//   number applies to this specific deployment.
-// - Question IDs: non-empty, no colon, no newline (both docs agree).
+//   score "at least two levels... up to 10." Not enforced client-side --
+//   passes through to Siemens' gateway and lets a real 422 response (with
+//   the offending-field detail TypeSafe's error docs promise) be
+//   authoritative, rather than guessing which number applies here.
+// - Question IDs: non-empty, no colon, no newline (both docs agree) --
+//   also not enforced client-side; same reasoning.
 // - Preview model -- Siemens' own docs say to measure latency and decision
 //   quality for your use case before relying on it for anything load-bearing.
 //
@@ -101,63 +108,41 @@
 //
 // KNOWN FAILURE MODE TO GUARD AGAINST: per TypeSafe's own "Common issues"
 // docs, "the agent invents request or response fields" is a recurring,
-// named problem, usually from a stale schema/skill. The args schema below
-// is typed as closely as practical to the documented request shape
-// specifically to make an invented field a schema-validation error the
-// agent sees immediately, rather than a silently-malformed request.
-
-import { type Plugin, tool } from "@opencode-ai/plugin";
+// named problem, usually from a stale schema/skill. This file has NO
+// schema library to catch that locally (see "ZERO IMPORTS" note below) --
+// an invented field is not a local validation error, it is a real 422 from
+// Siemens' gateway. That is a deliberate tradeoff, not an oversight: see
+// "SCOPE AND LIMITS" above and "ZERO IMPORTS" below for why.
+//
+// ZERO IMPORTS -- WHY, AND WHAT WAS TRIED FIRST
+// -----------------------------------------------
+// This file is deployed by home-manager as a Nix-store symlink
+// (~/.config/opencode/plugins/jev-systemone.ts -> /nix/store/...). Bun
+// resolves `node_modules` lookups from a module's REAL path, not its
+// symlink location -- a Nix store path has no node_modules anywhere above
+// it, so ANY bare npm import (this file tried "@opencode-ai/plugin" and
+// "zod" in turn, both failed the same way: "Can't find package 'X'") is
+// permanently unresolvable from this deployment, not just temporarily
+// broken. engram-nudge.ts (the sibling local plugin in this same
+// directory) already proved the zero-import pattern works: untyped `any`
+// params, a plain returned object, no "@opencode-ai/plugin" Plugin/tool
+// import at all. This file follows that same proven pattern. `fetch()` and
+// `setTimeout()` below are runtime globals, not npm packages -- they were
+// never part of the resolution problem and did not need to change.
 
 const SYSTEMONE_URL = "https://api.siemens.com/llm/v1/systemone";
 const MODEL = "diffusiongemma-26b-a4b-it";
 const MAX_RETRIES = 3;
 const RETRY_BASE_DELAY_MS = 500;
 
-// "instructions" and "criteria" descriptions can each be a plain string, OR
-// a structured object/array -- per TypeSafe's documented pattern of putting
-// the question in one field and supporting data in named sibling fields,
-// then referencing that data from the question text via a backticked name
-// (e.g. "Is this the same person as `potential_duplicate`?"). Supporting
-// both shapes, not just string, is what the original version of this file
-// was missing -- TypeSafe's own docs call this "probably the most
-// important concept" for building good System One questions.
-const structuredText = tool.schema.union([
-  tool.schema.string(),
-  tool.schema.record(tool.schema.string(), tool.schema.unknown()),
-  tool.schema.array(tool.schema.unknown()),
-]);
-
-const questionSchema = tool.schema.record(
-  tool.schema.string(),
-  tool.schema.union([
-    tool.schema.object({
-      type: tool.schema.literal("noul"),
-      instructions: structuredText,
-      criteria: tool.schema
-        .object({ true: structuredText.optional(), false: structuredText.optional() })
-        .optional(),
-    }),
-    tool.schema.object({
-      type: tool.schema.literal("choice"),
-      instructions: structuredText,
-      criteria: tool.schema.record(tool.schema.string(), structuredText.nullable()),
-    }),
-    tool.schema.object({
-      type: tool.schema.literal("score"),
-      instructions: structuredText,
-      criteria: tool.schema.array(structuredText),
-    }),
-  ]),
-);
-
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-export const JevSystemOnePlugin: Plugin = async () => {
+export const JevSystemOnePlugin = async () => {
   return {
     tool: {
-      jev_systemone: tool({
+      jev_systemone: {
         description:
           "Ask Siemens' Jev SystemOne (DiffusionGemma 26B, TypeSafe-compatible protocol) " +
           "narrow, atomic, typed questions about a piece of context and get back structured " +
@@ -173,24 +158,38 @@ export const JevSystemOnePlugin: Plugin = async () => {
           "-- summarize large input before passing it as state. Only use the exact request " +
           "fields documented here (state, questions{type,instructions,criteria}) -- do not " +
           "invent additional fields.",
+        // Plain JSON-Schema-shaped args, NOT a zod/tool.schema builder --
+        // see "ZERO IMPORTS" above. This shows the model the field names
+        // and descriptions (same guidance text as before) but enforces
+        // nothing at runtime; opencode's tool registry accepts this plain
+        // shape and skips deep validation for it, deferring to Siemens'
+        // own 422 for anything malformed (see "SCOPE AND LIMITS" above).
         args: {
-          state: structuredText.describe(
-            "The context to evaluate -- plain text, or a JSON object/array (e.g. a support " +
+          state: {
+            type: "object",
+            description:
+              "The context to evaluate -- plain text, or a JSON object/array (e.g. a support " +
               "ticket, chat log, or record). Prefer an object with named fields over a flat " +
               "string so each part of the state is unambiguous.",
-          ),
-          questions: questionSchema.describe(
-            "Map of question ID -> question definition, 1-64 entries. IDs must be non-empty " +
-              "and contain no colon or newline. noul = yes/no (returns a 0-1 probability); " +
-              "choice = pick one named option (returns the choice + a probability per option); " +
-              "score = rate on an ordered scale (returns a probability-weighted score + a " +
-              "probability per level). For any question, 'instructions' can be a plain string " +
-              "or a structured object/array holding the question plus named supporting data, " +
-              "referenced from the question text in backticks, e.g. instructions: " +
-              '{ "potential_duplicate": {...}, "question": "Same person as `potential_duplicate`?" }.',
-          ),
+          },
+          questions: {
+            type: "object",
+            description:
+              "Map of question ID -> question definition, 1-64 entries. IDs must be non-empty " +
+              "and contain no colon or newline. Each definition is { type, instructions, " +
+              "criteria }: noul = yes/no (returns a 0-1 probability, criteria optional); " +
+              "choice = pick one named option (criteria is a map of option name -> description, " +
+              "returns the choice + a probability per option); score = rate on an ordered scale " +
+              "(criteria is an array of level descriptions, returns a probability-weighted score " +
+              "+ a probability per level). 'instructions' can be a plain string or a structured " +
+              "object/array holding the question plus named supporting data, referenced from the " +
+              "question text in backticks, e.g. instructions: { \"potential_duplicate\": {...}, " +
+              '"question": "Same person as `potential_duplicate`?" }. Do not invent fields beyond ' +
+              "type/instructions/criteria -- an invented field is not caught locally, it surfaces " +
+              "as a 422 from Siemens' gateway.",
+          },
         },
-        async execute(args) {
+        async execute(args: { state: unknown; questions: unknown }) {
           const apiKey = process.env.CODE_SIEMENS_COM_LLM_API_KEY;
           if (!apiKey) {
             return (
@@ -241,7 +240,7 @@ export const JevSystemOnePlugin: Plugin = async () => {
 
           return `jev_systemone error: ${lastError}`;
         },
-      }),
+      },
     },
   };
 };
