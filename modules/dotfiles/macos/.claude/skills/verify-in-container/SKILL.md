@@ -2,6 +2,9 @@
 name: verify-in-container
 description: Generates the podman command to verify changes (run tests, build, lint) without executing on the host. Use when the user wants to verify uncommitted code, run tests after changes, or check that a build still works. Reads project files to detect the stack.
 allowed-tools: Read, Glob, Bash(cat:*), Bash(ls:*)
+metadata:
+  opencode/autoinvoke: "false"
+  opencode/slash: "true"
 ---
 
 # Verify in Container

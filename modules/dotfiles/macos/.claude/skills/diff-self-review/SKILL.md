@@ -2,6 +2,9 @@
 name: diff-self-review
 description: Self-review of uncommitted changes before declaring a task done. Use proactively after finishing a coding task and before saying "done". Walks the diff like a reviewer would and flags scope creep, orphans, and missing verification.
 allowed-tools: Read, Grep, Glob, Bash(git diff:*), Bash(git status:*), Bash(git log:*)
+metadata:
+  opencode/autoinvoke: "false"
+  opencode/slash: "true"
 ---
 
 # Diff Self-Review

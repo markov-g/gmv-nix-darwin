@@ -2,6 +2,9 @@
 name: wayfinder
 description: Plan a huge chunk of work -- more than one agent session can hold -- as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.
 disable-model-invocation: true
+metadata:
+  opencode/autoinvoke: "false"
+  opencode/slash: "true"
 ---
 
 [A loose idea has arrived -- too big for one agent session, and wrapped in fog.]

@@ -2,6 +2,9 @@
 name: terminal-browser
 description: Control a real Chromium-based browser rendered inline in the terminal (zenbu-labs/terminal-browser). Use for browsing websites, testing web applications, inspecting the DOM, taking screenshots, and debugging frontend applications from the terminal.
 allowed-tools: Bash(terminal-browser:*)
+metadata:
+  opencode/autoinvoke: "false"
+  opencode/slash: "true"
 ---
 
 # Terminal Browser
