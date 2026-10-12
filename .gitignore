@@ -1,0 +1,12 @@
+# Override ~/.gitignore_global's blanket ".claude/" rule for this repo.
+#
+# modules/dotfiles/macos/.claude/ is tracked dotfile *source*, deployed to
+# ~/.claude/ via home-manager -- not a per-project Claude Code runtime
+# directory. Without this override, any new file added under that tree is
+# silently swallowed by `git add -A` / `git commit -a`: it won't even show
+# up in `git status` (only `git status --ignored` reveals it), while
+# modules/home.nix (already tracked) keeps referencing the missing file --
+# breaking `darwin-rebuild switch` / `home-manager switch` on every other
+# machine with "Path '...' does not exist in Git repository".
+!modules/dotfiles/macos/.claude/
+!modules/dotfiles/macos/.claude/**
