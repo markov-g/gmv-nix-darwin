@@ -1,7 +1,7 @@
 {
-  // Pinned to match the plugin pin in opencode.jsonc ("oh-my-opencode-slim@3.0.3").
+  // Pinned to match the plugin pin in opencode.jsonc ("oh-my-opencode-slim@3.0.4").
   // Bump both together -- see opencode.jsonc for the renewal-reminder mechanism.
-  "$schema": "https://unpkg.com/oh-my-opencode-slim@3.0.3/oh-my-opencode-slim.schema.json",
+  "$schema": "https://unpkg.com/oh-my-opencode-slim@3.0.4/oh-my-opencode-slim.schema.json",
 
   // Active preset. Azure is the default: the Siemens SDC gateway has been
   // unreliable (403 "Forbidden: You cannot use that service" on

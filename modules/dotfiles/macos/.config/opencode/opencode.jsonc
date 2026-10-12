@@ -32,7 +32,7 @@
   // those env vars (potentially including secrets) become available to this
   // OpenCode session's MCP tools and subagents, same as any env var already
   // exported into an interactive shell today.
-  "plugin": ["oh-my-opencode-slim@3.0.3", "opencode-history-search", "opencode-direnv"],
+  "plugin": ["oh-my-opencode-slim@3.0.4", "opencode-history-search", "opencode-direnv"],
 
   // Default build model: GPT-6 Luna via Azure AI Foundry at max reasoning effort.
   // Note: azure provider uses OpenAI Responses API; anthropic provider uses
