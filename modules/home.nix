@@ -110,6 +110,12 @@ in
     ".config/nvim".source = ./dotfiles/macos/.config/nvim;
     ".config/mcphub/servers.json".source = ./dotfiles/macos/.config/mcphub/servers.json;
 
+    # ── Zed ────────────────────────────────────────────────────────────────────
+    # auto_install_extensions handles the extension set declaratively on
+    # startup -- no manual Extensions-panel clicking. See the file's own
+    # header comments for the GitHub/GitLab/Azure MCP secrets caveat.
+    ".config/zed/settings.json".source = ./dotfiles/macos/.config/zed/settings.json;
+
     # ── Powerlevel10k prompt config ───────────────────────────────────────────
     # Generate with: p10k configure → then commit the result:
     #   cp ~/.p10k.zsh ~/.config/nix-darwin/modules/dotfiles/macos/.p10k.zsh

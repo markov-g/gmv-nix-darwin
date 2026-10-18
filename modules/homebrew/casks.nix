@@ -22,6 +22,7 @@ let
     { name = "carbon-copy-cloner"; greedy = true; }
     { name = "chatgpt"; greedy = true; }
     { name = "claude"; greedy = true; }    
+    { name = "cmux"; greedy = true; } # manaflow-ai/cmux -- Ghostty-based terminal, remote tmux mirroring
     { name = "codex"; greedy = true; }
     { name = "devpod"; greedy = true; }
     # { name = "container"; greedy = true; }
@@ -46,6 +47,8 @@ let
     { name = "visual-studio-code"; greedy = true; }
     { name = "xquartz"; greedy = true; }
     { name = "xtool-org/tap/xtool"; greedy = true; }
+    { name = "zed"; greedy = true; }
+    { name = "zed-delta"; greedy = true; } # zed-industries/delta -- separate product from the "delta" git pager (pkgs.delta)
     # Terminal for agent-driven development. Human-interactive use only --
     # NOT wired into oh-my-opencode-slim's multiplexer config (Herdr stays
     # the subagent-pane backend). See opencode.jsonc/oh-my-opencode-slim.jsonc.

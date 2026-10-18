@@ -1,0 +1,92 @@
+{
+  "$schema": "https://zed.dev/schema/settings.json",
+
+  // ── Theme ──────────────────────────────────────────────────────────────────
+  "theme": "Catppuccin Mocha",
+  "icon_theme": "Catppuccin Mocha",
+
+  // ── Environment ──────────────────────────────────────────────────────────
+  // Explicit, not just relying on Zed's default -- this repo already wires
+  // direnv + nix-direnv into every interactive shell (home.nix home.packages,
+  // .zprofile). "direct" runs `direnv export json` itself for the per-project
+  // environment rather than depending on a shell hook firing first; it needs
+  // `direnv` reachable from the login shell Zed spawns, which it is here.
+  // This matches Zed's own default -- set explicitly so the choice is
+  // self-documenting rather than implicit.
+  //
+  // Zed has no separate plain-.env-file loader (confirmed: no setting for
+  // this exists as of writing). If .env-style vars are wanted, put them
+  // behind direnv's own `dotenv`/`dotenv_if_exists` directive in .envrc --
+  // direnv already handles that, Zed doesn't need its own mechanism.
+  "load_direnv": "direct",
+
+  // ── Extensions ─────────────────────────────────────────────────────────────
+  // Installed automatically on startup, no manual Extensions-panel clicking
+  // (confirmed via Zed's `auto_install_extensions` setting + startup hook).
+  // Native languages (no extension needed, NOT listed here): Go, Rust, C,
+  // C++, Bash, Python, Markdown, JavaScript, TypeScript, YAML, JSON --
+  // Kubernetes manifests are plain YAML + schema, not a separate language.
+  "auto_install_extensions": {
+    "nix": true, // Nix
+    "zig": true, // Zig
+    "lua": true, // Lua
+    "csharp": true, // C# / .NET / Blazor / WebAssembly -- no separate wasm extension exists
+    "swift": true, // Swift
+    "kotlin": true, // Kotlin
+    "java": true, // Java
+    "toml": true, // TOML (syntax)
+    "tombi": true, // TOML (adds an actual LSP -- schema validation, formatting; disable if unwanted)
+    "xml": true, // XML -- also covers .svg (no dedicated SVG LSP exists in Zed)
+    "latex": true, // LaTeX
+    "proto": true, // Protocol Buffers
+    "make": true, // Makefile (syntax only, no LSP)
+    "neocmake": true, // CMake
+    "helm": true, // Helm chart templates
+    "dockerfile": true, // Dockerfile
+    "org": true, // Org-mode (syntax highlighting only, no LSP)
+    "postgres-language-server": true, // Postgres
+
+    "catppuccin": true, // editor theme
+    "catppuccin-icons": true, // icon theme
+
+    // MCP servers -- secret-free ones. See "context_servers" below for the
+    // explicit command/args wiring; installing the extension here makes it
+    // discoverable/updatable through Zed's normal extension machinery too.
+    "mcp-server-context7": true,
+    "mcp-server-playwright": true,
+    "mcp-server-kubernetes": true
+  },
+
+  // ── LSP overrides ──────────────────────────────────────────────────────────
+  "lsp": {
+    // The Nix extension bundles both nil and nixd. Neovim's setup
+    // (nvim lua/plugins/lsp.lua) uses only nil_ls -- disable nixd here too
+    // so there's one Nix LSP, not two fighting over the same files.
+    "nixd": {
+      "enabled": false
+    }
+  },
+
+  // ── MCP / context servers ───────────────────────────────────────────────────
+  // Generic command/args/url form (Zed's documented context_servers schema).
+  // The "context7" entry matches opencode.jsonc's context7 MCP entry (same
+  // remote URL) for consistency across editors.
+  //
+  // GitHub / GitLab / Azure MCP dropped for now -- each needs a credential
+  // (PAT, OAuth, or an Azure CLI session) that doesn't belong in a committed
+  // settings.json, and none of the three reduce to a simple sops-nix file
+  // secret cleanly. Revisit if/when wanted.
+  "context_servers": {
+    "context7": {
+      "url": "https://mcp.context7.com/mcp"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "kubernetes": {
+      "command": "npx",
+      "args": ["-y", "kubernetes-mcp-server@latest"]
+    }
+  }
+}
