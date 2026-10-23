@@ -86,7 +86,7 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 unset _fzf_preview
 
 # ── 15. Tool aliases (using Nix-managed binaries — no hardcoded paths) ────────
-alias eza='eza --color=always --long --git --icons=always -F'
+alias eza='eza --color=always --long --git --icons=always --classify=auto'
 alias rd='rawdog --dry-run'
 alias aider='aider --dry-run'
 

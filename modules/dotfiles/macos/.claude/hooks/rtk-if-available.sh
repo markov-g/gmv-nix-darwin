@@ -13,7 +13,10 @@
 # RTK itself exits non-zero on errors, which will block the tool call.
 
 if command -v rtk >/dev/null 2>&1; then
-  exec rtk hook
+  case "$0" in
+    */.codex/*)  exec rtk hook codex  ;;
+    */.claude/*) exec rtk hook claude ;;
+  esac
 fi
 
 exit 0
