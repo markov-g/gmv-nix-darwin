@@ -137,10 +137,6 @@ in
       source     = ./dotfiles/macos/.claude/hooks/pre-bash-host-isolation.sh;
       executable = true;
     };
-    ".claude/hooks/rtk-if-available.sh" = {
-      source     = ./dotfiles/macos/.claude/hooks/rtk-if-available.sh;
-      executable = true;
-    };
     ".claude/skills/diff-self-review/SKILL.md".source    = ./dotfiles/macos/.claude/skills/diff-self-review/SKILL.md;
     ".claude/skills/reflect/SKILL.md".source             = ./dotfiles/macos/.claude/skills/reflect/SKILL.md;
     ".claude/skills/verify-in-container/SKILL.md".source = ./dotfiles/macos/.claude/skills/verify-in-container/SKILL.md;
@@ -188,10 +184,6 @@ in
     ".codex/config.toml".source = ./dotfiles/macos/.codex/config.toml;
     ".codex/hooks/pre-shell-host-isolation.sh" = {
       source     = ./dotfiles/macos/.codex/hooks/pre-shell-host-isolation.sh;
-      executable = true;
-    };
-    ".codex/hooks/rtk-if-available.sh" = {
-      source     = ./dotfiles/macos/.claude/hooks/rtk-if-available.sh;
       executable = true;
     };
     # Shared skills: diff-self-review and verify-in-container use the same
